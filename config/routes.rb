@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'reviews/new'
+  get 'reviews/create'
+  get 'reviews/show'
+  get 'reviews/edit'
+  get 'reviews/update'
+  get 'reviews/destroy'
   get 'users/index'
   get 'users/show'
   get 'users/edit'
@@ -36,4 +42,12 @@ Rails.application.routes.draw do
       resources :projects, only: [:index] # Pour qu'une entreprise voie ses propres projets
       resources :shared_projects, only: [:index, :show]
     end
+
+    # Page de test pour les reviews
+    get 'reviews/test', to: 'reviews#test'
+
+    # Routes pour les reviews
+    resources :reviews, only: [:new, :create, :show, :edit, :update, :destroy]
+
+
   end

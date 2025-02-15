@@ -1,0 +1,24 @@
+<div id="review-form-container">
+  <%= simple_form_for review, url: reviews_path, html: { data: { turbo: "true" } } do |f| %>
+    <div class="rating-group">
+      <p>Note :</p>
+      <!-- Champ caché pour stocker la note -->
+      <%= f.input :score, as: :hidden, input_html: { value: review.score || 0, data: { star_rating_target: "hiddenInput" } } %>
+
+      <!-- Conteneur pour les étoiles, géré par le contrôleur Stimulus "star-rating" -->
+      <div class="stars" data-controller="star-rating">
+        <i class="star-icon fas fa-star text-secondary" data-star-rating-target="star" data-value="1" data-action="mouseover->star-rating#highlight click->star-rating#updateRating"></i>
+        <i class="star-icon fas fa-star text-secondary" data-star-rating-target="star" data-value="2" data-action="mouseover->star-rating#highlight click->star-rating#updateRating"></i>
+        <i class="star-icon fas fa-star text-secondary" data-star-rating-target="star" data-value="3" data-action="mouseover->star-rating#highlight click->star-rating#updateRating"></i>
+        <i class="star-icon fas fa-star text-secondary" data-star-rating-target="star" data-value="4" data-action="mouseover->star-rating#highlight click->star-rating#updateRating"></i>
+        <i class="star-icon fas fa-star text-secondary" data-star-rating-target="star" data-value="5" data-action="mouseover->star-rating#highlight click->star-rating#updateRating"></i>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.input :comment, as: :text, label: "Votre commentaire" %>
+    </div>
+
+    <%= f.button :submit, "Envoyer l'avis" %>
+  <% end %>
+</div>
