@@ -1,0 +1,55 @@
+<h1>Company Dashboard</h1>
+
+<div class="dashboard-sidebar">
+  <!-- Dropdown for Projects -->
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      Projects
+    </button>
+    <ul class="dropdown-menu">
+      <!-- Link to My Projects -->
+      <%= link_to 'My Projects', user_projects_path(current_user) %>
+      <!-- Link to Ongoing Projects -->
+      <li><%= link_to 'Ongoing Projects', ongoing_user_projects_path(current_user) %></li>
+      <!-- Link to Archived Projects -->
+      <li><%= link_to 'Archived Projects', archived_user_projects_path(current_user) %></li>
+      <!-- Link to Create a New Project -->
+      <li><%= link_to 'Create New Project', new_user_project_path(current_user) %></li>
+    </ul>
+  </div>
+
+  <!-- Messages text (instead of link) -->
+  <p class="btn btn-link">Messages</p>
+
+  <!-- Profile dropdown (converted to text) -->
+  <div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      My Profile
+    </button>
+    <ul class="dropdown-menu">
+      <li><p class="dropdown-item">View Profile</p></li>
+      <li><p class="dropdown-item">Edit Profile</p></li>
+    </ul>
+  </div>
+
+  <!-- Browse Freelancers text (instead of link) -->
+  <p class="btn btn-link">Browse Freelancers</p>
+</div>
+
+<div class="dashboard-main">
+  <!-- Ongoing Projects Section -->
+  <h3>Ongoing Projects</h3>
+  <ul>
+    <% @ongoing_projects.each do |project| %>
+      <li><%= link_to project.title, user_project_path(current_user, project) %> - <%= project.status %></li>
+    <% end %>
+  </ul>
+
+  <!-- Archived Projects Section -->
+  <h3>Archived Projects</h3>
+  <ul>
+    <% @archived_projects.each do |project| %>
+      <li><%= link_to project.title, user_project_path(current_user, project) %> - <%= project.status %></li>
+    <% end %>
+  </ul>
+</div>

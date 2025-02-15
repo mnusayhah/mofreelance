@@ -1,0 +1,13 @@
+<h1>My Projects</h1>
+
+<ul>
+  <% if @projects.present? %>
+    <% @projects.each do |project| %>
+      <li>
+        <%= link_to project.title, user_project_path(current_user, project) %> - <%= project.status %>
+      </li>
+    <% end %>
+  <% else %>
+    <li>No projects available.</li>
+  <% end %>
+</ul>

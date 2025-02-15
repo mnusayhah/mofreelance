@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_one :profile, dependent: :destroy
   has_many :projects, dependent: :destroy
   has_many :shared_projects, foreign_key: :freelancer_id, dependent: :destroy
+  has_many :shared_projects, through: :shared_projects, source: :project
   has_many :reviews_given, class_name: 'Review', foreign_key: :user_id, dependent: :destroy
   has_many :reviews_received, class_name: 'Review', foreign_key: :rated_user_id, dependent: :destroy
   has_many :discussions_as_freelancer, class_name: 'Discussion', foreign_key: :freelancer_id, dependent: :destroy
