@@ -15,7 +15,7 @@
       <%= render partial: "reviews/form", locals: { review: Review.new, project_id: @shared_project.project.id, rated_user_id: @shared_project.freelancer.id } %>
     </div>
 <% else %>
-  <p class="alert alert-danger">Project details are not available.</p>
+  <p class="alert alert-danger">You do not have any project yet.</p>
 <% end %>
 <!-- You can also display a link to go back to the previous page -->
-<%= link_to 'Back to Shared Projects', user_shared_projects_path, class: 'btn btn-secondary mt-3' %>
+<%= link_to 'Back to My Projects', user_shared_projects_path, class: 'btn btn-secondary mt-3' %>
