@@ -4,10 +4,27 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <!-- Conteneur contrôlé par Stimulus pour le rôle et le champ Company -->
+    <div data-controller="role">
+      <%= f.input :role,
+                  collection: User.roles.keys.map { |r| [r.humanize, r] },
+                  prompt: "Choisissez votre rôle",
+                  label: "Quel type de compte souhaitez-vous créer ?",
+                  input_html: { data: { action: "change->role#toggle" } } %>
+
+      <!-- Ce conteneur est le target "companyField" du contrôleur role.
+           Il est masqué par défaut et s'affichera si le rôle "enterprise" est sélectionné -->
+      <div data-role-target="companyField" style="display: none;">
+        <%= f.input :company, hint: "Requis si vous êtes une entreprise" %>
+      </div>
+    </div>
+
+    <%= f.input :first_name %>
+    <%= f.input :last_name %>
     <%= f.input :email,
                 required: true,
                 autofocus: true,
-                input_html: { autocomplete: "email" }%>
+                input_html: { autocomplete: "email" } %>
     <%= f.input :password,
                 required: true,
                 hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
