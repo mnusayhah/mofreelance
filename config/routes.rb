@@ -17,10 +17,14 @@ Rails.application.routes.draw do
 
     # Routes pour les freelances (seuls leurs profils sont visibles)
     resources :profiles, only: [:index, :show, :edit, :update, :destroy] do
+      resources :skills, only: [:index, :create, :edit, :update, :destroy]
+      resources :educations, only: [:index, :create, :edit, :update, :destroy]
     end
 
     # Routes pour les projets (créés par les entreprises, visibles par les freelances)
-    resources :projects, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+    resources :projects, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+      resources :shared_projects, only: [:edit, :update]
+    end
 
     # Routes pour les messages (messagerie entre freelances et entreprises)
     resources :discussions, only: [:index, :show, :create] do
@@ -30,5 +34,6 @@ Rails.application.routes.draw do
     # Route pour la gestion des entreprises (elles ne sont pas listées)
     resources :users, only: [] do
       resources :projects, only: [:index] # Pour qu'une entreprise voie ses propres projets
+      resources :shared_projects, only: [:index, :show]
     end
   end
