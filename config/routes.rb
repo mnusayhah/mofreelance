@@ -20,34 +20,50 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
+  # Freelancer Routes
+  namespace :freelancer do
+    get "dashboard", to: "dashboards#show"
 
-    # Routes pour les freelances (seuls leurs profils sont visibles)
+    resources :shared_projects, only: [:index, :show] do
+      member do
+        patch "accept"
+        patch "decline"
+      end
+    end
+
+    resources :discussions, only: [:index, :show] do
+      resources :messages, only: [:create]
+    end
+
     resources :profiles, only: [:index, :show, :edit, :update, :destroy] do
       resources :skills, only: [:index, :create, :edit, :update, :destroy]
       resources :educations, only: [:index, :create, :edit, :update, :destroy]
     end
+  end
 
-    # Routes pour les projets (créés par les entreprises, visibles par les freelances)
+  # Enterprise Routes
+  namespace :enterprise do
+    get "dashboard", to: "dashboards#show"
+
     resources :projects, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
       resources :shared_projects, only: [:edit, :update]
     end
 
-    # Routes pour les messages (messagerie entre freelances et entreprises)
-    resources :discussions, only: [:index, :show, :create] do
-      resources :messages, only: [:create]
+    resources :projects do
+      member do
+        patch "complete"
+      end
+
+      resources :discussions, only: [:index, :show] do
+        resources :messages, only: [:create]
+      end
+
+      # resources :reviews, only: [:create]
     end
-
-    # Route pour la gestion des entreprises (elles ne sont pas listées)
-    resources :users, only: [] do
-      resources :projects, only: [:index] # Pour qu'une entreprise voie ses propres projets
-      resources :shared_projects, only: [:index, :show]
-    end
-
-    # Page de test pour les reviews
-    get 'reviews/test', to: 'reviews#test'
-
-    # Routes pour les reviews
-    resources :reviews, only: [:new, :create, :show, :edit, :update, :destroy]
-
-
   end
+
+  # Page de test pour les reviews
+  resources :reviews, only: [:new, :create, :show, :edit, :update, :destroy]
+  get 'reviews/test', to: 'reviews#test'
+
+end
