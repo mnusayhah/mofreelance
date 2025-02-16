@@ -22,11 +22,11 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    @project = current_user.projects.find(params[:id]) # The @project is already set by the before_action :set_project
+    @project = current_user.projects.find(params[:id])
   end
 
   def edit
-    # The @project is already set by the before_action :set_project
+    # already handled
   end
 
   def update
@@ -39,12 +39,26 @@ class ProjectsController < ApplicationController
 
   def my_projects
     @my_projects = current_user.projects
-    render :index
+    render partial: "projects_table"
+  end
+
+  #def ongoing
+    #@projects = current_user.projects.ongoing  # Fetch ongoing projects
+    #render partial: "projects_table", locals: { projects: @projects }  # Render only the table with projects
+  #end
+  def ongoing
+    @projects = current_user.projects.ongoing
+    render partial: "projects/list", locals: { projects: @projects }
+  end
+
+  def archived
+    @projects = current_user.projects.archived
+    render partial: "projects_table", locals: { projects: @projects }
   end
 
   def share
     @project = Project.find(params[:id])
-    @freelancer = User.find(params[:user_id]) # Assuming you have a user_id param to identify the freelancer
+    @freelancer = User.find(params[:user_id])
     @project.shared_projects.create(user: @freelancer)
 
     redirect_to company_dashboard_path, notice: 'Project shared successfully.'
@@ -58,7 +72,7 @@ class ProjectsController < ApplicationController
   private
 
   def set_project
-    @project = current_user.projects.find(params[:id]) # Find the project by its ID for the current user
+    @project = current_user.projects.find(params[:id]) 
   end
 
   def project_params

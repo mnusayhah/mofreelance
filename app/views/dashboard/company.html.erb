@@ -1,55 +1,72 @@
-<h1>Company Dashboard</h1>
+<!--h1>Company Dashboard</h1-->
 
-<div class="dashboard-sidebar">
-  <!-- Dropdown for Projects -->
-  <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      Projects
-    </button>
-    <ul class="dropdown-menu">
-      <!-- Link to My Projects -->
-      <%= link_to 'My Projects', user_projects_path(current_user) %>
-      <!-- Link to Ongoing Projects -->
-      <li><%= link_to 'Ongoing Projects', ongoing_user_projects_path(current_user) %></li>
-      <!-- Link to Archived Projects -->
-      <li><%= link_to 'Archived Projects', archived_user_projects_path(current_user) %></li>
-      <!-- Link to Create a New Project -->
-      <li><%= link_to 'Create New Project', new_user_project_path(current_user) %></li>
-    </ul>
+<div class="dashboard-container" style="display: flex;" data-controller="dashboard">
+  <!-- Sidebar -->
+  <div class="dashboard-sidebar" style="width: 250px; margin-right: 20px;">
+    <!-- Dropdown for Projects -->
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Projects
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <%= link_to 'My Projects', user_projects_path(current_user), data: { action: "click->dashboard#changeContent" } %>
+        </li>
+        <li>
+          <%= link_to 'Ongoing Projects', ongoing_user_projects_path(current_user), data: { action: "click->dashboard#changeContent" } %>
+        </li>
+        <li>
+          <%= link_to 'Archived Projects', archived_user_projects_path(current_user), data: { action: "click->dashboard#changeContent" } %>
+        </li>
+        <li>
+          <%= link_to 'Create New Project', new_user_project_path(current_user), data: { action: "click->dashboard#changeContent" } %>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Profile dropdown -->
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        My Profile
+      </button>
+      <ul class="dropdown-menu">
+        <li><p class="dropdown-item">View Profile</p></li>
+        <li><p class="dropdown-item">Edit Profile</p></li>
+      </ul>
+    </div>
+
+    <!-- Messages text (instead of link) -->
+    <p class="btn btn-link">Messages</p>
+
+    <!-- Browse Freelancers text (instead of link) -->
+    <p class="btn btn-link">Browse Freelancers</p>
   </div>
 
-  <!-- Messages text (instead of link) -->
-  <p class="btn btn-link">Messages</p>
-
-  <!-- Profile dropdown (converted to text) -->
-  <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      My Profile
-    </button>
-    <ul class="dropdown-menu">
-      <li><p class="dropdown-item">View Profile</p></li>
-      <li><p class="dropdown-item">Edit Profile</p></li>
-    </ul>
+  <!-- Main content area where the table will be injected -->
+  <div class="dashboard-main" style="flex-grow: 1;" data-dashboard-target="mainContent">
+    <!-- The content that gets updated by Stimulus -->
+    <h3>My Projects</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Project Name</th>
+          <th scope="col">Start Date</th>
+          <th scope="col">End Date</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @projects.each do |project| %>
+          <tr>
+            <td><%= link_to project.title, user_project_path(current_user, project) %></td>
+            <td><%= project.start_date.strftime('%B %d, %Y') %></td>
+            <td><%= project.end_date.strftime('%B %d, %Y') %></td>
+            <td><%= link_to 'Edit', edit_user_project_path(current_user, project) %></td>
+            <td><%= project.status %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
-
-  <!-- Browse Freelancers text (instead of link) -->
-  <p class="btn btn-link">Browse Freelancers</p>
-</div>
-
-<div class="dashboard-main">
-  <!-- Ongoing Projects Section -->
-  <h3>Ongoing Projects</h3>
-  <ul>
-    <% @ongoing_projects.each do |project| %>
-      <li><%= link_to project.title, user_project_path(current_user, project) %> - <%= project.status %></li>
-    <% end %>
-  </ul>
-
-  <!-- Archived Projects Section -->
-  <h3>Archived Projects</h3>
-  <ul>
-    <% @archived_projects.each do |project| %>
-      <li><%= link_to project.title, user_project_path(current_user, project) %> - <%= project.status %></li>
-    <% end %>
-  </ul>
 </div>

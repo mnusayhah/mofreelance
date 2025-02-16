@@ -1,13 +1,31 @@
 <h1>My Projects</h1>
-
 <ul>
   <% if @projects.present? %>
-    <% @projects.each do |project| %>
-      <li>
-        <%= link_to project.title, user_project_path(current_user, project) %> - <%= project.status %>
-      </li>
-    <% end %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Project Name</th>
+          <th scope="col">Start Date</th>
+          <th scope="col">End Date</th>
+          <th scope="col">Edit</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @projects.each do |project| %>
+          <tr>
+            <td><%= link_to project.title, user_project_path(current_user, project) %></td>
+            <td><%= project.start_date.strftime('%B %d, %Y') %></td>
+            <td><%= project.end_date.strftime('%B %d, %Y') %></td>
+            <td><%= link_to 'Edit', edit_user_project_path(current_user, project) %></td>
+            <td><%= project.status %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   <% else %>
     <li>No projects available.</li>
   <% end %>
+
+  
 </ul>

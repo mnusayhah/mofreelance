@@ -13,7 +13,7 @@
   <%= f.button :submit, 'Delete', class: 'btn btn-danger' %>
 <% end %>
 
-<% if current_user == @project.user %> <!-- Only show the share form to the project owner (company) -->
+<% if current_user == @project.user %> 
   <h3>Share this project with freelancers</h3>
 
   <%= form_with(url: share_project_path(@project), method: :post) do |f| %>

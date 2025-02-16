@@ -10,9 +10,15 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body><%= render "shared/navbar" %>
-<%= render "shared/flashes" %>
+  <body>
+    <%= render "shared/navbar" %> <!-- Navbar stays outside the content update area -->
 
-    <%= yield %>
+    <!-- Flash messages -->
+    <%= render "shared/flashes" %>
+
+    <!-- Main content area, which will be updated dynamically -->
+    <div id="main-content">
+      <%= yield %> <!-- This is the main content that will be updated -->
+    </div>
   </body>
 </html>
