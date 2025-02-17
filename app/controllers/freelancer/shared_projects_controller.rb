@@ -14,7 +14,6 @@ module Freelancer
     # GET /freelancer/shared_projects/:id
     def show
       @shared_project = SharedProject.find_by(id: params[:id], freelancer_id: current_user.id, status: :accepted)
-
       if @shared_project.nil?
         redirect_to freelancer_shared_projects_path, alert: "Project not found or not accepted."
       end

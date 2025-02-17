@@ -1,0 +1,31 @@
+<h1>Freelancer::Discussions#show</h1>
+<p>Find me in app/views/freelancer/discussions/show.html.erb</p>
+
+
+<div class="container chat">
+  <h1>Your inbox for <%= @discussion.project.title %></h1>
+
+  <div id="messages" class="messages">
+    <% @discussion.messages.each do |message| %>
+      <div id="message-<%= message.id %>">
+        <small>
+          <strong><%= message.receiver.first_name %></strong>
+          <i><%= message.created_at.strftime("%a %b %e at %l:%M %p") %></i>
+        </small>
+        <p><%= message.content %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%= simple_form_for [@discussion, @message],
+  html: {class: "d-flex"} do |f|
+%>
+  <% other_user = current_user == @discussion.project.user ? @discussion.sender : @discussion.project.user %>
+  <%= f.input :content,
+    label: false,
+    placeholder: "Message #{other_user.first_name}",
+    wrapper_html: {class: "flex-grow-1"}
+  %>
+  <%= f.submit "Send", class: "btn btn-primary mb-3" %>
+<% end %>

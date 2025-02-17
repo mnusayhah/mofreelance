@@ -22,6 +22,9 @@ Rails.application.routes.draw do
 
   # Freelancer Routes
   namespace :freelancer do
+    get 'messages/create'
+    get 'discussions/index'
+    get 'discussions/show'
     get "dashboard", to: "dashboards#show"
 
     resources :shared_projects, only: [:index, :show] do

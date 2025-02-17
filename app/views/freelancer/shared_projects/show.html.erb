@@ -10,6 +10,7 @@
 
 
     <p><strong>Collaborators:</strong> <%= @shared_project.freelance @shared_project.project.user %></p>
+    
 
     <div id="review-form-container">
       <%= render partial: "reviews/form", locals: { review: Review.new, project_id: @shared_project.project.id, rated_user_id: @shared_project.freelancer.id } %>
