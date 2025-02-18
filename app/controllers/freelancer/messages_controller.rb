@@ -26,7 +26,7 @@ module Freelancer
     private
 
     def message_params
-      params.require(:message).permit(:content)
+      params.require(:message).permit(:content, :sender_id, :receiver_id, :discussion_id, :read)
     end
   end
 end

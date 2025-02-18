@@ -5,7 +5,7 @@ module Freelancer
 
     def show
       @discussion = Discussion.find(params[:id])
-      @message = Message.new
+      @messages = @discussion.messages.includes(:sender, :receiver)
     end
   end
 end

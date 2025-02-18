@@ -28,6 +28,7 @@ enterprise = User.create!(
   role: :enterprise,
   company: "TechCorp"
 )
+puts "Enterprise Created"
 freelancer = User.create!(
   email: "freelancer@example.com",
   password: "password",
@@ -35,6 +36,8 @@ freelancer = User.create!(
   last_name: "Smith",
   role: :freelancer
 )
+puts "Freelancer Created"
+
 # Create Profiles
 Profile.create!(
   user: enterprise,
@@ -50,6 +53,9 @@ Profile.create!(
   address: Faker::Address.city,
   availability_status: "available"
 )
+
+puts "Profile Created"
+
 # Create a Project
 project = Project.create!(
   user: enterprise,
@@ -62,18 +68,26 @@ project = Project.create!(
   start_date: Date.today,
   end_date: Date.today + 30
 )
+
+puts "Project Created"
+
 # Share the Project with Freelancer
 shared_project = SharedProject.create!(
   project: project,
   freelancer: freelancer,
   status: :accepted # Freelancer has already accepted the project
 )
+
+puts "Shared project Created"
+
 # Create Discussion for the Project
 discussion = Discussion.create!(
   project: project,
   freelancer: freelancer,
   enterprise: enterprise
 )
+puts "Discussion Created"
+
 # ✅ **Create messages WITHOUT triggering `broadcast_message`**
 Message.new(
   discussion: discussion,
@@ -87,6 +101,7 @@ Message.new(
   receiver: enterprise,
   content: "Yes, I am! What are the requirements?"
 ).save!(validate: false)
+
 puts "✅ Seeding complete!"
 puts "📌 TEST USERS:"
 puts "Enterprise Login: enterprise@example.com | Password: password"
