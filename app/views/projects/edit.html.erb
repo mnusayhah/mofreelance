@@ -1,0 +1,33 @@
+<%= simple_form_for [current_user, @project] do |f| %>
+  <div class="form-group">
+    <%= f.input :title, label: "Project Title" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.input :description, label: "Project Description", as: :text %>
+  </div>
+
+  <div class="form-group">
+    <%= f.input :budget, label: "Project Budget", as: :decimal %>
+  </div>
+
+  <div class="form-group">
+    <%= f.input :required_skills, label: "Required Skills", as: :string %>
+  </div>
+
+  <div class="form-group">
+    <%= f.input :visibility, label: "Visibility", collection: ['Public', 'Private'], include_blank: false %>
+  </div>
+
+  <div class="form-group">
+    <%= f.input :start_date, label: "Start Date", as: :date %>
+  </div>
+
+  <div class="form-group">
+    <%= f.input :end_date, label: "End Date", as: :date %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit "Update Project", class: "btn btn-primary" %>
+  </div>
+<% end %>
