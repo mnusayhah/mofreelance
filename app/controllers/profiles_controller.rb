@@ -46,6 +46,31 @@ class ProfilesController < ApplicationController
     end
   end
 
+    # Action "me" pour permettre à l'utilisateur connecté d'accéder à son propre profil
+  def me
+    @profile = current_user.profile
+    if @profile
+      # Tu peux choisir d'afficher la vue d'édition ou simplement le profil en mode lecture.
+      # Ici, nous redirigeons vers l'édition pour faciliter la modification.
+      render :edit
+    else
+      # Optionnel : Si le profil n'existe pas, rediriger l'utilisateur vers une page de création ou un message d'alerte.
+      redirect_to profiles_path, alert: "Votre profil n'existe pas encore."
+    end
+  end
+
+  # Crée un profil en BDD à partir des infos du formulaire
+  def create
+    @profile = current_user.build_profile(profile_params)
+    # ↑ build_profile : Rails va automatiquement renseigner user_id = current_user.id
+
+    if @profile.save
+      redirect_to @profile, notice: "Votre profil de freelancer a été créé avec succès."
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def set_profile
@@ -55,6 +80,10 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:profile).permit(:title, :bio, :hourly_rate, :availability_status, :address, :portfolio_url, :language, :avatar)
+    params.require(:profile).permit(
+      :title, :address, :bio, :years_of_experience,
+      :skills, :portfolio_url, :hourly_rate, :availability_status,
+      :language, :avatar
+    )
   end
 end

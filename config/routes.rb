@@ -16,7 +16,10 @@ Rails.application.routes.draw do
 
 
     # Routes pour les freelances (seuls leurs profils sont visibles)
-    resources :profiles, only: [:index, :show, :edit, :update, :destroy] do
+    resources :profiles, only: [:index, :show, :create, :edit, :update, :destroy] do
+      collection do
+        get 'me', to: 'profiles#me'
+      end
     end
 
     # Routes pour les projets (créés par les entreprises, visibles par les freelances)
