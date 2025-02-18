@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'reviews/new'
+  get 'reviews/create'
+  get 'reviews/show'
+  get 'reviews/edit'
+  get 'reviews/update'
+  get 'reviews/destroy'
   get 'users/index'
   get 'users/show'
   get 'users/edit'
@@ -20,10 +26,14 @@ Rails.application.routes.draw do
       collection do
         get 'me', to: 'profiles#me'
       end
+      resources :skills, only: [:index, :create, :edit, :update, :destroy]
+      resources :educations, only: [:index, :create, :edit, :update, :destroy]
     end
 
     # Routes pour les projets (créés par les entreprises, visibles par les freelances)
-    resources :projects, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+    resources :projects, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+      resources :shared_projects, only: [:edit, :update]
+    end
 
     # Routes pour les messages (messagerie entre freelances et entreprises)
     resources :discussions, only: [:index, :show, :create] do
@@ -33,5 +43,14 @@ Rails.application.routes.draw do
     # Route pour la gestion des entreprises (elles ne sont pas listées)
     resources :users, only: [] do
       resources :projects, only: [:index] # Pour qu'une entreprise voie ses propres projets
+      resources :shared_projects, only: [:index, :show]
     end
+
+    # Page de test pour les reviews
+    get 'reviews/test', to: 'reviews#test'
+
+    # Routes pour les reviews
+    resources :reviews, only: [:new, :create, :show, :edit, :update, :destroy]
+
+
   end
