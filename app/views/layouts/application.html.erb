@@ -8,6 +8,13 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+     <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          integrity="sha512-dNr0gI8OltIZ7L3D1o2Sw+7kp4K6mQOGoM9D+S2z1Yd+L6I0iGhxo6Ik9GqO3hrbW9w65p9ScJyBs6Qn52+q5g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+
   </head>
 
   <body>
@@ -19,6 +26,10 @@
     <!-- Main content area, which will be updated dynamically -->
     <div id="main-content">
       <%= yield %> <!-- This is the main content that will be updated -->
-    </div>
+    </div>   
+
+    <%= render "shared/navbar" %>
+    <%= render "shared/flashes" %>
+    <%= yield %>
   </body>
 </html>

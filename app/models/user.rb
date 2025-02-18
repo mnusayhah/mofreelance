@@ -5,6 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   enum role: { freelancer: 0, enterprise: 1}
 
+  validates :first_name, :last_name, presence: true
+  validates :company, presence: true, if: :enterprise?
+
   has_one :profile, dependent: :destroy
   has_many :projects, dependent: :destroy
   has_many :shared_projects, foreign_key: :freelancer_id, dependent: :destroy
