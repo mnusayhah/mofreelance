@@ -91,14 +91,15 @@ puts "Discussion Created"
 # ✅ **Create messages WITHOUT triggering `broadcast_message`**
 Message.new(
   discussion: discussion,
-  sender: enterprise,
-  receiver: freelancer,
+  sender_id: enterprise.id,
+  receiver_id: freelancer.id,
   content: "Hello Alice! Are you available for this project?"
 ).save!(validate: false)
+
 Message.new(
   discussion: discussion,
-  sender: freelancer,
-  receiver: enterprise,
+  sender_id: freelancer.id,
+  receiver_id: enterprise.id,
   content: "Yes, I am! What are the requirements?"
 ).save!(validate: false)
 

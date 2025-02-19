@@ -21,7 +21,7 @@
     <% @discussion.messages.each do |message| %>
       <div id="message-<%= message.id %>">
         <small>
-          <strong><%= message.sender_id.first_name %></strong>
+          <strong><%= message.sender.first_name %></strong>
           <i><%= message.created_at.strftime("%a %b %e at %l:%M %p") %></i>
         </small>
         <p><%= message.content %></p>
