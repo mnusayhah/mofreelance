@@ -1,5 +1,7 @@
-<div class="<%= message.sender == current_user ? 'sent-message' : 'received-message' %>">
-  <strong><%= message.sender.first_name %> → <%= message.receiver.first_name %>:</strong>
-  <p><%= message.content %></p>
-  <small><%= message.created_at.strftime("%b %d, %Y %H:%M") %></small>
-</div>
+<div id="message-<%= message.id %>">
+    <small>
+      <strong><%= message.sender.first_name %></strong>
+      <i><%= message.created_at.strftime("%a %b %e at %l:%M %p") %></i>
+    </small>
+    <p><%= message.content %></p>
+  </div>

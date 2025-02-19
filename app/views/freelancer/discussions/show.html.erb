@@ -2,7 +2,11 @@
 <p>Find me in app/views/freelancer/discussions/show.html.erb</p>
 <h2>Project Discussion</h2>
 
-
+<%= simple_form_for [@discussion, @message],
+  html: {class: "d-flex",
+         data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" }} do |f|
+%>
+<% end %>
 
 <%= form_with model: [ :freelancer, @discussion, Message.new ], url: freelancer_discussion_messages_path(@discussion), data: { turbo_stream: true } do |f| %>
   <div>
@@ -19,13 +23,7 @@
 
   <div id="messages" class="messages">
     <% @discussion.messages.each do |message| %>
-      <div id="message-<%= message.id %>">
-        <small>
-          <strong><%= message.sender.first_name %></strong>
-          <i><%= message.created_at.strftime("%a %b %e at %l:%M %p") %></i>
-        </small>
-        <p><%= message.content %></p>
-      </div>
+
     <% end %>
   </div>
 </div>
