@@ -4,6 +4,7 @@ class Project < ApplicationRecord
   has_many :discussions, dependent: :destroy
   has_many :shared_projects, dependent: :destroy
   has_many :reviews, dependent: :destroy
+<<<<<<< HEAD
 
   after_update :create_discussion_if_accepted
 
@@ -14,4 +15,7 @@ class Project < ApplicationRecord
       Discussion.find_or_create_by(project: self)
     end
   end
+=======
+  has_many :freelancers, through: :shared_projects, source: :user
+>>>>>>> master
 end

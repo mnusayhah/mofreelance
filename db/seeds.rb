@@ -69,7 +69,23 @@ project = Project.create!(
   end_date: Date.today + 30
 )
 
+<<<<<<< HEAD
 puts "Project Created"
+=======
+  Profile.create!(
+    user: user,
+    title: Faker::Job.title,
+    address: Faker::Address.city,
+    bio: Faker::Lorem.paragraph(sentence_count: 3),
+    profile_picture: 
+    years_of_experience: rand(1..15),
+    portfolio_url: Faker::Internet.url,
+    hourly_rate: rand(30..150),
+    availability_status: ["available", "busy", "unavailable"].sample,
+    language: ["Français", "Anglais", "Espagnol"].sample
+  )
+end
+>>>>>>> master
 
 # Share the Project with Freelancer
 shared_project = SharedProject.create!(

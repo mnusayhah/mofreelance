@@ -1,0 +1,38 @@
+<%= simple_form_for @profile do |f| %>
+  <div class="mb-3">
+    <%= f.input :title, label: "Titre du profil" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.input :bio, as: :text, label: "Biographie" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.input :address, label: "Adresse" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.input :years_of_experience, label: "Années d'expérience" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.input :hourly_rate, label: "Taux horaire (€)" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.input :availability_status, collection: ["available", "busy", "unavailable"], label: "Statut de disponibilité" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.input :language, label: "Langue" %>
+  </div>
+
+  <!-- Si tu gères un avatar avec Active Storage + Cloudinary -->
+  <div class="mb-3">
+    <%= f.input :avatar, as: :file, label: "Photo de profil" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.button :submit, "Enregistrer", class: "btn btn-primary" %>
+  </div>
+<% end %>
