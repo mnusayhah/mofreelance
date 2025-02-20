@@ -1,125 +1,107 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
-
-require 'faker'
-
-puts "🔄 Resetting database..."
-# Destroy old data
-Message.destroy_all
-Discussion.destroy_all
-SharedProject.destroy_all
-Project.destroy_all
-Profile.destroy_all
-User.destroy_all
-puts "👤 Creating Freelancers & Enterprises..."
-# Create Two Users for Testing
-enterprise = User.create!(
-  email: "enterprise@example.com",
-  password: "password",
-  first_name: "John",
-  last_name: "Doe",
-  role: :enterprise,
-  company: "TechCorp"
-)
-puts "Enterprise Created"
-freelancer = User.create!(
-  email: "freelancer@example.com",
-  password: "password",
-  first_name: "Alice",
-  last_name: "Smith",
-  role: :freelancer
-)
-puts "Freelancer Created"
-
-# Create Profiles
-Profile.create!(
-  user: enterprise,
-  title: "Tech Company Owner",
-  bio: Faker::Lorem.paragraph,
-  address: Faker::Address.city,
-  availability_status: "available"
-)
-Profile.create!(
-  user: freelancer,
-  title: "Ruby on Rails Developer",
-  bio: Faker::Lorem.paragraph,
-  address: Faker::Address.city,
-  availability_status: "available"
-)
-
-puts "Profile Created"
-
-# Create a Project
-project = Project.create!(
-  user: enterprise,
-  title: "Build a Freelancer Platform",
-  description: "We need a full-stack developer to build a marketplace for freelancers.",
-  budget: 2000,
-  status: "open",
-  required_skills: "Ruby on Rails, JavaScript",
-  visibility: "private",
-  start_date: Date.today,
-  end_date: Date.today + 30
-)
-
-<<<<<<< HEAD
-puts "Project Created"
-=======
-  Profile.create!(
-    user: user,
-    title: Faker::Job.title,
-    address: Faker::Address.city,
-    bio: Faker::Lorem.paragraph(sentence_count: 3),
-    profile_picture: 
-    years_of_experience: rand(1..15),
-    portfolio_url: Faker::Internet.url,
-    hourly_rate: rand(30..150),
-    availability_status: ["available", "busy", "unavailable"].sample,
-    language: ["Français", "Anglais", "Espagnol"].sample
+ActiveRecord::Base.transaction do
+  # Create Users
+  enterprise = User.create!(
+    email: "enterprise@example.com",
+    password: "password123",
+    first_name: "Enterprise",
+    last_name: "Owner",
+    role: 1,
+    company: "TechCorp",
+    phone_number: "1234567890"
   )
+
+  freelancer = User.create!(
+    email: "freelancer@example.com",
+    password: "password123",
+    first_name: "Freelancer",
+    last_name: "Worker",
+    role: 0,
+    phone_number: "0987654321"
+  )
+
+  # Ensure Project is Created
+  project = Project.create!(
+    user: enterprise,
+    title: "Website Development",
+    description: "Build a modern web app using Rails and React.",
+    budget: 5000,
+    status: "ongoing",
+    required_skills: "Ruby on Rails, React",
+    visibility: "public",
+    start_date: Date.today,
+    end_date: Date.today + 30.days
+  )
+
+  raise "Project not created!" if project.nil?
+
+  # Ensure Shared Project is Created
+  shared_project = SharedProject.create!(
+    project: project,
+    freelancer: freelancer,
+    status: 1
+  )
+
+  raise "Shared project not created!" if shared_project.nil?
+
+  # Ensure Discussion is Created
+  discussion = Discussion.create!(
+    project: project,
+    freelancer: freelancer,
+    enterprise: enterprise
+  )
+
+  raise "Discussion not created!" if discussion.nil?
+
+  # Create Messages
+  Message.create!(discussion: discussion, sender: enterprise, receiver: freelancer, content: "Hello Freelancer!", read: false)
+  Message.create!(discussion: discussion, sender: freelancer, receiver: enterprise, content: "Hi Enterprise!", read: false)
+
 end
->>>>>>> master
+puts "Seed data created successfully!"
 
-# Share the Project with Freelancer
-shared_project = SharedProject.create!(
-  project: project,
-  freelancer: freelancer,
-  status: :accepted # Freelancer has already accepted the project
+
+# Fetch or create two freelancers
+freelancer1 = User.find_or_create_by!(email: "freelancer1@example.com") do |user|
+  user.password = "password123"
+  user.first_name = "John"
+  user.last_name = "Doe"
+  user.role = "freelancer"
+end
+
+# Create profiles for each freelancer
+profile1 = Profile.create!(
+  user: freelancer1,
+  title: "Full-Stack Developer",
+  address: "123 Developer St, Remote",
+  bio: "Experienced in Ruby on Rails and React.js, delivering high-quality web applications.",
+  years_of_experience: 6,
+  portfolio_url: "https://johndoeportfolio.com",
+  hourly_rate: 60.0,
+  availability_status: "Available",
+  language: "English"
 )
 
-puts "Shared project Created"
 
-# Create Discussion for the Project
-discussion = Discussion.create!(
-  project: project,
-  freelancer: freelancer,
-  enterprise: enterprise
+# Add skills for both freelancer profiles
+Skill.create!(
+  profile: profile1,
+  job_title: "Software Engineer",
+  company: "Tech Solutions",
+  start_date: "2018-01-01",
+  end_date: "2022-12-31",
+  description: "Built and maintained scalable applications using Rails and React.",
+  localisation: "Remote"
 )
-puts "Discussion Created"
 
-# ✅ **Create messages WITHOUT triggering `broadcast_message`**
-Message.new(
-  discussion: discussion,
-  sender_id: enterprise.id,
-  receiver_id: freelancer.id,
-  content: "Hello Alice! Are you available for this project?"
-).save!(validate: false)
+# Add education for both freelancer profiles
+Education.create!(
+  profile: profile1,
+  school: "University of Tech",
+  diploma: "BSc in Computer Science",
+  start_date: "2014-09-01",
+  end_date: "2018-06-01",
+  localisation: "Online"
+)
 
-Message.new(
-  discussion: discussion,
-  sender_id: freelancer.id,
-  receiver_id: enterprise.id,
-  content: "Yes, I am! What are the requirements?"
-).save!(validate: false)
 
-puts "✅ Seeding complete!"
-puts "📌 TEST USERS:"
-puts "Enterprise Login: enterprise@example.com | Password: password"
-puts "Freelancer Login: freelancer@example.com | Password: password"
+puts "freelancer profile with skills and education seeded successfully!"

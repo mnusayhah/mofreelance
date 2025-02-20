@@ -6,18 +6,18 @@
 <p><strong>Start Date:</strong> <%= @project.start_date %></p>
 <p><strong>End Date:</strong> <%= @project.end_date %></p>
 
-<%= link_to 'Back to Projects', user_projects_path(current_user) %>
-<%= link_to 'Edit', edit_user_project_path(current_user, @project) %>
+<%= link_to 'Back to Projects', enterprise_projects_path(current_user) %>
+<%= link_to 'Edit', edit_enterprise_project_path(current_user, @project) %>
 
-<%= simple_form_for @project, url: user_project_path(current_user, @project), method: :delete, html: { data: { confirm: 'Are you sure you want to delete this project?' } } do |f| %>
+<%= simple_form_for @project, url: enterprise_project_path(current_user, @project), method: :delete, html: { data: { confirm: 'Are you sure you want to delete this project?' } } do |f| %>
   <%= f.button :submit, 'Delete', class: 'btn btn-danger' %>
 <% end %>
 
-<% if current_user == @project.user %> 
-  <h3>Share this project with freelancers</h3>
+<%# <% if current_user == @project.user %>
+  <%# <h3>Share this project with freelancers</h3> %>
 
-  <%= form_with(url: share_project_path(@project), method: :post) do |f| %>
-    <%= f.select :user_id, User.where(role: 'freelancer').pluck(:email, :id), prompt: 'Select a freelancer' %>
-    <%= f.submit "Share Project" %>
-  <% end %>
-<% end %>
+  <%# <%= form_with(url: shared_project_path_project_path(@project), method: :post) do |f| %>
+    <%# <%= f.select :user_id, User.where(role: 'freelancer').pluck(:email, :id), prompt: 'Select a freelancer' %>
+    <%# <%= f.submit "Share Project" %>
+  <%# <% end %>
+<%# <% end %>
