@@ -16,7 +16,7 @@ module Enterprise
       @project = current_user.projects.build(project_params)
 
       if @project.save
-        redirect_to user_project_path(current_user, @project), notice: 'Project was successfully created.'
+        redirect_to enterprise_projects_path(current_user, @project), notice: 'Project was successfully created.'
       else
         render :new
       end
@@ -32,7 +32,7 @@ module Enterprise
 
     def update
       if @project.update(project_params)
-        redirect_to user_project_path(current_user, @project), notice: 'Project was successfully updated.'
+        redirect_to enterprise_projects_path(current_user, @project), notice: 'Project was successfully updated.'
       else
         render :edit
       end
@@ -67,7 +67,7 @@ module Enterprise
 
     def destroy
       @project.destroy
-      redirect_to user_projects_path(current_user), notice: 'Project was successfully deleted.'
+      redirect_to enterprise_projects_path(current_user), notice: 'Project was successfully deleted.'
     end
 
     private

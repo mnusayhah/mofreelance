@@ -3,14 +3,8 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = ["menu"];
 
-  connect() {
-    console.log("DropdownController connected!");
-  }
-
   toggle(event) {
-    event.preventDefault(); // Prevent unwanted navigation
-    event.stopPropagation(); // Prevent event bubbling
-
+    event.preventDefault(); // Prevents unwanted link behavior
     this.menuTarget.classList.toggle("hidden");
   }
 }

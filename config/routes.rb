@@ -43,7 +43,11 @@ Rails.application.routes.draw do
     get 'messages/create'
     get 'discussions/index'
     get 'discussions/show'
-    get "dashboard", to: "dashboards#show"
+
+    resource :dashboard, only: [:show] do
+      get 'projects', to: 'dashboards#projects'
+    end
+
 
     resources :shared_projects, only: [:index, :show] do
       member do
