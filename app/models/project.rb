@@ -8,6 +8,7 @@ class Project < ApplicationRecord
   enum status: {open: 0, pending: 1, ongoing: 2, paid: 3, completed: 4, archived: 5}
 
   after_update :create_discussion_if_accepted
+  after_update :archive_project_if_completed_for_30_days
 
   private
 
@@ -16,5 +17,12 @@ class Project < ApplicationRecord
       Discussion.find_or_create_by(project: self)
     end
   end
+
+  def archive_project_if_completed_for_30_days
+    if completed? && completed_at && completed_at < 30.days.ago
+      self.update(status: :archived)
+    end
+  end
+
   has_many :freelancers, through: :shared_projects, source: :user
 end

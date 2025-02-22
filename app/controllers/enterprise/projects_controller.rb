@@ -14,7 +14,7 @@ module Enterprise
 
     def create
       @project = current_user.projects.build(project_params)
-
+      @project.status = :open
       if @project.save
         redirect_to enterprise_projects_path(current_user, @project), notice: 'Project was successfully created.'
       else
@@ -47,14 +47,37 @@ module Enterprise
       #@projects = current_user.projects.ongoing  # Fetch ongoing projects
       #render partial: "projects_table", locals: { projects: @projects }  # Render only the table with projects
     #end
-    def ongoing
-      @projects = current_user.projects.ongoing
-      render partial: "projects/list", locals: { projects: @projects }
+    #def ongoing
+      #@projects = current_user.projects.ongoing
+      #render partial: "projects/list", locals: { projects: @projects }
+    #end
+
+    #def archived
+      #@projects = current_user.projects.archived
+      #render partial: "projects_table", locals: { projects: @projects }
+    #end
+
+    def mark_as_paid
+      @project = Project.find(params[:id])
+
+      if @project.update(status: :paid)
+        # Once marked as paid, the company can then mark it as completed
+        redirect_to @project, notice: "Project marked as paid!"
+      else
+        # Handle failure
+      end
     end
 
-    def archived
-      @projects = current_user.projects.archived
-      render partial: "projects_table", locals: { projects: @projects }
+    # Then, to mark as completed:
+    def mark_as_completed
+      @project = Project.find(params[:id])
+
+      if @project.status == 'paid' # Ensure it can only be completed after paid
+        @project.update(status: :completed, completed_at: Time.current)
+        redirect_to @project, notice: "Project marked as completed!"
+      else
+        redirect_to @project, alert: "Project must be marked as paid before completing."
+      end
     end
 
     def share
