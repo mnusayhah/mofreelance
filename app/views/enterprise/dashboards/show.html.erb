@@ -1,15 +1,14 @@
 <!--h1>Company Dashboard</h1-->
 
-<div class="dashboard-container" style="display: flex;" data-controller="dashboard">
+<div class="dashboard-container" style="display: flex;">
   <!-- Sidebar -->
-  <div class="sidebar" style="width: 250px; margin-right: 20px;">
+  <div class="dashboard-sidebar" style="width: 250px; margin-right: 20px;">
     <!-- Dropdown for Projects -->
-    <div class="dropdown" data-controller="dropdown">
-      <!-- Button for Dropdown -->
-      <button class="btn btn-secondary dropdown-toggle" type="button" data-action="click->dropdown#toggle">
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         Projects
       </button>
-      <ul class="dropdown-menu" data-dropdown-target="menu">
+      <ul class="dropdown-menu">
         <li>
           <%= link_to 'My Projects', enterprise_projects_path(current_user), data: { action: "click->dashboard#changeContent" } %>
         </li>
@@ -36,6 +35,7 @@
       </ul>
     </div>
 
+
     <!-- Messages text (instead of link) -->
     <p class="btn btn-link">Messages</p>
 
@@ -45,7 +45,7 @@
 
   <!-- Main content area where the table will be injected -->
     <!-- Main Content -->
-  <main class="dashboard-content">
+  <!--main class="dashboard-content">
       <div id="projects-container">
         <turbo-frame id="projects_frame">
         <h2> Projects</h2>
@@ -53,4 +53,4 @@
         </turbo-frame>
       </div>
   </main>
-</div>
+</div-->
