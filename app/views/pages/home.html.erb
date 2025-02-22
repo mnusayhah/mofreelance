@@ -1,15 +1,18 @@
-<div class="container col-xxl-8 px-4 py-5">
-  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-    <div class="col-10 col-sm-8 col-lg-6">
-      <img src="https://images.prismic.io/malt-cms-marketing/519ed394-38b4-46a6-8b75-b410fa2cb545_2022_REBRAND_WEBSITE_HOME_STONAL.png?auto=enhanced,format&w=1072&h=662" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
-    </div>
-    <div class="col-lg-6">
-      <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Entreprises & freelances étaient faits pour se rencontrer</h1>
-      <p class="lead">Trouvez le talent parfait pour propulser vos projets</p>
-    </div>
-  </div>
-</div>
+<div class="notion-style">
+<!-- Hero Section -->
+<div class="hero-section" style="background-image: url('https://images.unsplash.com/photo-1572021335469-31706a17aaef?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+  <div class="hero-overlay"></div>
+  <div class="container py-5">
+    <div class="hero-content text-center py-5">
+      <h1 class="display-4 fw-bold mb-4 text-white">Connect with Top Freelance Talent</h1>
+      <p class="lead mb-5 text-white">Your workspace to find and collaborate with skilled freelancers worldwide.</p>
 
+      <div class="search-container mx-auto mb-5">
+        <div class="row justify-content-center">
+          <div class="col-md-10">
+            <div class="input-group notion-search mb-4">
+              <span class="input-group-text border-0">
+                <i class="fas fa-search search-icon"></i>
   <div class="container my-5">
     <div class="row justify-content-center">
       <div class="col-md-8">
@@ -20,61 +23,239 @@
             <div class="input-group rounded me-2">
               <span class="input-group-text bg-white border-0 rounded-start">
                 <i class="fas fa-search text-muted"></i>
+
               </span>
-              <input type="search" name="q" class="form-control border-0 rounded-end"
-                     placeholder='Essayer "Java", "Consultant"...' aria-label="Recherche">
+              <input type="text"
+                    class="form-control border-0 search-input"
+                    placeholder="Search skills, expertise...">
+              <button class="btn btn-primary search-button">
+                Find a Freelancer
+              </button>
             </div>
             <a href="freelancer/profiles" class="btn btn-primary rounded" >Trouver un freelance</a>
           </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-          <!-- Barre de séparation verticale -->
-          <div class="vr mx-3 my-rounded"></div>
+  <!-- Social Proof Section -->
+  <div class="container col-xxl-8 px-4 py-5">
+    <div class="text-center">
+      <p class="display-6 mb-5">70,000 companies boost their business with MoFreelance</p>
 
-          <!-- CTA "Déposer un projet" -->
-          <a href="/users/sign_in" class="btn btn-success rounded">
-            Déposer un projet
-          </a>
+      <!-- Company Logos -->
+      <div class="company-logos">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-auto">
+            <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/2560px-Google_2015_logo.svg.png",
+                alt: "Google",
+                class: "company-logo" %>
+          </div>
+          <div class="col-auto">
+            <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png",
+                alt: "Netflix",
+                class: "company-logo" %>
+          </div>
+          <div class="col-auto">
+            <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/1667px-Apple_logo_black.svg.png",
+                alt: "Apple",
+                class: "company-logo" %>
+          </div>
+          <div class="col-auto">
+            <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png",
+                alt: "Amazon",
+                class: "company-logo" %>
+          </div>
+          <div class="col-auto">
+            <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/LinkedIn_Logo.svg/2560px-LinkedIn_Logo.svg.png",
+                alt: "LinkedIn",
+                class: "company-logo" %>
+          </div>
+          <div class="col-auto">
+            <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Slack_Technologies_Logo.svg/2560px-Slack_Technologies_Logo.svg.png",
+                alt: "Slack",
+                class: "company-logo" %>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-<div class="container col-xxl-8 px-4 py-5">
-  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-    <div class="col-10 col-sm-8 col-lg-6">
-      <img src="https://images.prismic.io/malt-cms-marketing/1bd45af1-d7de-430c-a4a8-9c530e8b0dc6_2022_REBRAND_WEBSITE_HOME_CONTENT-1.png?auto=enhanced,format&w=1296&h=710" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
-    </div>
-    <div class="col-lg-6">
-      <h3 class="fw-bold text-body-emphasis lh-1 mb-3">Boostez votre carrière freelance</h3>
-      <p class="lead">Recevez des offres de missions en adéquation avec vos compétences et communiquez directement avec 70 000 clients potentiels issus de tous les secteurs.</p>
-      <a href="/users/sign_in" class="btn btn-primary rounded">Rejoindre la communauté</a>
-    </div>
-  </div>
-</div>
-
-<div class="container col-xxl-8 px-4 py-5">
-  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
-    <div class="col-lg-6">
-      <h3 class="fw-bold text-body-emphasis lh-1 mb-3">Trouvez le bon profil en deux clics</h3>
-      <p class="lead">Partez à la recherche de votre expert parmi nos 800 000 talentueux freelances ou entrez en contact avec les meilleurs profils disponibles pour votre projet.</p>
-      <a href="/profiles" class="btn btn-primary rounded">Trouver le freelance parfait</a>
-    </div>
-    <div class="col-10 col-sm-8 col-lg-6">
-      <img src="https://images.prismic.io/malt-cms-marketing/5dfe75b2-3104-4ad2-a14f-757be59cf1e4_2022_REBRAND_WEBSITE_HOME_CONTENT-2.png?auto=enhanced,format&w=1296&h=710" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
-    </div>
-  </div>
-</div>
-
-<footer class="bg-dark text-light py-4">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 text-center text-md-start">
-        <p class="mb-0">&copy; 2025 MoFreelance. Tous droits réservés.</p>
+  <!-- Features Grid -->
+  <div class="container py-5">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="notion-card">
+          <div class="notion-card-icon">
+            <i class="fas fa-users text-primary"></i>
+          </div>
+          <h3>Find Talent</h3>
+          <p>Browse through our curated network of top freelance professionals</p>
+        </div>
       </div>
-      <div class="col-md-6 text-center text-md-end">
-        <a href="#" class="text-light me-3">Politique de confidentialité</a>
-        <a href="#" class="text-light">Conditions d'utilisation</a>
+      <div class="col-md-6">
+        <div class="notion-card">
+          <div class="notion-card-icon">
+            <i class="fas fa-star text-warning"></i>
+          </div>
+          <h3>Quality Work</h3>
+          <p>Work with pre-vetted freelancers with proven track records</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="notion-card">
+          <div class="notion-card-icon">
+            <i class="fas fa-chart-line text-success"></i>
+          </div>
+          <h3>Track Progress</h3>
+          <p>Monitor projects and collaborate in real-time</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="notion-card">
+          <div class="notion-card-icon">
+            <i class="fas fa-pen-nib text-info"></i>
+          </div>
+          <h3>Custom Solutions</h3>
+          <p>Get tailored solutions for your specific project needs</p>
+        </div>
       </div>
     </div>
   </div>
-</footer>
+
+  <!-- Section Freelancers -->
+  <div class="container py-5 border-top">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <h2 class="h2 mb-4">Boost Your Freelance Career</h2>
+        <p class="text-muted mb-4">Transform your freelancing journey with our platform. Access a wide range of projects, connect directly with potential clients, and build your professional portfolio. Our tools help you focus on what matters most - delivering exceptional work while we handle the administrative tasks.</p>
+        <%= link_to "Join the Community", "#", class: "btn btn-primary main-cta-button" %>
+      </div>
+      <div class="col-lg-6">
+        <div class="notion-image-container">
+          <%= image_tag "https://images.prismic.io/malt-cms-marketing/1bd45af1-d7de-430c-a4a8-9c530e8b0dc6_2022_REBRAND_WEBSITE_HOME_CONTENT-1.png",
+              class: "img-fluid notion-image",
+              alt: "Freelancer working" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section Businesses -->
+  <div class="container py-5 border-top">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 order-lg-2">
+        <h2 class="h2 mb-4">Find the Perfect Talent for Your Business</h2>
+        <p class="text-muted mb-4">Discover qualified professionals who can bring your projects to life. Our platform connects you with skilled freelancers across various domains. Post your project, review profiles, and collaborate seamlessly - all in one place. Find the expertise you need, when you need it.</p>
+        <%= link_to "Post a Project", "#", class: "btn btn-primary main-cta-button" %>
+      </div>
+      <div class="col-lg-6 order-lg-1">
+        <div class="notion-image-container">
+          <%= image_tag "https://images.prismic.io/malt-cms-marketing/5dfe75b2-3104-4ad2-a14f-757be59cf1e4_2022_REBRAND_WEBSITE_HOME_CONTENT-2.png",
+              class: "img-fluid notion-image",
+              alt: "Business team meeting" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories Section -->
+  <div class="container py-5 border-top">
+    <h2 class="mb-4">Popular Categories</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="notion-category-card">
+          <i class="fas fa-code"></i>
+          <div>
+            <h4>Development</h4>
+            <span>2,345 experts</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="notion-category-card">
+          <i class="fas fa-paint-brush"></i>
+          <div>
+            <h4>Design</h4>
+            <span>1,892 experts</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="notion-category-card">
+          <i class="fas fa-chart-bar"></i>
+          <div>
+            <h4>Marketing</h4>
+            <span>1,556 experts</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Section -->
+  <div class="container py-5 border-top">
+    <div class="row text-center g-4">
+      <div class="col-md-4">
+        <div class="notion-stat">
+          <h2>800K+</h2>
+          <p>Freelancers</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="notion-stat">
+          <h2>70K+</h2>
+          <p>Clients</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="notion-stat">
+          <h2>95%</h2>
+          <p>Satisfaction Rate</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="notion-footer py-5 bg-light">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-3">
+          <h5>MoFreelance</h5>
+          <p class="text-muted">Connecting talent with opportunity.</p>
+        </div>
+        <div class="col-md-3">
+          <h5>For Clients</h5>
+          <ul class="list-unstyled">
+            <li><a href="#">Find Talent</a></li>
+            <li><a href="#">Post a Project</a></li>
+            <li><a href="#">Project Management</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5>For Freelancers</h5>
+          <ul class="list-unstyled">
+            <li><a href="#">Find Work</a></li>
+            <li><a href="#">Create Profile</a></li>
+            <li><a href="#">Community</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5>Resources</h5>
+          <ul class="list-unstyled">
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-top mt-4 pt-4">
+        <p class="text-muted text-center mb-0">&copy; 2025 MoFreelance. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</div>

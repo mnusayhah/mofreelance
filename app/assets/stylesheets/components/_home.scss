@@ -1,0 +1,379 @@
+// Animations
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notion-style {
+  // Variables
+  $notion-bg: #ffffff;
+  $notion-gray: #f5f5f5;
+  $notion-border: #e0e0e0;
+  $notion-text: #37352f;
+  $notion-primary: #2563eb;
+  $notion-text-dark: #1a1a1a;
+
+  background-color: $notion-bg;
+  color: $notion-text;
+
+  // Hero Section
+  .hero-section {
+    position: relative;
+    margin-bottom: 2rem;
+    border-radius: 0 0 2rem 2rem;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url("https://images.unsplash.com/photo-1572021335469-31706a17aaef?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.9;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    }
+  }
+
+  // Hero Content
+  .hero-content {
+    position: relative;
+    animation: fadeInUp 0.6s ease-out;
+    z-index: 2;
+
+    h1 {
+      color: white;
+      letter-spacing: -0.02em;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .lead {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.9);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  // Search
+  .notion-search {
+    background-color: $notion-gray;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+
+    &:focus-within {
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control, .input-group-text {
+      background-color: transparent;
+      padding: 1.5rem;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+
+    .input-group-text {
+      padding-left: 2rem;
+      .search-icon {
+        font-size: 1.2rem;
+        color: rgba($notion-text, 0.6);
+      }
+    }
+
+    .search-input {
+      font-size: 1.2rem;
+      padding: 1.5rem;
+      transition: background-color 0.3s ease;
+
+      &::placeholder {
+        color: rgba($notion-text, 0.5);
+        font-size: 1.2rem;
+      }
+
+      &:focus {
+        background-color: white;
+        & ~ .input-group-text {
+          background-color: white;
+        }
+      }
+    }
+
+    .search-button {
+      padding: 0 2rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin: 0.5rem;
+      transition: all 0.3s ease;
+      background-color: $notion-primary;
+      border-color: $notion-primary;
+
+      &:hover {
+        transform: translateY(-2px);
+        background-color: darken($notion-primary, 5%);
+        border-color: darken($notion-primary, 5%);
+      }
+    }
+  }
+
+  // Cards
+  .notion-card {
+    background-color: $notion-gray;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    height: 100%;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+
+    @for $i from 1 through 4 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 0.1}s;
+      }
+    }
+
+    &:hover {
+      background-color: white;
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .notion-card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: $notion-text-dark;
+    }
+
+    p {
+      color: rgba($notion-text, 0.7);
+      margin-bottom: 0;
+    }
+  }
+
+  // Category Cards
+  .notion-category-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: $notion-gray;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    i {
+      font-size: 1.25rem;
+      color: $notion-primary;
+    }
+
+    h4 {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+      color: $notion-text-dark;
+    }
+
+    span {
+      font-size: 0.875rem;
+      color: rgba($notion-text, 0.6);
+    }
+  }
+
+  // Stats
+  .notion-stat {
+    h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, $notion-primary, darken($notion-primary, 15%));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p {
+      color: rgba($notion-text, 0.7);
+      margin-bottom: 0;
+      font-size: 1.1rem;
+    }
+  }
+
+  // Image Container styles
+  .notion-image-container {
+    padding: 1rem;
+    background-color: $notion-gray;
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .notion-image {
+      border-radius: 0.5rem;
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  // Heading styles
+  h2 {
+    font-weight: 600;
+    color: $notion-text-dark;
+  }
+
+  // Main Call-to-Action Buttons
+  .main-cta-button {
+    font-size: 1.25rem;
+    font-weight: 500;
+    padding: 1rem 2.5rem;
+    transition: all 0.3s ease;
+    background-color: $notion-primary;
+    border-color: $notion-primary;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background-color: darken($notion-primary, 5%);
+      border-color: darken($notion-primary, 5%);
+    }
+  }
+
+  // Company Logos
+  .company-logos {
+    .company-logo {
+      height: 30px;
+      width: auto;
+      opacity: 0.6;
+      transition: all 0.3s ease;
+      margin: 0 2rem;
+
+      &:hover {
+        opacity: 1;
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  // Footer
+  .notion-footer {
+    background-color: $notion-gray;
+
+    h5 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: $notion-text-dark;
+    }
+
+    ul {
+      li {
+        margin-bottom: 0.5rem;
+
+        a {
+          color: rgba($notion-text, 0.7);
+          text-decoration: none;
+          transition: all 0.2s ease;
+
+          &:hover {
+            color: $notion-primary;
+            transform: translateX(2px);
+          }
+        }
+      }
+    }
+  }
+
+  // Responsive Styles
+  @media (max-width: 768px) {
+    .hero-content {
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .lead {
+        font-size: 1.1rem;
+      }
+    }
+
+    .company-logos {
+      .row {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 1rem;
+        -webkit-overflow-scrolling: touch;
+
+        &::-webkit-scrollbar {
+          height: 4px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: rgba($notion-text, 0.2);
+          border-radius: 2px;
+        }
+      }
+
+      .company-logo {
+        height: 20px;
+        margin: 1rem;
+      }
+    }
+
+    .notion-search {
+      .form-control, .input-group-text {
+        padding: 1rem;
+      }
+
+      .form-control {
+        font-size: 1rem;
+      }
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+
+    .main-cta-button {
+      font-size: 1.1rem;
+      padding: 0.75rem 2rem;
+    }
+
+    .notion-card {
+      padding: 1.5rem;
+    }
+  }
+}

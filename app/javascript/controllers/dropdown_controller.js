@@ -9,6 +9,8 @@ export default class extends Controller {
   }
 
   toggle() {
+  toggle(event) {
+    event.preventDefault(); // Prevents unwanted link behavior
     this.menuTarget.classList.toggle("hidden");
   }
 }

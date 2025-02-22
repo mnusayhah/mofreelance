@@ -2,7 +2,37 @@ module Freelancer
   class SharedProjectsController < ApplicationController
     before_action :authenticate_user!
     before_action :ensure_freelancer!
+    before_action :set_shared_project, only: [:update]
 
+    def share_project
+      @project = Project.find(params[:id])
+      @freelancer = User.find(params[:freelancer_id])
+
+      @shared_project = SharedProject.create(
+        project: @project,
+        freelancer: @freelancer,
+        status: :pending
+      )
+
+      # Update the project status to pending
+      @project.update(status: :pending)
+
+      # Additional logic if needed (redirect, success message, etc.)
+    end
+
+    def update
+      if @shared_project.update(shared_project_params)
+        if @shared_project.accepted? && @shared_project.project.status != 'ongoing'
+          @shared_project.project.update(status: :ongoing)
+        end
+        respond_to do |format|
+          format.html { redirect_to @shared_project, notice: "Project status updated successfully." }
+          format.js   # This will handle remote updates (AJAX)
+        end
+      else
+        render :show
+      end
+    end
 
     # GET freelancer/shared_projects
     def index
@@ -43,6 +73,7 @@ module Freelancer
 
 
     private
+
     def ensure_freelancer!
       unless current_user.role == "freelancer"
         redirect_to root_path, alert: "Access denied! You must be a freelancer."

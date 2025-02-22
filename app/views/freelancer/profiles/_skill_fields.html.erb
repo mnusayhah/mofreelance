@@ -1,0 +1,23 @@
+<div class="nested-fields">
+  <div class="mb-3">
+    <%= f.input :job_title, label: "Job Title" %>
+  </div>
+  <div class="mb-3">
+    <%= f.input :company, label: "Company" %>
+  </div>
+  <div class="mb-3">
+    <%= f.input :start_date, as: :date, label: "Start date" %>
+  </div>
+  <div class="mb-3">
+    <%= f.input :end_date, as: :date, label: "End date" %>
+  </div>
+  <div class="mb-3">
+    <%= f.input :description, label: "Description" %>
+  </div>
+  <div class="mb-3">
+    <%= f.input :localisation, label: "Location" %>
+  </div>
+  <div class="mb-3">
+    <%= link_to_remove_association "Delete this experience", f, class: "btn btn-danger" %>
+  </div>
+</div>

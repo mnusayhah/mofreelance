@@ -1,4 +1,4 @@
-<%= simple_form_for [current_user, @project] do |f| %>
+<%= simple_form_for [:enterprise, @project] do |f| %>
   <% if @project.errors.any? %>
     <div class="alert alert-danger">
       <h4>Form contains errors:</h4>

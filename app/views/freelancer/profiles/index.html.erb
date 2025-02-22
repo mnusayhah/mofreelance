@@ -1,39 +1,99 @@
-<div class="container mt-5">
-  <h1 class="mb-4">Nos freelances disponibles</h1>
+<!-- Header avec image de fond -->
+<div
+  class="mb-5"
+  style="
+    background-image: url('https://images.pexels.com/photos/7130538/pexels-photo-7130538.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 300px;
+    position: relative;
+  "
+>
+  <!-- Titre centré -->
+  <div
+    class="container h-100 d-flex align-items-center justify-content-center"
+    style="position: relative; z-index: 1;"
+  >
+    <h1 class="fw-bold">Explore our freelancer alents</h1>
+  </div>
+</div>
 
-  <div class="row">
+<div class="container mt-5">
+    <h2 class="fw-bold mb-3">All our talents</h2>
+  <p class="lead mb-5">
+    Browse through our community of skilled freelancers. Whether you're looking for a developer, a designer, or any other professional, you'll find the perfect match for your project right here.
+  </p>
+  <!-- Barre de recherche -->
+<div class="container mb-5">
+  <form class="row g-3 align-items-center">
+    <div class="col-12 col-md-8">
+      <div class="input-group">
+        <!-- Icône de recherche Font Awesome -->
+        <span class="input-group-text bg-white border-end-0">
+          <i class="fas fa-search text-muted"></i>
+        </span>
+        <input
+          type="text"
+          class="form-control border-start-0"
+          placeholder="Rechercher un freelance (nom, compétence, etc.)"
+        >
+      </div>
+    </div>
+    <div class="col-12 col-md-4 text-md-start text-center">
+      <button type="submit" class="btn btn-primary">
+        Rechercher
+      </button>
+    </div>
+  </form>
+<div class="row mt-5">
     <% @profiles.each do |profile| %>
       <div class="col-md-4">
-        <div class="card shadow-sm mb-4">
-          <!-- Avatar -->
+        <div class="card mb-4 border-0 shadow-sm" style="overflow: hidden;">
+          <!-- Image en fond (freelance photo) -->
+          <div class="position-relative" style="height: 200px;">
+            <%= image_tag(
+              "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",
+              alt: "Avatar",
+              style: "width: 100%; height: 100%; object-fit: cover;"
+            ) %>
+            <!-- Overlay assombri -->
+            <div
+              class="position-absolute top-0 start-0 w-100 h-100"
+              style="background-color: rgba(0,0,0,0.4);"
+            ></div>
+            <!-- Nom + Titre du freelance -->
+            <div
+              class="position-absolute bottom-0 start-0 text-white p-3"
+              style="z-index: 1;"
+            >
+              <h5 class="fw-bold mb-1">
+                <%= profile.user.first_name %> <%= profile.user.last_name %>
+              </h5>
+              <p class="text-light fw-semibold mb-0">
+                <%= profile.title %>
+              </p>
+            </div>
           </div>
 
+          <!-- Corps de la carte -->
           <div class="card-body text-center">
-            <!-- Nom & Titre -->
-            <h5 class="fw-bold"><%= profile.title %></h5>
-            <p class="text-muted"><%= profile.address %></p>
+            <p class="text-muted mb-2"><i class="fa-solid fa-map-pin"></i> <%= profile.address %></p>
 
-            <!-- Compétences -->
-            <div class="mb-3">
-              <% profile.skills.split(',').first(5).each do |skill| %>
-                <span class="badge bg-primary me-1"><%= skill %></span>
-              <% end %>
-            </div>
+            <!-- Technical Skills -->
+            <% if profile.tech_skills.present? %>
+              <div class="mb-3">
+                <% profile.tech_skills.split(',').first(5).each do |tech_skill| %>
+                  <span class="me-1"><%= tech_skill.strip %></span>
+                <% end %>
+              </div>
+            <% end %>
 
             <!-- Taux horaire -->
-            <p class="fw-bold">
-              <i class="bi bi-cash-coin"></i> <%= number_to_currency(profile.hourly_rate, unit: "€", format: "%n %u") %> / heure
+            <p class="fw-bold mb-2">
+              <i class="bi bi-cash-coin"></i>
+              <%= number_to_currency(profile.hourly_rate, unit: "Rs", format: "%n %u") %> / hour
             </p>
-
-            <!-- Disponibilité -->
-            <% case profile.availability_status %>
-              <% when "available" %>
-                <span class="badge bg-success">Disponible</span>
-              <% when "busy" %>
-                <span class="badge bg-warning">Occupé</span>
-              <% else %>
-                <span class="badge bg-danger">Non disponible</span>
-            <% end %>
 
             <!-- Bouton voir le profil -->
             <div class="mt-3">
