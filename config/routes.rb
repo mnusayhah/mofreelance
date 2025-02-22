@@ -82,8 +82,10 @@ Rails.application.routes.draw do
 
   # Enterprise Routes
   namespace :enterprise do
-    get "dashboard", to: "dashboards#show"
-
+    
+    resource :dashboard, only: [:show] do
+      get 'projects', to: 'dashboards#projects'
+    end
     resources :projects, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
       resources :shared_projects, only: [:edit, :update]
     end

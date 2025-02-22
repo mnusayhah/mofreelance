@@ -1,0 +1,33 @@
+<div class="dashboard-main" style="flex-grow: 1;" data-dashboard-target="mainContent">
+    <!-- The content that gets updated by Stimulus -->
+    <h3>My Projects</h3>
+    <turbo-frame id="projects_frame">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Project Name</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if projects.present? %>
+            <% @projects.each do |project| %>
+              <tr>
+                <td><%= link_to project.title, enterprise_project_path(project) %></td>
+                <td><%= project.start_date.strftime('%B %d, %Y') %></td>
+                <td><%= project.end_date.strftime('%B %d, %Y') %></td>
+                <td><%= link_to 'Edit', edit_enterprise_project_path(project) %></td>
+                <td><%= project.status %></td>
+              </tr>
+            <% end %>
+          <% else %>
+          <p>No projects found.</p>
+          <% end %>
+        </tbody>
+      </table>
+    </turbo-frame>
+  </div>
+

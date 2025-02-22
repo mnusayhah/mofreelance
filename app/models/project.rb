@@ -5,6 +5,8 @@ class Project < ApplicationRecord
   has_many :shared_projects, dependent: :destroy
   has_many :reviews, dependent: :destroy
 
+  enum status: {open: 0, pending: 1, ongoing: 2, paid: 3, completed: 4, archived: 5}
+
   after_update :create_discussion_if_accepted
 
   private

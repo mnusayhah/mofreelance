@@ -1,16 +1,17 @@
 module Enterprise
-  class DashboardController < ApplicationController
+  class DashboardsController < ApplicationController
     before_action :authenticate_user!
 
-    def company
+    def enterprise
       @user = current_user
       @projects = current_user.projects
-      @ongoing_projects = @user.projects.where(status: 'ongoing')
-      @archived_projects = @user.projects.where(status: 'archived')
+
     end
 
     def dashboard
-      @projects = current_user.projects.ongoing
+      @ongoing_projects = current_user.projects.where(status: 2)
+      @archived_projects = current_user.projects.where(status: 5)
+      # @projects = current_user.projects.ongoing
       render partial: "projects_table", locals: { projects: @projects }
     end
 
