@@ -24,3 +24,14 @@ export default class extends Controller {
     this.menuTarget.classList.toggle("hidden");
   }
 }
+
+// app/javascript/controllers/application.js
+import { Application } from "@hotwired/stimulus"
+
+const application = Application.start()
+
+// Configure Stimulus application.outputTarget to log messages to the console
+application.debug = false
+window.Stimulus   = application
+
+export { application }

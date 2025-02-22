@@ -6,7 +6,7 @@ export default class extends Controller {
   performSearch() {
     const query = this.queryTarget.value;
 
-    fetch(`/profiles?query=${query}`, {
+    fetch(`freelancer/profiles?query=${query}`, {
       headers: { "Accept": "text/vnd.turbo-stream.html" }
     })
       .then(response => response.text())
