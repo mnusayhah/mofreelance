@@ -1,0 +1,29 @@
+<turbo-frame id="profiles_frame">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Skills</th>
+        <th>Experience</th>
+        <th>Hourly Rate</th>
+        <th>Availability</th>
+        <th>Language</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    <% if profiles.present? %>
+      <% profiles.each do |profile| %>
+        <tr>
+          <td><%= profile.title %></td>
+          <td><%= profile.skills %></td>
+          <td><%= profile.years_of_experience %> years</td>
+          <td>$<%= profile.hourly_rate %>/hr</td>
+          <td><%= profile.availability_status %></td>
+          <td><%= profile.language %></td>
+        </tr>
+      <% end %>
+    <% end %>
+    </tbody>
+  </table>
+</turbo-frame>

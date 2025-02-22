@@ -60,7 +60,11 @@
 
 .sidebar ul li a {
   text-decoration: none;
-  color: white;
+  color: black;
   display: block;
   padding: 8px 0;
+}
+
+.dropdown-item.dropdown-content:hover {
+  display: none;
 }
