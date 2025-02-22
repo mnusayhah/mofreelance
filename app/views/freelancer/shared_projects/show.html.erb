@@ -1,0 +1,22 @@
+<% if @shared_project&.project.present? %>
+  <h1>Project: <%= @shared_project.project.title %> </h1>
+    <p><strong>Project Name:</strong> <%= @shared_project.project.title %></p>
+    <p><strong>Project Description:</strong> <%= @shared_project.project.description %></p>
+    <p><strong>Project Budget:</strong> <%= @shared_project.project.budget %></p>
+    <p><strong>Project Status:</strong> <%= @shared_project.project.status %></p>
+    <p><strong>Project Start Date:</strong> <%= @shared_project.project.start_date %></p>
+    <p><strong>Project Due Date:</strong> <%= @shared_project.project.end_date %></p>
+    <p><strong>Project Required Skills:</strong> <%= @shared_project.project.required_skills %></p>
+
+
+    <%# <p><strong>Collaborators:</strong> <%= @shared_project.freelancer @shared_project.project.user %>
+
+
+    <%# <div id="review-form-container">
+      <%= render partial: "reviews/form", locals: { review: Review.new, project_id: @shared_project.project.id, rated_user_id: @shared_project.freelancer.id } %>
+    <%# </div> %>
+<% else %>
+  <p class="alert alert-danger">You do not have any project yet.</p>
+<% end %>
+<!-- You can also display a link to go back to the previous page -->
+<%= link_to 'Back to My Projects', freelancer_shared_projects_path, class: 'btn btn-secondary mt-3' %>

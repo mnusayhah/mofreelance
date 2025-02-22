@@ -4,5 +4,17 @@ class Project < ApplicationRecord
   has_many :discussions, dependent: :destroy
   has_many :shared_projects, dependent: :destroy
   has_many :reviews, dependent: :destroy
+
+  enum status: {open: 0, pending: 1, ongoing: 2, paid: 3, completed: 4, archived: 5}
+
+  after_update :create_discussion_if_accepted
+
+  private
+
+  def create_discussion_if_accepted
+    if self.saved_change_to_status? && self.status == "accepted"
+      Discussion.find_or_create_by(project: self)
+    end
+  end
   has_many :freelancers, through: :shared_projects, source: :user
 end
