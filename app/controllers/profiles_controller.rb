@@ -4,7 +4,11 @@ class ProfilesController < ApplicationController
 
   # Afficher la liste des profils de freelances
   def index
-    @profiles = Profile.joins(:user).where(users: {role: :freelancer})
+    @profiles = if params[:q].present?
+      Profile.where("title ILIKE :query OR skills ILIKE :query OR language ILIKE :query", query: "%#{params[:q]}%")
+    else
+      Profile.joins(:user).where(users: {role: :freelancer})
+    end
   end
 
   # Afficher un profil en détail d'un freelance

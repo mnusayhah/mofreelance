@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   #get 'dashboard/company'
   #get 'dashboard/freelancer'
 
-  # get 'reviews/new'
+  get 'reviews/test'
   # get 'reviews/create'
   # get 'reviews/show'
   # get 'reviews/edit'

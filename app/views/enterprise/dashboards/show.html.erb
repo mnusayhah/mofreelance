@@ -9,18 +9,10 @@
         Projects
       </button>
       <ul class="dropdown-menu">
-        <li>
-          <%= link_to 'My Projects', enterprise_projects_path(current_user), data: { action: "click->dashboard#changeContent" } %>
-        </li>
-        <li>
-          <%= link_to 'Ongoing Projects', enterprise_projects_path(status: 2), data: { action: "click->dashboard#changeContent" } %>
-        </li>
-        <li>
-          <%= link_to 'Archived Projects', enterprise_projects_path(status: 5), data: { action: "click->dashboard#changeContent" } %>
-        </li>
-        <li>
-          <%= link_to 'Create New Project', new_enterprise_project_path(current_user), data: { action: "click->dashboard#changeContent" } %>
-        </li>
+        <li><%= link_to 'My Projects', enterprise_projects_path, class: "dropdown-item", data: { action: "click->dashboard#changeContent" } %></li>
+        <li><%= link_to 'Ongoing Projects', enterprise_projects_path(status: 2), class: "dropdown-item", data: { action: "click->dashboard#changeContent" } %></li>
+        <li><%= link_to 'Archived Projects', enterprise_projects_path(status: 5), class: "dropdown-item", data: { action: "click->dashboard#changeContent" } %></li>
+        <li><%= link_to 'Create New Project', new_enterprise_project_path, class: "dropdown-item", data: { action: "click->dashboard#changeContent" } %></li>
       </ul>
     </div>
 
