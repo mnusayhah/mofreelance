@@ -3,8 +3,8 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   static targets = ["menu"];
 
-  toggle(event) {
-    event.preventDefault(); // Prevents unwanted link behavior
+  toggle() {
+    // Toggle the dropdown menu's visibility
     this.menuTarget.classList.toggle("hidden");
   }
 }

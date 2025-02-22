@@ -4,11 +4,12 @@
   <!-- Sidebar -->
   <div class="sidebar" style="width: 250px; margin-right: 20px;">
     <!-- Dropdown for Projects -->
-    <div class="dropdown">
-      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <div class="dropdown" data-controller="dropdown">
+      <!-- Button for Dropdown -->
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-action="click->dropdown#toggle">
         Projects
       </button>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu" data-dropdown-target="menu">
         <li>
           <%= link_to 'My Projects', enterprise_projects_path(current_user), data: { action: "click->dashboard#changeContent" } %>
         </li>
