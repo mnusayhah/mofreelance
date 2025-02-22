@@ -4,6 +4,19 @@ module Freelancer
     before_action :ensure_freelancer!
     before_action :set_shared_project, only: [:update]
 
+    def index
+      @projects = SharedProjectProject.where(status: params[:status]) # Fetch projects dynamically
+
+      respond_to do |format|
+        format.html # Normal request (for full page loads)
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.update("projects_frame",
+            partial: "projects_list", locals: { projects: @projects }
+          )
+        end
+      end
+    end
+
     def share_project
       @project = Project.find(params[:id])
       @freelancer = User.find(params[:freelancer_id])

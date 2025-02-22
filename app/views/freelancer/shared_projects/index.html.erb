@@ -1,51 +1,50 @@
-<h1>My Projects</h1>
+<h1>My Projects></h1>
+    <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Enterprise</th>
+        <th>Project Title</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Status</th>
 
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th>Enterprise</th>
-      <th>Project Title</th>
-      <th>Start Date</th>
-      <th>End Date</th>
-      <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% if @shared_projects.present? %>
+          <% @shared_projects.each do |shared_project| %>
+            <tr>
+              <!-- Display Project Info -->
+              <td><%= shared_project.project.user.company %></td>
+              <td><%= shared_project.project.title %></td>
+              <td><%= shared_project.project.start_date %></td>
+              <td><%= shared_project.project.end_date %></td>
+              <td><%= shared_project.project.status.capitalize %></td>
 
-    </tr>
-  </thead>
-  <tbody>
-      <% if @shared_projects.present? %>
-        <% @shared_projects.each do |shared_project| %>
-          <tr>
-            <!-- Display Project Info -->
-            <td><%= shared_project.project.user.company %></td>
-            <td><%= shared_project.project.title %></td>
-            <td><%= shared_project.project.start_date %></td>
-            <td><%= shared_project.project.end_date %></td>
-            <td><%= shared_project.project.status.capitalize %></td>
-
-            <!-- Actions -->
-            <td>
-              <%= link_to 'View', enterprise_project_path(shared_project.project), class: 'btn btn-info' %>
-            </td>
-            <td>
-            <% if shared_project.status == 'pending' %>
-              <%= form_for(shared_project, url: shared_project_path(shared_project), method: :put, remote: true) do |f| %>
-                <%= f.label :status, "Choose Action" %>
-                <%= f.select :status, options_for_select([['Accept', 'accepted'], ['Decline', 'declined']], shared_project.status) %>
-                <%= f.submit "Update Status", class: "btn btn-primary" %>
+              <!-- Actions -->
+              <td>
+                <%= link_to 'View', enterprise_project_path(shared_project.project), class: 'btn btn-info' %>
+              </td>
+              <td>
+              <% if shared_project.status == 'pending' %>
+                <%= form_for(shared_project, url: shared_project_path(shared_project), method: :put, remote: true) do |f| %>
+                  <%= f.label :status, "Choose Action" %>
+                  <%= f.select :status, options_for_select([['Accept', 'accepted'], ['Decline', 'declined']], shared_project.status) %>
+                  <%= f.submit "Update Status", class: "btn btn-primary" %>
+                <% end %>
+              <% else %>
+                <!-- If already accepted or declined, show the status as text -->
+                <span class="badge <%= shared_project.status == 'accepted' ? 'badge-success' : 'badge-danger' %>">
+                  <%= shared_project.status.capitalize %>
+                </span>
               <% end %>
-            <% else %>
-              <!-- If already accepted or declined, show the status as text -->
-              <span class="badge <%= shared_project.status == 'accepted' ? 'badge-success' : 'badge-danger' %>">
-                <%= shared_project.status.capitalize %>
-              </span>
-            <% end %>
-          </td>
+            </td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <td colspan="3" class="text-center"><em>No projects found.</em></td>
           </tr>
         <% end %>
-      <% else %>
-        <tr>
-          <td colspan="3" class="text-center"><em>No projects found.</em></td>
-        </tr>
-      <% end %>
-    </tbody>
-</table>
+      </tbody>
+  </table>

@@ -1,4 +1,4 @@
-<%= simple_form_for @profile, html: { multipart: true, class: "container mt-5" } do |f| %>
+<%= simple_form_for [:freelancer, @profile], html: { multipart: true, class: "container mt-5" } do |f| %>
   <div class="card shadow-sm">
     <!-- En-tête -->
     <div class="card-header bg-primary text-white">
@@ -62,11 +62,11 @@
       <h4 class="mb-3">Experiences</h4>
       <div id="skills" class="mb-3">
         <%= f.simple_fields_for :skills do |skill_form| %>
-          <%= render 'profiles/skill_fields', f: skill_form %>
+          <%= render 'freelancer/profiles/skill_fields', f: skill_form %>
         <% end %>
       </div>
       <div class="mb-3">
-        <%= link_to_add_association "Add Experience", f, :skills, partial: 'profiles/skill_fields', class: "btn btn-secondary" %>
+        <%= link_to_add_association "Add Experience", f, :skills, partial: 'freelancer/profiles/skill_fields', class: "btn btn-secondary" %>
       </div>
 
       <hr class="my-4">
@@ -75,11 +75,11 @@
       <h4 class="mb-3">Education</h4>
       <div id="educations" class="mb-3">
         <%= f.simple_fields_for :educations do |education_form| %>
-          <%= render 'profiles/education_fields', f: education_form %>
+          <%= render 'freelancer/profiles/education_fields', f: education_form %>
         <% end %>
       </div>
       <div class="mb-3">
-        <%= link_to_add_association "Add Education", f, :educations, partial: 'profiles/education_fields', class: "btn btn-secondary" %>
+        <%= link_to_add_association "Add Education", f, :educations, partial: 'freelancer/profiles/education_fields', class: "btn btn-secondary" %>
       </div>
     </div>
 
