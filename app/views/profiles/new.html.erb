@@ -1,38 +1,69 @@
-<%= simple_form_for @profile do |f| %>
+<%= simple_form_for @profile, html: { multipart: true } do |f| %>
+  <!-- Informations du profil -->
   <div class="mb-3">
-    <%= f.input :title, label: "Titre du profil" %>
+    <%= f.input :title, label: "Job title" %>
   </div>
 
   <div class="mb-3">
-    <%= f.input :bio, as: :text, label: "Biographie" %>
+    <%= f.input :bio, as: :text, label: "Bio" %>
   </div>
 
   <div class="mb-3">
-    <%= f.input :address, label: "Adresse" %>
+    <%= f.input :address, label: "Adress" %>
   </div>
 
   <div class="mb-3">
-    <%= f.input :years_of_experience, label: "Années d'expérience" %>
+    <%= f.input :years_of_experience,
+          collection: ['0-2years', '3-7years', '8-15years', '16+years'],
+          label: "Years of experience",
+          prompt: "Select experience range" %>
   </div>
 
   <div class="mb-3">
-    <%= f.input :hourly_rate, label: "Taux horaire (€)" %>
+    <%= f.input :hourly_rate, label: "Rates (Rs)" %>
   </div>
 
   <div class="mb-3">
-    <%= f.input :availability_status, collection: ["available", "busy", "unavailable"], label: "Statut de disponibilité" %>
+    <%= f.input :availability_status,
+          collection: ["available", "busy", "unavailable"],
+          label: "Availability" %>
   </div>
 
   <div class="mb-3">
-    <%= f.input :language, label: "Langue" %>
-  </div>
-
-  <!-- Si tu gères un avatar avec Active Storage + Cloudinary -->
-  <div class="mb-3">
-    <%= f.input :avatar, as: :file, label: "Photo de profil" %>
+    <%= f.input :language,
+          collection: ['french', 'english', 'spanish', 'italian', 'german'],
+          label: "Language",
+          prompt: "Select language" %>
   </div>
 
   <div class="mb-3">
-    <%= f.button :submit, "Enregistrer", class: "btn btn-primary" %>
+    <%= f.input :avatar, as: :file, label: "Profil picture" %>
+  </div>
+
+  <!-- Section Skills -->
+  <h3>Experiences</h3>
+  <div id="skills">
+    <%= f.simple_fields_for :skills do |skill_form| %>
+      <%= render 'skill_fields', f: skill_form %>
+    <% end %>
+  </div>
+  <div class="mb-3">
+    <%= link_to_add_association "Add an experience", f, :skills, partial: 'skill_fields', class: "btn btn-secondary" %>
+  </div>
+
+  <!-- Section Educations -->
+  <h3>Formations</h3>
+  <div id="educations">
+    <%= f.simple_fields_for :educations do |education_form| %>
+      <%= render 'education_fields', f: education_form %>
+    <% end %>
+  </div>
+  <div class="mb-3">
+    <%= link_to_add_association "Add an education", f, :educations, partial: 'education_fields', class: "btn btn-secondary" %>
+  </div>
+
+  <!-- Bouton de soumission -->
+  <div class="mb-3">
+    <%= f.button :submit, "Save", class: "btn btn-primary" %>
   </div>
 <% end %>

@@ -1,111 +1,99 @@
-<!-- app/views/profiles/show.html.erb -->
 <div class="container mt-5">
-
-  <!-- En-tête du profil -->
   <div class="row">
-    <div class="col-md-3 text-center">
-      <!-- Photo de profil (avatar), si tu utilises Cloudinary + Active Storage -->
-      <img
-        src="https://via.placeholder.com/150"
-        alt="Avatar"
-        class="rounded-circle img-fluid mb-3"
-      >
+    <!-- Colonne de gauche : Photo et informations principales -->
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-body text-center">
+          <!-- Photo de profil -->
+          <img src="https://via.placeholder.com/150" alt="Avatar" class="rounded-circle img-fluid mb-3">
+          <!-- Nom & Job title -->
+          <h3 class="card-title"><%= @profile.user.first_name %> <%= @profile.user.last_name %></h3>
+          <p class="card-text"><strong><%= @profile.title %></strong></p>
+          <!-- Langue et Adresse -->
+          <p class="mb-1"><i class="bi bi-geo-alt"></i> <%= @profile.address %></p>
+          <p class="mb-1 text-muted"><%= @profile.language.capitalize %></p>
+          <!-- Disponibilité -->
+          <p class="mb-0"><span class="badge bg-info"><%= @profile.availability_status.capitalize %></span></p>
+        </div>
+      </div>
     </div>
 
-    <div class="col-md-9">
-      <h1 class="h3">
-        <!-- Nom du freelance (depuis user) -->
-        <%= @profile.user.first_name %> <%= @profile.user.last_name %>
-      </h1>
-      <p class="text-muted">
-        <!-- Titre du freelance (depuis profile) -->
-        <%= @profile.title %> — <%= @profile.years_of_experience %> ans d'expérience
-      </p>
-      <p>
-        <!-- Bio du freelance -->
-        <%= @profile.bio %>
-      </p>
-      <p>
-        <!-- Adresse et taux horaire -->
-        <strong>Adresse :</strong> <%= @profile.address %><br>
-        <strong>Taux horaire :</strong> <%= @profile.hourly_rate %> € / heure
-      </p>
-      <p>
-        <!-- Langue & statut de disponibilité -->
-        <strong>Langue :</strong> <%= @profile.language %><br>
-        <strong>Disponibilité :</strong> <%= @profile.availability_status %>
-      </p>
-    </div>
-  </div>
+    <!-- Colonne de droite : Détails du profil -->
+    <div class="col-md-8">
+      <!-- Bio -->
+      <div class="mb-4">
+        <h4>Bio</h4>
+        <p><%= @profile.bio %></p>
+      </div>
 
-  <hr class="my-4">
-
-  <!-- Formations (Educations) -->
-  <div class="row mb-4">
-    <div class="col-12">
-      <h2 class="h5">Formations</h2>
-      <% if @profile.educations.any? %>
-        <ul class="list-unstyled">
-          <% @profile.educations.each do |education| %>
-            <li class="mb-2">
-              <strong><%= education.school %></strong> - <%= education.diploma %>
-              (<%= education.start_date %> à <%= education.end_date %>)<br>
-              <small class="text-muted"><%= education.localisation %></small>
-            </li>
+      <!-- Expériences / Skills et Formations -->
+      <div class="row">
+        <!-- Expériences / Skills -->
+        <div class="col-md-6">
+          <h5>Expériences / Compétences</h5>
+          <% if @profile.skills.any? %>
+            <% @profile.skills.each do |skill| %>
+              <div class="mb-3 border-bottom pb-2">
+                <h6 class="mb-1">
+                  <strong><%= skill.job_title %></strong>
+                  <small class="text-muted">chez <%= skill.company %></small>
+                </h6>
+                <p class="small text-muted">
+                  <%= skill.start_date.present? ? skill.start_date.strftime("%b %Y") : "-" %>
+                  -
+                  <%= skill.end_date.present? ? skill.end_date.strftime("%b %Y") : "Présent" %>
+                  | <%= skill.localisation %>
+                </p>
+                <p><%= skill.description %></p>
+              </div>
+            <% end %>
+          <% else %>
+            <p class="text-muted">Aucune expérience renseignée.</p>
           <% end %>
-        </ul>
-      <% else %>
-        <p class="text-muted">Aucune formation renseignée.</p>
+        </div>
 
-      <h4 class="fw-bold mt-4">Compétences</h4>
-      <% @profile.skills.split(',').each do |skill| %>
-        <span class="badge bg-primary me-1"><%= skill %></span>
-      <% end %>
-    </div>
-  </div>
-
-  <!-- Compétences / Expériences (Skills) -->
-  <div class="row mb-4">
-    <div class="col-12">
-      <h2 class="h5">Expériences / Compétences</h2>
-      <% if @profile.skills.any? %>
-        <ul class="list-unstyled">
-          <% @profile.skills.each do |skill| %>
-            <li class="mb-2">
-              <strong><%= skill.job_title %></strong> chez <%= skill.company %><br>
-              <small class="text-muted">
-                <%= skill.start_date %> à <%= skill.end_date %> — <%= skill.localisation %>
-              </small><br>
-              <span><%= skill.description %></span>
-            </li>
+        <!-- Formations -->
+        <div class="col-md-6">
+          <h5>Formations</h5>
+          <% if @profile.educations.any? %>
+            <% @profile.educations.each do |edu| %>
+              <div class="mb-3 border-bottom pb-2">
+                <h6 class="mb-1"><strong><%= edu.school %></strong></h6>
+                <p class="small text-muted">
+                  <%= edu.diploma %> (<%= edu.start_date.present? ? edu.start_date.strftime("%Y") : "-" %>
+                  -
+                  <%= edu.end_date.present? ? edu.end_date.strftime("%Y") : "Présent" %>)
+                </p>
+                <p class="small text-muted"><%= edu.localisation %></p>
+              </div>
+            <% end %>
+          <% else %>
+            <p class="text-muted">Aucune formation renseignée.</p>
           <% end %>
-        </ul>
-      <% else %>
-        <p class="text-muted">Aucune expérience renseignée.</p>
-      <% end %>
-    </div>
-  </div>
+        </div>
+      </div>
 
-  <!-- Avis / Reviews -->
-  <div class="row mb-4">
-    <div class="col-12">
-      <h2 class="h5">Avis reçus</h2>
-      <!-- On va chercher les reviews reçues via l'utilisateur lié au profil -->
-        <% @profile.user.received_reviews.each do |review| %>
-          <div class="border p-2 mb-2">
-            <strong>Note :</strong> <%= review.score %>/5<br>
-            <strong>Commentaire :</strong> <%= review.comment %>
-            <!-- Optionnel : afficher l'auteur de la review ou le projet concerné -->
-            <br>
-            <small class="text-muted">
-              Avis laissé par l’utilisateur ID=<%= review.user_id %> sur le projet ID=<%= review.project_id %>
-            </small>
-          </div>
+      <!-- Avis reçus -->
+      <div class="mt-4">
+        <h5>Avis reçus</h5>
+        <% if @profile.user.reviews_received.any? %>
+          <% @profile.user.reviews_received.each do |review| %>
+            <div class="card mb-3">
+              <div class="card-body">
+                <h6 class="card-title">Note : <%= review.score %>/5</h6>
+                <p class="card-text"><%= review.comment %></p>
+                <p class="card-text">
+                  <small class="text-muted">
+                    Par l’utilisateur ID <%= review.user_id %> sur le projet ID <%= review.project_id %>
+                  </small>
+                </p>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <p class="text-muted">Aucun avis pour le moment.</p>
         <% end %>
-      <% else %>
-        <p class="text-muted">Aucun avis pour le moment.</p>
-      <% end %>
+      </div>
     </div>
   </div>
-
 </div>

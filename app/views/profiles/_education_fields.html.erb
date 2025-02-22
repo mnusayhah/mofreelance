@@ -1,0 +1,21 @@
+<!-- app/views/profiles/_education_fields.html.erb -->
+<div class="nested-fields">
+  <div class="mb-3">
+    <%= f.input :school, label: "School / Education" %>
+  </div>
+  <div class="mb-3">
+    <%= f.input :diploma, label: "Diploma" %>
+  </div>
+  <div class="mb-3">
+    <%= f.input :start_date, as: :date, label: "Start date" %>
+  </div>
+  <div class="mb-3">
+    <%= f.input :end_date, as: :date, label: "End" %>
+  </div>
+  <div class="mb-3">
+    <%= f.input :localisation, label: "Localisation" %>
+  </div>
+  <div class="mb-3">
+    <%= link_to_remove_association "Delete this education", f, class: "btn btn-danger" %>
+  </div>
+</div>

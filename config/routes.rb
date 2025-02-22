@@ -55,7 +55,7 @@ Rails.application.routes.draw do
   end
 
     # Routes pour les freelances (seuls leurs profils sont visibles)
-    resources :profiles, only: [:index, :show, :create, :edit, :update, :destroy] do
+    resources :profiles, only: [:index, :new, :show, :create, :edit, :update, :destroy] do
       collection do
         get 'me', to: 'profiles#me'
       end
