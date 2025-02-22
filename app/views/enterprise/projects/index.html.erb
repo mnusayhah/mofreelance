@@ -14,10 +14,10 @@
       <tbody>
         <% @projects.each do |project| %>
           <tr>
-            <td><%= link_to project.title, user_project_path(current_user, project) %></td>
+            <td><%= link_to project.title, enterprise_projects_path(current_user, project) %></td>
             <td><%= project.start_date.strftime('%B %d, %Y') %></td>
             <td><%= project.end_date.strftime('%B %d, %Y') %></td>
-            <td><%= link_to 'Edit', edit_user_project_path(current_user, project) %></td>
+            <%# <td><%= link_to 'Edit', edit_enterprise_project_path(current_user, project) %>
             <td><%= project.status %></td>
           </tr>
         <% end %>
@@ -27,5 +27,5 @@
     <li>No projects available.</li>
   <% end %>
 
-  
+
 </ul>

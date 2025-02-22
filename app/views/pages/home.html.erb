@@ -1,2 +1,80 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="container col-xxl-8 px-4 py-5">
+  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+    <div class="col-10 col-sm-8 col-lg-6">
+      <img src="https://images.prismic.io/malt-cms-marketing/519ed394-38b4-46a6-8b75-b410fa2cb545_2022_REBRAND_WEBSITE_HOME_STONAL.png?auto=enhanced,format&w=1072&h=662" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+    </div>
+    <div class="col-lg-6">
+      <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Entreprises & freelances étaient faits pour se rencontrer</h1>
+      <p class="lead">Trouvez le talent parfait pour propulser vos projets</p>
+    </div>
+  </div>
+</div>
+
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <!-- Barre de recherche -->
+        <div class="d-flex align-items-center p-3 bg-white shadow-sm rounded search-bar">
+          <!-- Formulaire de recherche -->
+          <form class="d-flex align-items-center flex-grow-1" action="<%= freelancer_profiles_path %>" method="get">
+            <div class="input-group rounded me-2">
+              <span class="input-group-text bg-white border-0 rounded-start">
+                <i class="fas fa-search text-muted"></i>
+              </span>
+              <input type="search" name="q" class="form-control border-0 rounded-end"
+                     placeholder='Essayer "Java", "Consultant"...' aria-label="Recherche">
+            </div>
+            <a href="/profiles" class="btn btn-primary rounded">Trouver un freelance</a>
+          </form>
+
+          <!-- Barre de séparation verticale -->
+          <div class="vr mx-3 my-rounded"></div>
+
+          <!-- CTA "Déposer un projet" -->
+          <a href="/users/sign_in" class="btn btn-success rounded">
+            Déposer un projet
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container col-xxl-8 px-4 py-5">
+  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+    <div class="col-10 col-sm-8 col-lg-6">
+      <img src="https://images.prismic.io/malt-cms-marketing/1bd45af1-d7de-430c-a4a8-9c530e8b0dc6_2022_REBRAND_WEBSITE_HOME_CONTENT-1.png?auto=enhanced,format&w=1296&h=710" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+    </div>
+    <div class="col-lg-6">
+      <h3 class="fw-bold text-body-emphasis lh-1 mb-3">Boostez votre carrière freelance</h3>
+      <p class="lead">Recevez des offres de missions en adéquation avec vos compétences et communiquez directement avec 70 000 clients potentiels issus de tous les secteurs.</p>
+      <a href="/users/sign_in" class="btn btn-primary rounded">Rejoindre la communauté</a>
+    </div>
+  </div>
+</div>
+
+<div class="container col-xxl-8 px-4 py-5">
+  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+    <div class="col-lg-6">
+      <h3 class="fw-bold text-body-emphasis lh-1 mb-3">Trouvez le bon profil en deux clics</h3>
+      <p class="lead">Partez à la recherche de votre expert parmi nos 800 000 talentueux freelances ou entrez en contact avec les meilleurs profils disponibles pour votre projet.</p>
+      <a href="/profiles" class="btn btn-primary rounded">Trouver le freelance parfait</a>
+    </div>
+    <div class="col-10 col-sm-8 col-lg-6">
+      <img src="https://images.prismic.io/malt-cms-marketing/5dfe75b2-3104-4ad2-a14f-757be59cf1e4_2022_REBRAND_WEBSITE_HOME_CONTENT-2.png?auto=enhanced,format&w=1296&h=710" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
+    </div>
+  </div>
+</div>
+
+<footer class="bg-dark text-light py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 text-center text-md-start">
+        <p class="mb-0">&copy; 2025 MoFreelance. Tous droits réservés.</p>
+      </div>
+      <div class="col-md-6 text-center text-md-end">
+        <a href="#" class="text-light me-3">Politique de confidentialité</a>
+        <a href="#" class="text-light">Conditions d'utilisation</a>
+      </div>
+    </div>
+  </div>
+</footer>

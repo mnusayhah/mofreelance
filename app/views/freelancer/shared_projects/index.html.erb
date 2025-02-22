@@ -16,7 +16,7 @@
         <% @shared_projects.each do |shared_project| %>
           <tr>
             <!-- Display Project Info -->
-            <td><%= shared_project.project.user %></td>
+            <td><%= shared_project.project.user.company %></td>
             <td><%= shared_project.project.title %></td>
             <td><%= shared_project.project.start_date %></td>
             <td><%= shared_project.project.end_date %></td>
@@ -24,7 +24,7 @@
 
             <!-- Actions -->
             <td>
-              <%= link_to 'View', project_path(shared_project.project), class: 'btn btn-info' %>
+              <%= link_to 'View', enterprise_project_path(shared_project.project), class: 'btn btn-info' %>
             </td>
           </tr>
         <% end %>

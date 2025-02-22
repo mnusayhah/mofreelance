@@ -1,0 +1,9 @@
+<% if projects.present? %>
+  <ul>
+    <% projects.each do |project| %>
+      <li><%= link_to project.title, freelancer_shared_projects_path(project) %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No projects found.</p>
+<% end %>
