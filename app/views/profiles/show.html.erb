@@ -1,99 +1,141 @@
 <div class="container mt-5">
   <div class="row">
-    <!-- Colonne de gauche : Photo et informations principales -->
+    <!-- Colonne gauche : Photo & Informations principales -->
     <div class="col-md-4">
-      <div class="card mb-4">
+      <div class="card mb-4 shadow-sm">
         <div class="card-body text-center">
-          <!-- Photo de profil -->
-          <img src="https://via.placeholder.com/150" alt="Avatar" class="rounded-circle img-fluid mb-3">
-          <!-- Nom & Job title -->
-          <h3 class="card-title"><%= @profile.user.first_name %> <%= @profile.user.last_name %></h3>
-          <p class="card-text"><strong><%= @profile.title %></strong></p>
-          <!-- Langue et Adresse -->
-          <p class="mb-1"><i class="bi bi-geo-alt"></i> <%= @profile.address %></p>
-          <p class="mb-1 text-muted"><%= @profile.language.capitalize %></p>
+          <!-- Avatar -->
+          <% if @profile.avatar.attached? %>
+            <%= image_tag url_for(@profile.avatar), class: "rounded-circle img-fluid mb-3", alt: "Avatar" %>
+          <% else %>
+            <%= image_tag "", class: "rounded-circle img-fluid mb-3", alt: "Avatar" %>
+          <% end %>
+
+          <!-- Nom & Titre -->
+          <h3 class="card-title fw-bold">
+            <%= @profile.user.first_name %> <%= @profile.user.last_name %>
+          </h3>
+          <p class="card-text text-danger fw-bold"><%= @profile.title %></p>
+
+          <!-- Adresse & Langue -->
+          <p class="mb-1">
+            <i class="bi bi-geo-alt"></i> <%= @profile.address %>
+          </p>
+          <p class="mb-1 text-muted">
+            <%= @profile.language.present? ? @profile.language.capitalize : "N/A" %>
+          </p>
           <!-- Disponibilité -->
-          <p class="mb-0"><span class="badge bg-info"><%= @profile.availability_status.capitalize %></span></p>
+          <p class="mb-0">
+            <% case @profile.availability_status %>
+              <% when "available" %>
+                <span class="badge bg-success">Available</span>
+              <% when "busy" %>
+                <span class="badge bg-warning">Busy</span>
+              <% else %>
+                <span class="badge bg-danger">Unavailable</span>
+            <% end %>
+          </p>
         </div>
       </div>
     </div>
 
-    <!-- Colonne de droite : Détails du profil -->
+    <!-- Colonne droite : Détails du profil -->
     <div class="col-md-8">
       <!-- Bio -->
       <div class="mb-4">
-        <h4>Bio</h4>
-        <p><%= @profile.bio %></p>
+        <div class="card shadow-sm">
+          <div class="card-header bg-light">
+            <h4 class="mb-0">Bio</h4>
+          </div>
+          <div class="card-body">
+            <p><%= @profile.bio %></p>
+          </div>
+        </div>
       </div>
 
-      <!-- Expériences / Skills et Formations -->
+      <!-- Expériences & Formations -->
       <div class="row">
-        <!-- Expériences / Skills -->
+        <!-- Expériences / Compétences -->
         <div class="col-md-6">
-          <h5>Expériences / Compétences</h5>
-          <% if @profile.skills.any? %>
-            <% @profile.skills.each do |skill| %>
-              <div class="mb-3 border-bottom pb-2">
-                <h6 class="mb-1">
-                  <strong><%= skill.job_title %></strong>
-                  <small class="text-muted">chez <%= skill.company %></small>
-                </h6>
-                <p class="small text-muted">
-                  <%= skill.start_date.present? ? skill.start_date.strftime("%b %Y") : "-" %>
-                  -
-                  <%= skill.end_date.present? ? skill.end_date.strftime("%b %Y") : "Présent" %>
-                  | <%= skill.localisation %>
-                </p>
-                <p><%= skill.description %></p>
-              </div>
-            <% end %>
-          <% else %>
-            <p class="text-muted">Aucune expérience renseignée.</p>
-          <% end %>
+          <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+              <h5 class="mb-0">Experiences & Skills</h5>
+            </div>
+            <div class="card-body">
+              <% if @profile.skills.any? %>
+                <% @profile.skills.each do |skill| %>
+                  <div class="mb-3 border-bottom pb-2">
+                    <h6 class="mb-1">
+                      <strong><%= skill.job_title %></strong>
+                      <small class="text-muted">at <%= skill.company %></small>
+                    </h6>
+                    <p class="small text-muted">
+                      <%= skill.start_date.present? ? skill.start_date.strftime("%b %Y") : "-" %>
+                      -
+                      <%= skill.end_date.present? ? skill.end_date.strftime("%b %Y") : "Present" %>
+                      | <%= skill.localisation %>
+                    </p>
+                    <p><%= skill.description %></p>
+                  </div>
+                <% end %>
+              <% else %>
+                <p class="text-muted">No experiences provided.</p>
+              <% end %>
+            </div>
+          </div>
         </div>
 
         <!-- Formations -->
         <div class="col-md-6">
-          <h5>Formations</h5>
-          <% if @profile.educations.any? %>
-            <% @profile.educations.each do |edu| %>
-              <div class="mb-3 border-bottom pb-2">
-                <h6 class="mb-1"><strong><%= edu.school %></strong></h6>
-                <p class="small text-muted">
-                  <%= edu.diploma %> (<%= edu.start_date.present? ? edu.start_date.strftime("%Y") : "-" %>
-                  -
-                  <%= edu.end_date.present? ? edu.end_date.strftime("%Y") : "Présent" %>)
-                </p>
-                <p class="small text-muted"><%= edu.localisation %></p>
-              </div>
-            <% end %>
-          <% else %>
-            <p class="text-muted">Aucune formation renseignée.</p>
-          <% end %>
+          <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light">
+              <h5 class="mb-0">Education</h5>
+            </div>
+            <div class="card-body">
+              <% if @profile.educations.any? %>
+                <% @profile.educations.each do |edu| %>
+                  <div class="mb-3 border-bottom pb-2">
+                    <h6 class="mb-1"><strong><%= edu.school %></strong></h6>
+                    <p class="small text-muted">
+                      <%= edu.diploma %> (<%= edu.start_date.present? ? edu.start_date.strftime("%Y") : "-" %>
+                      -
+                      <%= edu.end_date.present? ? edu.end_date.strftime("%Y") : "Present" %>)
+                    </p>
+                    <p class="small text-muted"><%= edu.localisation %></p>
+                  </div>
+                <% end %>
+              <% else %>
+                <p class="text-muted">No education details provided.</p>
+              <% end %>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Avis reçus -->
-      <div class="mt-4">
-        <h5>Avis reçus</h5>
-        <% if @profile.user.reviews_received.any? %>
-          <% @profile.user.reviews_received.each do |review| %>
-            <div class="card mb-3">
-              <div class="card-body">
-                <h6 class="card-title">Note : <%= review.score %>/5</h6>
-                <p class="card-text"><%= review.comment %></p>
-                <p class="card-text">
-                  <small class="text-muted">
-                    Par l’utilisateur ID <%= review.user_id %> sur le projet ID <%= review.project_id %>
-                  </small>
-                </p>
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">Reviews</h5>
+        </div>
+        <div class="card-body">
+          <% if @profile.user.reviews_received.any? %>
+            <% @profile.user.reviews_received.each do |review| %>
+              <div class="card mb-3">
+                <div class="card-body">
+                  <h6 class="card-title">Rating: <%= review.score %>/5</h6>
+                  <p class="card-text"><%= review.comment %></p>
+                  <p class="card-text">
+                    <small class="text-muted">By user ID <%= review.user_id %> on project ID <%= review.project_id %></small>
+                  </p>
+                </div>
               </div>
-            </div>
+            <% end %>
+          <% else %>
+            <p class="text-muted">No reviews available.</p>
           <% end %>
-        <% else %>
-          <p class="text-muted">Aucun avis pour le moment.</p>
-        <% end %>
+        </div>
       </div>
+
     </div>
   </div>
 </div>

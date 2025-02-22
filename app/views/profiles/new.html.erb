@@ -1,69 +1,91 @@
-<%= simple_form_for @profile, html: { multipart: true } do |f| %>
-  <!-- Informations du profil -->
-  <div class="mb-3">
-    <%= f.input :title, label: "Job title" %>
-  </div>
+<%= simple_form_for @profile, html: { multipart: true, class: "container mt-5" } do |f| %>
+  <div class="card shadow-sm">
+    <!-- En-tête -->
+    <div class="card-header bg-primary text-white">
+      <h3 class="mb-0">Create Your Freelance Profile</h3>
+    </div>
 
-  <div class="mb-3">
-    <%= f.input :bio, as: :text, label: "Bio" %>
+  <div class="card-body">
+  <p class="lead">Hi <%= current_user.first_name %>,</p>
+  <p class="lead">Welcome to your freelancer profile creation page!</p>
+  <p class="lead">Please fill out the form below with your personal information, work experience, education, and technical skills.</p>
+  <p class="lead">The more details you provide, the better you'll be able to showcase your expertise to potential clients.</p>
+  <hr class="my-4">
   </div>
+      <!-- Corps du formulaire -->
+    <div class="card-body">
+      <!-- Informations Générales -->
+      <h4 class="mb-3">General Information</h4>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <%= f.input :title, label: "Job Title", input_html: { class: "form-control" } %>
+        </div>
+        <div class="col-md-6 mb-3">
+          <%= f.input :address, label: "Address", input_html: { class: "form-control" } %>
+        </div>
+      </div>
+      <div class="mb-3">
+        <%= f.input :bio, as: :text, label: "Bio", input_html: { class: "form-control", rows: 4 } %>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <%= f.input :years_of_experience, collection: ['0-2 years', '3-7 years', '8-15 years', '16+ years'],
+                        label: "Experience", prompt: "Select experience", input_html: { class: "form-control" } %>
+        </div>
+        <div class="col-md-4 mb-3">
+          <%= f.input :hourly_rate, label: "Hourly Rate (Rs)", input_html: { class: "form-control" } %>
+        </div>
+        <div class="col-md-4 mb-3">
+          <%= f.input :language, collection: ['french', 'english', 'spanish', 'italian', 'german'],
+                        label: "Language", prompt: "Select language", input_html: { class: "form-control" } %>
+        </div>
+      </div>
+      <div class="mb-3">
+        <%= f.input :availability_status, collection: ["available", "busy", "unavailable"],
+                      label: "Availability", input_html: { class: "form-control" } %>
+      </div>
+      <div class="mb-3">
+        <%= f.input :avatar, as: :file, label: "Profile Photo", input_html: { class: "form-control" } %>
+      </div>
 
-  <div class="mb-3">
-    <%= f.input :address, label: "Adress" %>
-  </div>
+      <hr class="my-4">
 
-  <div class="mb-3">
-    <%= f.input :years_of_experience,
-          collection: ['0-2years', '3-7years', '8-15years', '16+years'],
-          label: "Years of experience",
-          prompt: "Select experience range" %>
-  </div>
+      <!-- Technical Skills -->
+      <h4 class="mb-3">Technical Skills</h4>
+      <div class="mb-3">
+        <%= f.input :tech_skills, label: "Tech Skills (comma-separated)", input_html: { class: "form-control" } %>
+      </div>
 
-  <div class="mb-3">
-    <%= f.input :hourly_rate, label: "Rates (Rs)" %>
-  </div>
+      <hr class="my-4">
 
-  <div class="mb-3">
-    <%= f.input :availability_status,
-          collection: ["available", "busy", "unavailable"],
-          label: "Availability" %>
-  </div>
+      <!-- Experiences -->
+      <h4 class="mb-3">Experiences</h4>
+      <div id="skills" class="mb-3">
+        <%= f.simple_fields_for :skills do |skill_form| %>
+          <%= render 'profiles/skill_fields', f: skill_form %>
+        <% end %>
+      </div>
+      <div class="mb-3">
+        <%= link_to_add_association "Add Experience", f, :skills, partial: 'profiles/skill_fields', class: "btn btn-secondary" %>
+      </div>
 
-  <div class="mb-3">
-    <%= f.input :language,
-          collection: ['french', 'english', 'spanish', 'italian', 'german'],
-          label: "Language",
-          prompt: "Select language" %>
-  </div>
+      <hr class="my-4">
 
-  <div class="mb-3">
-    <%= f.input :avatar, as: :file, label: "Profil picture" %>
-  </div>
+      <!-- Education -->
+      <h4 class="mb-3">Education</h4>
+      <div id="educations" class="mb-3">
+        <%= f.simple_fields_for :educations do |education_form| %>
+          <%= render 'profiles/education_fields', f: education_form %>
+        <% end %>
+      </div>
+      <div class="mb-3">
+        <%= link_to_add_association "Add Education", f, :educations, partial: 'profiles/education_fields', class: "btn btn-secondary" %>
+      </div>
+    </div>
 
-  <!-- Section Skills -->
-  <h3>Experiences</h3>
-  <div id="skills">
-    <%= f.simple_fields_for :skills do |skill_form| %>
-      <%= render 'skill_fields', f: skill_form %>
-    <% end %>
-  </div>
-  <div class="mb-3">
-    <%= link_to_add_association "Add an experience", f, :skills, partial: 'skill_fields', class: "btn btn-secondary" %>
-  </div>
-
-  <!-- Section Educations -->
-  <h3>Formations</h3>
-  <div id="educations">
-    <%= f.simple_fields_for :educations do |education_form| %>
-      <%= render 'education_fields', f: education_form %>
-    <% end %>
-  </div>
-  <div class="mb-3">
-    <%= link_to_add_association "Add an education", f, :educations, partial: 'education_fields', class: "btn btn-secondary" %>
-  </div>
-
-  <!-- Bouton de soumission -->
-  <div class="mb-3">
-    <%= f.button :submit, "Save", class: "btn btn-primary" %>
+    <!-- Pied de page -->
+    <div class="card-footer text-end">
+      <%= f.button :submit, "Save", class: "btn btn-primary" %>
+    </div>
   </div>
 <% end %>

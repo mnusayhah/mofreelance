@@ -15,7 +15,14 @@
 
             <!-- Compétences -->
             <div class="mb-3">
-              <% profile.skills.split(',').first(5).each do |skill| %>
+              <% profile.skills.first(5).each do |skill| %>
+                <span class="badge bg-primary me-1"><%= skill.job_title %></span>
+              <% end %>
+            </div>
+
+            <!-- Display Tech Skills -->
+            <div class="mb-3">
+              <% profile.tech_skills.first(5).each do |skill| %>
                 <span class="badge bg-primary me-1"><%= skill %></span>
               <% end %>
             </div>
