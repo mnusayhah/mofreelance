@@ -14,6 +14,9 @@ module Freelancer
       @completed_projects = current_user.shared_projects.where(status: 4)
     end
 
+    def profile
+    end
+
     def projects
       @projects = current_user.shared_projects.where(status: params[:status])
       respond_to do |format|
