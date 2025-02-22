@@ -2,3 +2,7 @@
 
 require_relative "../config/application"
 require "importmap/commands"
+# config/importmap.rb
+pin "jquery", to: "https://code.jquery.com/jquery-3.6.0.min.js"
+pin "cocoon", to: "https://cdn.jsdelivr.net/npm/jquery-cocoon@1.2.14/cocoon.js"
+

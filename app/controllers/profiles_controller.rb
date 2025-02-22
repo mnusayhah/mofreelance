@@ -1,10 +1,14 @@
 class ProfilesController < ApplicationController
-  before_action :authenticate_user!, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:edit, :update, :new, :destroy]
   before_action :set_profile, only: [:show, :edit, :update]
 
   # Afficher la liste des profils de freelances
   def index
-    @profiles = Profile.joins(:user).where(users: {role: :freelancer})
+    @profiles = if params[:q].present?
+      Profile.where("title ILIKE :query OR skills ILIKE :query OR language ILIKE :query", query: "%#{params[:q]}%")
+    else
+      Profile.joins(:user).where(users: {role: :freelancer})
+    end
   end
 
   # Afficher un profil en détail d'un freelance
@@ -27,6 +31,12 @@ class ProfilesController < ApplicationController
     else
       redirect_to profiles_path, alert: "Vous ne pouvez pas modifier ce profil."
     end
+  end
+
+  def new
+    @profile = Profile.new
+    @profile.skills.build  # Ajoute un skill vide pour le formulaire
+    @profile.educations.build
   end
 
   def edit
@@ -61,13 +71,12 @@ class ProfilesController < ApplicationController
 
   # Crée un profil en BDD à partir des infos du formulaire
   def create
-    @profile = current_user.build_profile(profile_params)
-    # ↑ build_profile : Rails va automatiquement renseigner user_id = current_user.id
-
+    @profile = Profile.new(profile_params)
+    @profile.user = current_user
     if @profile.save
-      redirect_to @profile, notice: "Votre profil de freelancer a été créé avec succès."
+      redirect_to @profile, notice: "Profil créé avec succès"
     else
-      render :new, status: :unprocessable_entity
+      render :new
     end
   end
 
@@ -81,9 +90,11 @@ class ProfilesController < ApplicationController
 
   def profile_params
     params.require(:profile).permit(
-      :title, :address, :bio, :years_of_experience,
-      :skills, :portfolio_url, :hourly_rate, :availability_status,
-      :language, :avatar
+      :title, :bio, :address, :years_of_experience, :hourly_rate,
+      :availability_status, :language, :avatar, :tech_skills,
+      skills_attributes: [:id, :job_title, :company, :start_date, :end_date, :description, :localisation, :_destroy],
+      educations_attributes: [:id, :school, :diploma, :start_date, :end_date, :localisation, :_destroy]
     )
   end
+
 end

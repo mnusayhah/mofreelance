@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   #get 'dashboard/company'
   #get 'dashboard/freelancer'
 
-  # get 'reviews/new'
+  get 'reviews/test'
   # get 'reviews/create'
   # get 'reviews/show'
   # get 'reviews/edit'
@@ -70,7 +70,8 @@ Rails.application.routes.draw do
       resources :messages, only: [:create]
     end
 
-    resources :profiles, only: [:index, :show, :edit, :update, :destroy] do
+    # Routes pour les freelances (seuls leurs profils sont visibles)
+    resources :profiles, only: [:index, :new, :show, :create, :edit, :update, :destroy] do
       collection do
         get 'me', to: 'profiles#me'
       end
@@ -82,7 +83,7 @@ Rails.application.routes.draw do
 
   # Enterprise Routes
   namespace :enterprise do
-    
+
     resource :dashboard, only: [:show] do
       get 'projects', to: 'dashboards#projects'
     end
