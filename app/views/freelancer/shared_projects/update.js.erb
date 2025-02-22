@@ -1,0 +1,8 @@
+<% if @shared_project.status == 'accepted' %>
+  // Update the row with new status (could be added in your table row)
+  $('#shared-project-status-<%= @shared_project.id %>').text('<%= @shared_project.status.capitalize %>');
+  $('#shared-project-status-<%= @shared_project.id %>').addClass('badge-success').removeClass('badge-danger');
+<% elsif @shared_project.status == 'declined' %>
+  $('#shared-project-status-<%= @shared_project.id %>').text('<%= @shared_project.status.capitalize %>');
+  $('#shared-project-status-<%= @shared_project.id %>').addClass('badge-danger').removeClass('badge-success');
+<% end %>

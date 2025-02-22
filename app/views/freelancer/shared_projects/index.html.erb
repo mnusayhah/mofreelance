@@ -20,12 +20,26 @@
             <td><%= shared_project.project.title %></td>
             <td><%= shared_project.project.start_date %></td>
             <td><%= shared_project.project.end_date %></td>
-            <td><%= shared_project.project.status %></td>
+            <td><%= shared_project.project.status.capitalize %></td>
 
             <!-- Actions -->
             <td>
               <%= link_to 'View', enterprise_project_path(shared_project.project), class: 'btn btn-info' %>
             </td>
+            <td>
+            <% if shared_project.status == 'pending' %>
+              <%= form_for(shared_project, url: shared_project_path(shared_project), method: :put, remote: true) do |f| %>
+                <%= f.label :status, "Choose Action" %>
+                <%= f.select :status, options_for_select([['Accept', 'accepted'], ['Decline', 'declined']], shared_project.status) %>
+                <%= f.submit "Update Status", class: "btn btn-primary" %>
+              <% end %>
+            <% else %>
+              <!-- If already accepted or declined, show the status as text -->
+              <span class="badge <%= shared_project.status == 'accepted' ? 'badge-success' : 'badge-danger' %>">
+                <%= shared_project.status.capitalize %>
+              </span>
+            <% end %>
+          </td>
           </tr>
         <% end %>
       <% else %>
