@@ -14,7 +14,7 @@ module Enterprise
 
     def create
       @project = current_user.projects.build(project_params)
-      @project.status = :open
+      #@project.status = 0
       if @project.save
         redirect_to enterprise_projects_path(current_user, @project), notice: 'Project was successfully created.'
       else
@@ -100,7 +100,7 @@ module Enterprise
     end
 
     def project_params
-      params.require(:project).permit(:title, :description, :budget, :required_skills, :visibility, :start_date, :end_date)
+      params.require(:project).permit(:title, :description, :budget, :required_skills, :visibility, :start_date, :end_date, :status)
     end
   end
 end
