@@ -1,8 +1,8 @@
 <!--h1>Company Dashboard</h1-->
 
-<div class="dashboard-container" style="display: flex;">
+<div class="dashboard-container" style="display: flex;" data-controller="dashboard">
   <!-- Sidebar -->
-  <div class="dashboard-sidebar" style="width: 250px; margin-right: 20px;">
+  <div class="sidebar" style="width: 250px; margin-right: 20px;">
     <!-- Dropdown for Projects -->
     <div class="dropdown">
       <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -37,7 +37,7 @@
 
   <!-- Main content area where the table will be injected -->
     <!-- Main Content -->
-  <!--main class="dashboard-content">
+  <main class="dashboard-content">
       <div id="projects-container">
         <turbo-frame id="projects_frame">
         <h2> Projects</h2>
@@ -45,4 +45,4 @@
         </turbo-frame>
       </div>
   </main>
-</div-->
+</div>
