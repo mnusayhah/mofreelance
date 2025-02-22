@@ -30,6 +30,8 @@ gem "faker"
 gem "ostruct"
 gem 'cloudinary'
 gem 'activestorage-cloudinary-service'
+gem 'cocoon'
+
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
