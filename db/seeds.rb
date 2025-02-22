@@ -8,6 +8,18 @@ Education.destroy_all
 Profile.destroy_all
 User.destroy_all
 
+ActiveRecord::Base.transaction do
+  # Create an Enterprise User
+  enterprise = User.create!(
+    email: "enterprise@example.com",
+    password: "password123",
+    first_name: "Enterprise",
+    last_name: "Owner",
+    role: 1,
+    company: "TechCorp",
+    phone_number: "1234567890"
+  )
+end
 puts "👤 Création des utilisateurs freelances..."
 
 5.times do
@@ -31,7 +43,7 @@ puts "👤 Création des utilisateurs freelances..."
     hourly_rate: rand(30..150),
     availability_status: ["available", "busy", "unavailable"].sample,
     language: ["Français", "Anglais", "Espagnol"].sample,
-    tech_skills: Array.new(3) { Faker::ProgrammingLanguage.name }  # ✅ Fix Here
+    #tech_skills: Array.new(3) { Faker::ProgrammingLanguage.name }  # ✅ Fix Here
   )
 
   puts "🎓 Ajout des formations et compétences..."

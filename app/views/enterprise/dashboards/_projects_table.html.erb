@@ -20,7 +20,7 @@
                 <td><%= project.start_date.strftime('%B %d, %Y') %></td>
                 <td><%= project.end_date.strftime('%B %d, %Y') %></td>
                 <td><%= link_to 'Edit', edit_enterprise_project_path(project) %></td>
-                <td><%= project.status %></td>
+                <td><%= project.status.humanize %></td>
               </tr>
             <% end %>
           <% else %>
@@ -30,4 +30,3 @@
       </table>
     </turbo-frame>
   </div>
-
