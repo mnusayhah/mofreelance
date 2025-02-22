@@ -350,10 +350,7 @@ DEPENDENCIES
   bootstrap (~> 5.2)
   capybara
   cloudinary
-<<<<<<< HEAD
   cocoon
-=======
->>>>>>> origin/master
   debug
   devise
   dotenv-rails
