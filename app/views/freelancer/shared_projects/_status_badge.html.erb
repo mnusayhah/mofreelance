@@ -1,0 +1,6 @@
+<!-- app/views/shared_projects/update.turbo_stream.erb -->
+<%= turbo_stream.replace "status_badge_#{shared_project.id}" do %>
+  <span id="status_badge_<%= shared_project.id %>" class="badge rounded-pill <%= status_class(shared_project.status) %>">
+    <%= shared_project.status.capitalize %>
+  </span>
+<% end %>
