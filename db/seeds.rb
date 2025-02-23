@@ -31,6 +31,15 @@ puts "👤 Création des utilisateurs freelances..."
     role: :freelancer
   )
 
+  user = User.create!(
+    email: Faker::Internet.email,
+    password: "password",
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    company: Faker::Company.name,
+    role: :enterprise
+  )
+
   puts "📌 Création du profil pour #{user.email}..."
 
   profile = Profile.create!(

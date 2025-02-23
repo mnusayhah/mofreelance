@@ -5,17 +5,19 @@ module Freelancer
     before_action :set_shared_project, only: [:update]
 
     def index
-      @projects = SharedProjectProject.where(status: params[:status]) # Fetch projects dynamically
+      @shared_projects = SharedProject.all
+      # where(status: params[:status]) # Fetch projects dynamically
 
-      respond_to do |format|
-        format.html # Normal request (for full page loads)
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.update("projects_frame",
-            partial: "projects_list", locals: { projects: @projects }
-          )
-        end
-      end
+      # respond_to do |format|
+      #   format.html # Normal request (for full page loads)
+      #   format.turbo_stream do
+      #     render turbo_stream: turbo_stream.update("projects_frame",
+      #       partial: "projects_list", locals: { projects: @projects }
+      #     )
+      #   end
+      # end
     end
+
 
     def share_project
       @project = Project.find(params[:id])
@@ -48,11 +50,11 @@ module Freelancer
     end
 
     # GET freelancer/shared_projects
-    def index
-        # Get only shared projects where the current user is the freelancer
-      @shared_projects = SharedProject.includes(:project).where(freelancer_id: current_user.id, status: :accepted)
+    # def index
+    #     # Get only shared projects where the current user is the freelancer
+    #   @shared_projects = SharedProject.includes(:project).where(freelancer_id: current_user.id, status: :accepted)
 
-    end
+    # end
 
     # GET /freelancer/shared_projects/:id
     def show

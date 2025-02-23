@@ -27,7 +27,7 @@
               </td>
               <td>
               <% if shared_project.status == 'pending' %>
-                <%= form_for(shared_project, url: shared_project_path(shared_project), method: :put, remote: true) do |f| %>
+                <%= form_for(shared_project, url: freelancer_shared_project_path(shared_project), method: :put, remote: true) do |f| %>
                   <%= f.label :status, "Choose Action" %>
                   <%= f.select :status, options_for_select([['Accept', 'accepted'], ['Decline', 'declined']], shared_project.status) %>
                   <%= f.submit "Update Status", class: "btn btn-primary" %>
