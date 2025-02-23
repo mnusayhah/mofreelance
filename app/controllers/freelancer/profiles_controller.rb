@@ -39,6 +39,11 @@ module Freelancer
       @profile = Profile.new
       @profile.skills.build  # Ajoute un skill vide pour le formulaire
       @profile.educations.build
+
+      respond_to do |format|
+        format.turbo_stream { render partial: "profiles/new", locals: { profile: @profile } }
+        format.html
+      end
     end
 
     def edit
@@ -47,6 +52,12 @@ module Freelancer
       else
         redirect_to freelancer_profiles_path, alert: "Vous ne pouvez modifier que votre propre profil."
       end
+
+      respond_to do |format|
+        format.turbo_stream { render partial: "profiles/edit", locals: { profile: @profile } }
+        format.html
+      end
+
     end
 
     def destroy

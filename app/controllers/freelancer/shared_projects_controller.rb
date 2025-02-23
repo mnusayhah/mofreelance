@@ -6,16 +6,11 @@ module Freelancer
 
     def index
       @shared_projects = SharedProject.where(freelancer_id: current_user.id)
-      # where(status: params[:status]) # Fetch projects dynamically
+      respond_to do |format|
+        format.turbo_stream { render partial: "projects_list", locals: { projects: @projects } }
+        format.html # This handles full-page loads (fallback)
+      end
 
-      # respond_to do |format|
-      #   format.html # Normal request (for full page loads)
-      #   format.turbo_stream do
-      #     render turbo_stream: turbo_stream.update("projects_frame",
-      #       partial: "projects_list", locals: { projects: @projects }
-      #     )
-      #   end
-      # end
     end
 
 

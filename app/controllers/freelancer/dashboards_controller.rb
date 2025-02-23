@@ -3,8 +3,7 @@ module Freelancer
     before_action :authenticate_user!
 
     def freelancer
-      if current_user.freelancer?  # ✅ Correctly checks if the user is a freelancer
-        @projects = current_user.shared_projects
+        @shared_projects = current_user.shared_projects.includes(:project)
 
         respond_to do |format|
           format.html # Normal request (for full page loads)
@@ -14,7 +13,6 @@ module Freelancer
           )
           end
         end
-      end
     end
 
     def dashboard

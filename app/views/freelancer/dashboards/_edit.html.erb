@@ -1,0 +1,8 @@
+<turbo-frame id="projects_frame">
+  <h2>Edit Profile</h2>
+  <%= form_for @profile do |f| %>
+    <%= f.label :bio, "Bio" %>
+    <%= f.text_area :bio, class: "form-control" %>
+    <%= f.submit "Save", class: "btn btn-primary mt-2" %>
+  <% end %>
+</turbo-frame>

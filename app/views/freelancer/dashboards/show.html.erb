@@ -30,8 +30,11 @@
           👤 Profile
         </button>
         <ul id="profileDropdown" class="collapse mt-2">
-          <li><%= link_to "Edit Profile", edit_user_registration_path, class: "dropdown-item" %></li>
-          <li><%= link_to "Create Profile", new_freelancer_profile_path, class: "dropdown-item" %></li>
+          <%= link_to "Edit Profile", edit_user_registration_path, class: "dropdown-item",
+          data: { turbo_frame: "projects_frame" } %>
+
+          <%= link_to "Create Profile", new_freelancer_profile_path, class: "dropdown-item",
+          data: { turbo_frame: "projects_frame" } %>
         </ul>
       </li>
     </ul>
@@ -39,11 +42,9 @@
 
   <!-- Main Content -->
   <main class="dashboard-content flex-grow-1 p-4">
-    <div id="projects-container">
-    <turbo-frame id="projects_frame">
-      <h2 class="mb-3">🛠️ Projects</h2>
-      <%= render partial: "projects_list", locals: { projects: @ongoing_projects } %>
-    </turbo-frame>
-  </div>
+  <turbo-frame id="projects_frame">
+    <%= render partial: "projects_list", locals: { projects: @ongoing_projects } %>
+  </turbo-frame>
   </main>
+
 </div>
