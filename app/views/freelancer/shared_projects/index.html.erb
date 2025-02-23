@@ -23,7 +23,7 @@
 
               <!-- Actions -->
               <td>
-                <%= link_to 'View', enterprise_project_path(shared_project.project), class: 'btn btn-info' %>
+                <%= link_to 'View', freelancer_shared_project_path(shared_project.id), class: 'btn btn-info' %>
               </td>
               <td>
               <% if shared_project.status == 'pending' %>
