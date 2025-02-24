@@ -43,7 +43,7 @@
   <!-- Main Content -->
   <main class="dashboard-content flex-grow-1 p-4">
   <turbo-frame id="projects_frame">
-    <%= render partial: "projects_list", locals: { projects: @ongoing_projects } %>
+    <%= render partial: "projects_list", locals: { shared_projects: @shared_projects } %>
   </turbo-frame>
   </main>
 

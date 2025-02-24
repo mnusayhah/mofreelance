@@ -6,11 +6,20 @@ module Freelancer
 
     def index
       @shared_projects = SharedProject.where(freelancer_id: current_user.id)
-      respond_to do |format|
-        format.turbo_stream { render partial: "projects_list", locals: { projects: @shared_projects } }
-        format.html # This handles full-page loads (fallback)
-      end
+      @pending_projects = SharedProject.where(status: 0)
+      @accepted_projects = SharedProject.where(status: 1)
+      @completed_projects = SharedProject.where(status: 4)
 
+
+      # respond_to do |format|
+      #   format.turbo_stream { render partial: "projects_list", locals: { shared_projects: @shared_projects } }
+      #   format.html # This handles full-page loads (fallback)
+      # end
+
+    end
+
+    def ongoing_projects
+      @shared_projects = SharedProject.where(freelancer_id: current_user.id).where(status: 1)
     end
 
 
@@ -45,11 +54,16 @@ module Freelancer
 
 # GET /freelancer/shared_projects/:id
     def show
-      @shared_project = SharedProject.find_by(id: params[:id], freelancer_id: current_user.id, status: :accepted)
+      @shared_project = SharedProject.find_by(id: params[:id], freelancer_id: current_user.id)
+      respond_to do |format|
+        format.html # Normal full-page load
+        format.turbo_stream { render partial: "shared_projects/show", locals: { shared_project: @shared_project } }
+      end
       if @shared_project.nil?
-        redirect_to freelancer_shared_projects_path, alert: "Project not found or not accepted."
+        redirect_to freelancer_shared_projects_path, alert: "Project not found."
       end
     end
+
 
     def accept
       @shared_project = SharedProject.find(params[:id])
