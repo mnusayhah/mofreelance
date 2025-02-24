@@ -4,7 +4,6 @@ module Freelancer
     before_action :set_profile, only: [:show, :edit, :update]
 
     # Afficher la liste des profils de freelances
-    @profiles = Profile.joins(:user).where(users: {role: :freelancer})
 
     # if params[:q].present?
     #   @profiles = @profiles.where("job_title ILIKE :query OR skills ILIKE :query OR language ILIKE :query", query: "%#{params[:q]}%")
@@ -13,8 +12,13 @@ module Freelancer
     # @profiles = @profiles.where("job_title ILIKE ?", "%#{params[:job_title]}%") if params[:job_title].present?
     # @profiles = @profiles.where("skills ILIKE ?", "%#{params[:skills]}%") if params[:skills].present?
     # @profiles = @profiles.where("education ILIKE ?", "%#{params[:education]}%") if params[:education].present?
+    def index
+      @profiles = Profile.joins(:user).where(users: {role: :freelancer})
+    end
 
     def show
+      @profile = Profile.find_by(id: params[:id])
+
       if @profile.user.freelancer?
         render :show
       else

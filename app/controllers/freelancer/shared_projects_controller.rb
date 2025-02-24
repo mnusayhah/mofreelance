@@ -7,7 +7,7 @@ module Freelancer
     def index
       @shared_projects = SharedProject.where(freelancer_id: current_user.id)
       respond_to do |format|
-        format.turbo_stream { render partial: "projects_list", locals: { projects: @projects } }
+        format.turbo_stream { render partial: "projects_list", locals: { projects: @shared_projects } }
         format.html # This handles full-page loads (fallback)
       end
 
