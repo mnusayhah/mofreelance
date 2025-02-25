@@ -5,13 +5,13 @@ class ProfilesController < ApplicationController
   # Afficher la liste des profils de freelances
   @profiles = Profile.joins(:user).where(users: {role: :freelancer})
 
-  if params[:q].present?
-    @profiles = @profiles.where("job_title ILIKE :query OR skills ILIKE :query OR language ILIKE :query", query: "%#{params[:q]}%")
-  end
+  # if params[:q].present?
+  #   @profiles = @profiles.where("job_title ILIKE :query OR skills ILIKE :query OR language ILIKE :query", query: "%#{params[:q]}%")
+  # end
 
-  @profiles = @profiles.where("job_title ILIKE ?", "%#{params[:job_title]}%") if params[:job_title].present?
-  @profiles = @profiles.where("skills ILIKE ?", "%#{params[:skills]}%") if params[:skills].present?
-  @profiles = @profiles.where("education ILIKE ?", "%#{params[:education]}%") if params[:education].present?
+  # @profiles = @profiles.where("job_title ILIKE ?", "%#{params[:job_title]}%") if params[:job_title].present?
+  # @profiles = @profiles.where("skills ILIKE ?", "%#{params[:skills]}%") if params[:skills].present?
+  # @profiles = @profiles.where("education ILIKE ?", "%#{params[:education]}%") if params[:education].present?
 
   def show
     if @profile.user.freelancer?

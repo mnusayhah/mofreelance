@@ -18,8 +18,8 @@ ActiveRecord::Base.transaction do
     role: 1,
     company: "TechCorp",
     phone_number: "1234567890"
+  )
 end
-  
 puts "👤 Création des utilisateurs freelances..."
 
 5.times do
@@ -29,6 +29,15 @@ puts "👤 Création des utilisateurs freelances..."
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
     role: :freelancer
+  )
+
+  user = User.create!(
+    email: Faker::Internet.email,
+    password: "password",
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    company: Faker::Company.name,
+    role: :enterprise
   )
 
   puts "📌 Création du profil pour #{user.email}..."
@@ -46,76 +55,54 @@ puts "👤 Création des utilisateurs freelances..."
     #tech_skills: Array.new(3) { Faker::ProgrammingLanguage.name }  # ✅ Fix Here
   )
 
-# Create 3-5 associated skills and attach them to the profile
-skills = []
-rand(3..5).times do
-  start_date = Faker::Date.backward(days: rand(1000..4000))
-  end_date = start_date + rand(365..1460) # Ensure end_date is after start_date
-  skills << Skill.create!(
-    profile_id: profile.id,
-    job_title: Faker::Job.position,
-    company: Faker::Company.name,
-    start_date: start_date,
-    end_date: end_date,
-    description: Faker::Job.key_skill,
-    localisation: Faker::Address.city
-  )
-end
+  puts "🎓 Ajout des formations et compétences..."
 
-# Attach the created skills to the profile
-  profile.skills_id << skill.id
+  2.times do
+    profile.educations.create!(
+      school: Faker::University.name,
+      diploma: Faker::Educator.degree,
+      start_date: Faker::Date.between(from: 5.years.ago, to: 2.years.ago),
+      end_date: Faker::Date.between(from: 1.year.ago, to: Date.today),
+      localisation: Faker::Address.city
+    )
 
-    # Create 1-2 education records for each profile
-    rand(1..2).times do
-      Education.create!(
-        profile_id: profile.id,
-        school: Faker::University.name,
-        diploma: Faker::Educator.course_name,
-        start_date: Faker::Date.backward(days: 2500),
-        end_date: Faker::Date.backward(days: 1000),
-        localisation: Faker::Address.city
-      )
-    end
+    profile.skills.create!(
+      job_title: Faker::Job.title,
+      company: Faker::Company.name,
+      start_date: Faker::Date.between(from: 10.years.ago, to: 5.years.ago),
+      end_date: Faker::Date.between(from: 4.years.ago, to: Date.today),
+      description: Faker::Lorem.sentence(word_count: 10),
+      localisation: Faker::Address.city
+    )
   end
 
-  # Create a Sample Project
-  project = Project.create!(
-    user: enterprise,
-    title: "Website Development",
-    description: "Build a modern web app using Rails and React.",
-    budget: 5000,
-    status: "ongoing",
-    required_skills: "Ruby on Rails, React",
-    visibility: "public",
-    start_date: Date.today,
-    end_date: Date.today + 30.days
+
+  Project.create!(
+    user: User.enterprise.sample, # Assign a random user
+    title: Faker::Company.catch_phrase,
+    description: Faker::Lorem.paragraph(sentence_count: 5),
+    budget: Faker::Number.decimal(l_digits: 4, r_digits: 2),
+    status: rand(0..2), # Assuming you have different status values (e.g., 0: draft, 1: active, 2: completed)
+    required_skills: Faker::Job.key_skill,
+    visibility: ["public", "private"].sample,
+    start_date: Faker::Date.forward(days: 10),
+    end_date: Faker::Date.forward(days: 30)
   )
 
-  raise "Project not created!" if project.nil?
+  puts "Created 5 projects!"
 
-  # Assign the First Freelancer to the Project
-  freelancer = User.where(role: 0).first
+  projects = Project.all
+  freelancers = User.where(role: 'freelancer') # Assuming 'role' column distinguishes users
 
-  shared_project = SharedProject.create!(
-    project: project,
-    freelancer: freelancer,
-    status: 1
+  # Create 10 shared projects
+  SharedProject.create!(
+    project: projects.sample,
+    freelancer: freelancers.sample,
+    status: rand(0..2), # Example: 0 = pending, 1 = accepted, 2 = completed
   )
 
-  raise "Shared project not created!" if shared_project.nil?
 
-  # Create Discussion
-  discussion = Discussion.create!(
-    project: project,
-    freelancer: freelancer,
-    enterprise: enterprise
-  )
-
-  raise "Discussion not created!" if discussion.nil?
-
-  # Create Messages
-  Message.create!(discussion: discussion, sender: enterprise, receiver: freelancer, content: "Hello Freelancer!", read: false)
-  Message.create!(discussion: discussion, sender: freelancer, receiver: enterprise, content: "Hi Enterprise!", read: false)
+  puts "Created 5 shared projects!"
 end
 
-puts "✅ Seed data created successfully!"
+puts "✅ Seed terminée ! 5 freelances ont été créés avec leurs profils, compétences, formations et technologies."

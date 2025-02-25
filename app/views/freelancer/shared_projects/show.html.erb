@@ -1,3 +1,4 @@
+<turbo-frame id="projects_frame">
 <% if @shared_project&.project.present? %>
   <h1>Project: <%= @shared_project.project.title %> </h1>
     <p><strong>Project Name:</strong> <%= @shared_project.project.title %></p>
@@ -20,3 +21,4 @@
 <% end %>
 <!-- You can also display a link to go back to the previous page -->
 <%= link_to 'Back to My Projects', freelancer_shared_projects_path, class: 'btn btn-secondary mt-3' %>
+</turbo-frame>
