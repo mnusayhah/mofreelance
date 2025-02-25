@@ -32,7 +32,9 @@
     <p class="btn btn-link">Messages</p>
 
     <!-- Browse Freelancers text (instead of link) -->
-    <p class="btn btn-link">Browse Freelancers</p>
+    <p class="btn btn-link">
+      <%= link_to 'Browse Freelancers', freelancer_profiles_path, data: { action: "click->dashboard#changeContent" } %>
+    </p>
   </div>
 
   <!-- Main content area where the table will be injected -->
@@ -40,7 +42,7 @@
   <main class="dashboard-content">
       <div id="projects-container">
         <turbo-frame id="projects_frame">
-        <h2> Projects</h2>
+        <!--h2> Projects</h2-->
           <%= render partial: "projects_table", locals: { projects: @ongoing_projects } %>
         </turbo-frame>
       </div>
