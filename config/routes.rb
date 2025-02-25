@@ -38,7 +38,9 @@ Rails.application.routes.draw do
   # resources :reviews, only: [:new, :create, :show, :edit, :update, :destroy]
   # get 'reviews/test', to: 'reviews#test'
 
-  # Freelancer Routes
+  # ----------------------------
+  # Routes pour les Freelancers
+  # ----------------------------
   namespace :freelancer do
     get 'messages/create'
     get 'discussions/index'
