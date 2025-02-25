@@ -1,4 +1,4 @@
-<%= simple_form_for [current_user, @project] do |f| %>
+<%= simple_form_for [:enterprise, @project] do |f| %>
   <div class="form-group">
     <%= f.input :title, label: "Project Title" %>
   </div>
