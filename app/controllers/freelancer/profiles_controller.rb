@@ -1,7 +1,7 @@
 module Freelancer
   class ProfilesController < ApplicationController
     before_action :authenticate_user!, only: [:edit, :update, :new, :destroy]
-    before_action :set_profile, only: [:show, :edit, :update]
+    before_action :set_profile, only: [:show, :edit, :update, :destroy]
 
     # Afficher la liste des profils de freelances
 
@@ -13,7 +13,12 @@ module Freelancer
     # @profiles = @profiles.where("skills ILIKE ?", "%#{params[:skills]}%") if params[:skills].present?
     # @profiles = @profiles.where("education ILIKE ?", "%#{params[:education]}%") if params[:education].present?
     def index
-      @profiles = Profile.joins(:user).where(users: {role: :freelancer})
+      base_scope = Profile.joins(:user).where(users: { role: :freelancer })
+      @profiles = if params[:query].present?
+                    base_scope.search_by_freelancer_data(params[:query])
+                  else
+                    base_scope
+                  end
     end
 
     def show
