@@ -76,33 +76,70 @@ puts "👤 Création des utilisateurs freelances..."
     )
   end
 
+  2.times do
+    Project.create!(
+      user: User.enterprise.sample, # Assign a random user
+      title: Faker::Company.catch_phrase,
+      description: Faker::Lorem.paragraph(sentence_count: 5),
+      budget: Faker::Number.decimal(l_digits: 4, r_digits: 2),
+      status: rand(0..2), # Assuming you have different status values (e.g., 0: draft, 1: active, 2: completed)
+      required_skills: Faker::Job.key_skill,
+      visibility: ["public", "private"].sample,
+      start_date: Faker::Date.forward(days: 10),
+      end_date: Faker::Date.forward(days: 30)
+    )
+  end
 
-  Project.create!(
-    user: User.enterprise.sample, # Assign a random user
-    title: Faker::Company.catch_phrase,
-    description: Faker::Lorem.paragraph(sentence_count: 5),
-    budget: Faker::Number.decimal(l_digits: 4, r_digits: 2),
-    status: rand(0..2), # Assuming you have different status values (e.g., 0: draft, 1: active, 2: completed)
-    required_skills: Faker::Job.key_skill,
-    visibility: ["public", "private"].sample,
-    start_date: Faker::Date.forward(days: 10),
-    end_date: Faker::Date.forward(days: 30)
-  )
-
-  puts "Created 5 projects!"
+  puts "Created 10 projects!"
 
   projects = Project.all
   freelancers = User.where(role: 'freelancer') # Assuming 'role' column distinguishes users
 
   # Create 10 shared projects
-  SharedProject.create!(
+  2.times do
+    SharedProject.create!(
     project: projects.sample,
     freelancer: freelancers.sample,
-    status: rand(0..2), # Example: 0 = pending, 1 = accepted, 2 = completed
+    status: rand(0..4), # Example: 0 = pending, 1 = accepted, 2 = completed
   )
+  end
 
-
-  puts "Created 5 shared projects!"
+  puts "Created 10 shared projects!"
 end
+
+# Seed discussions and messages
+
+freelancers = User.where(role: 'freelancer')
+enterprises = User.where(role: 'enterprise')
+projects = Project.all
+
+if freelancers.present? && enterprises.present? && projects.present?
+  5.times do
+    freelancer = freelancers.sample
+    enterprise = enterprises.sample
+    project = projects.sample
+
+    discussion = Discussion.create!(
+      project: project,
+      freelancer: freelancer,
+      enterprise: enterprise
+    )
+
+    # Create messages for the discussion
+    3.times do
+      sender, receiver = [freelancer, enterprise].shuffle
+      Message.create!(
+        discussion: discussion,
+        sender: sender,
+        receiver: receiver,
+        content: Faker::Lorem.sentence,
+        read: [true, false].sample
+      )
+    end
+  end
+else
+  puts "No freelancers, enterprises, or projects available. Seed them first!"
+end
+
 
 puts "✅ Seed terminée ! 5 freelances ont été créés avec leurs profils, compétences, formations et technologies."

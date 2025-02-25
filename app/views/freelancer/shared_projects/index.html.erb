@@ -26,12 +26,12 @@
                     <%= shared_project.status.capitalize %>
                   </button>
                   <ul class="dropdown-menu">
-                    <% if shared_project.status == 'pending' %>
+                    <% if shared_project.pending? %>
                       <li>
-                        <%= link_to 'Accept', accept_freelancer_shared_project_path(shared_project), method: :patch, remote: true, class: 'dropdown-item text-success', data: { turbo_stream: "status_badge_#{shared_project.id}" } %>
+                        <%= link_to 'Accept', accept_freelancer_shared_project_path(shared_project), method: :post, class: 'dropdown-item text-success', data: { turbo_action: "replace", turbo_target: "status_badge_#{shared_project.id}" } %>
                       </li>
                       <li>
-                        <%= link_to 'Decline', decline_freelancer_shared_project_path(shared_project), method: :patch, remote: true, class: 'dropdown-item text-danger', data: { turbo_stream: "status_badge_#{shared_project.id}" } %>
+                        <%= link_to 'Decline', decline_freelancer_shared_project_path(shared_project), method: :post, class: 'dropdown-item text-danger', data: { turbo_stream: "status_badge_#{shared_project}" } %>
                       </li>
                     <% else %>
                       <li>

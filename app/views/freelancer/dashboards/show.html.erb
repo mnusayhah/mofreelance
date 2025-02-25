@@ -9,11 +9,12 @@
         </button>
         <ul id="projectsDropdown" class="collapse mt-2">
         <li>
-          <%= link_to "Ongoing", freelancer_shared_projects_path(status: 1), class: "dropdown-item",
+          <%= link_to "Ongoing", freelancer_shared_projects_path(status: 'accepted'), class: "dropdown-item",
                 data: { turbo_frame: "projects_frame" } %>
         </li>
-          <li><%= link_to "Pending", freelancer_shared_projects_path(status: 0), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %></li>
-          <li><%= link_to "Completed", freelancer_shared_projects_path(status: 4), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %></li>
+          <li><%= link_to "Pending", freelancer_shared_projects_path(status: 'pending'), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %></li>
+          <li><%= link_to "Completed", freelancer_shared_projects_path(status: 'completed'), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %></li>
+          <li><%= link_to "Declined", freelancer_shared_projects_path(status: 'declined'), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %></li>
         </ul>
       </li>
 

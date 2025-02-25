@@ -8,9 +8,9 @@ module Freelancer
     end
 
     def freelancer
-      @ongoing_projects = current_user.shared_projects.where(status: 1)
-      @pending_projects = current_user.shared_projects.where(status: 0)
-      @completed_projects = current_user.shared_projects.where(status: 4)
+      @ongoing_projects = current_user.shared_projects.where(status: 'accepted')
+      @pending_projects = current_user.shared_projects.where(status: 'pending')
+      @completed_projects = current_user.shared_projects.where(status: 'completed')
 
       # respond_to do |format|
       #   format.html  # Full page load

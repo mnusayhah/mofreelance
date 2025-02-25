@@ -2,14 +2,19 @@ module Freelancer
   class SharedProjectsController < ApplicationController
     before_action :authenticate_user!
     before_action :ensure_freelancer!
-    before_action :set_shared_project, only: [:update]
+    before_action :set_shared_project, only: [:accept, :decline]
+    before_action :authorize_freelancer!, only: [:accept, :decline]
+
 
     def index
       @shared_projects = SharedProject.where(freelancer_id: current_user.id)
-      @pending_projects = SharedProject.where(status: 0)
-      @accepted_projects = SharedProject.where(status: 1)
-      @completed_projects = SharedProject.where(status: 4)
+      @pending_projects = SharedProject.where(status: "pending")
+      @accepted_projects = SharedProject.where(status: "accepted")
+      @completed_projects = SharedProject.where(status: "completed")
 
+      if params[:status].present?
+        @shared_projects = @shared_projects.where(status: params[:status])
+      end
 
       # respond_to do |format|
       #   format.turbo_stream { render partial: "projects_list", locals: { shared_projects: @shared_projects } }
@@ -67,27 +72,29 @@ module Freelancer
 
     def accept
       @shared_project = SharedProject.find(params[:id])
-      if @shared_project.update(status: 'accepted')
-        # You can add Turbo Streams to update the status in the view without refreshing the page.
-        respond_to do |format|
-          format.html { redirect_to freelancer_shared_projects_path, notice: 'Project accepted.' }
-          format.turbo_stream { render turbo_stream: turbo_stream.replace("status_badge_#{@shared_project.id}", partial: 'shared_projects/status_badge', locals: { shared_project: @shared_project }) }
+        if @shared_project.pending?
+          @shared_project.update(status: 'accepted')
+
+          respond_to do |format|
+            format.turbo_stream { render turbo_stream: turbo_stream.replace("status_badge_#{@shared_project.id}", partial: "shared_projects/status_badge", locals: { shared_project: @shared_project }) }
+            format.html { redirect_to freelancer_dashboard_path, notice: 'Project accepted.' }
+          end
+          # else
+          #   redirect_to freelancer_shared_projects_path, alert: 'There was an error accepting the project.'
         end
-      else
-        redirect_to freelancer_shared_projects_path, alert: 'There was an error accepting the project.'
-      end
     end
 
     def decline
       @shared_project = SharedProject.find(params[:id])
-      if @shared_project.update(status: 'declined')
+      @shared_project.update(status: 'declined')
+
         respond_to do |format|
-          format.html { redirect_to freelancer_shared_projects_path, notice: 'Project declined.' }
-          format.turbo_stream { render turbo_stream: turbo_stream.replace("status_badge_#{@shared_project.id}", partial: 'shared_projects/status_badge', locals: { shared_project: @shared_project }) }
+          format.turbo_stream { render turbo_stream: turbo_stream.replace("status_badge_#{@shared_project.id}", partial: "shared_projects/status_badge", locals: { shared_project: @shared_project }) }
+          format.html { redirect_to freelancer_dashboard_path, notice: 'Project declined.' }
         end
-      else
-        redirect_to freelancer_shared_projects_path, alert: 'There was an error declining the project.'
-      end
+      # else
+      #   redirect_to freelancer_dashboard_path, alert: 'There was an error declining the project.'
+      # end
     end
 
 
@@ -117,5 +124,12 @@ module Freelancer
         redirect_to shared_projects_path, alert: "No project found."
       end
     end
+
+    def authorize_freelancer!
+      unless current_user.freelancer? && @shared_project.freelancer == current_user
+        redirect_to root_path, alert: "You are not authorized to perform this action."
+      end
+    end
+
   end
 end
