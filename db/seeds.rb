@@ -18,8 +18,8 @@ ActiveRecord::Base.transaction do
     role: 1,
     company: "TechCorp",
     phone_number: "1234567890"
-  )
 end
+  
 puts "👤 Création des utilisateurs freelances..."
 
 5.times do
@@ -46,26 +46,76 @@ puts "👤 Création des utilisateurs freelances..."
     #tech_skills: Array.new(3) { Faker::ProgrammingLanguage.name }  # ✅ Fix Here
   )
 
-  puts "🎓 Ajout des formations et compétences..."
-
-  2.times do
-    profile.educations.create!(
-      school: Faker::University.name,
-      diploma: Faker::Educator.degree,
-      start_date: Faker::Date.between(from: 5.years.ago, to: 2.years.ago),
-      end_date: Faker::Date.between(from: 1.year.ago, to: Date.today),
-      localisation: Faker::Address.city
-    )
-
-    profile.skills.create!(
-      job_title: Faker::Job.title,
-      company: Faker::Company.name,
-      start_date: Faker::Date.between(from: 10.years.ago, to: 5.years.ago),
-      end_date: Faker::Date.between(from: 4.years.ago, to: Date.today),
-      description: Faker::Lorem.sentence(word_count: 10),
-      localisation: Faker::Address.city
-    )
-  end
+# Create 3-5 associated skills and attach them to the profile
+skills = []
+rand(3..5).times do
+  start_date = Faker::Date.backward(days: rand(1000..4000))
+  end_date = start_date + rand(365..1460) # Ensure end_date is after start_date
+  skills << Skill.create!(
+    profile_id: profile.id,
+    job_title: Faker::Job.position,
+    company: Faker::Company.name,
+    start_date: start_date,
+    end_date: end_date,
+    description: Faker::Job.key_skill,
+    localisation: Faker::Address.city
+  )
 end
 
-puts "✅ Seed terminée ! 5 freelances ont été créés avec leurs profils, compétences, formations et technologies."
+# Attach the created skills to the profile
+  profile.skills_id << skill.id
+
+    # Create 1-2 education records for each profile
+    rand(1..2).times do
+      Education.create!(
+        profile_id: profile.id,
+        school: Faker::University.name,
+        diploma: Faker::Educator.course_name,
+        start_date: Faker::Date.backward(days: 2500),
+        end_date: Faker::Date.backward(days: 1000),
+        localisation: Faker::Address.city
+      )
+    end
+  end
+
+  # Create a Sample Project
+  project = Project.create!(
+    user: enterprise,
+    title: "Website Development",
+    description: "Build a modern web app using Rails and React.",
+    budget: 5000,
+    status: "ongoing",
+    required_skills: "Ruby on Rails, React",
+    visibility: "public",
+    start_date: Date.today,
+    end_date: Date.today + 30.days
+  )
+
+  raise "Project not created!" if project.nil?
+
+  # Assign the First Freelancer to the Project
+  freelancer = User.where(role: 0).first
+
+  shared_project = SharedProject.create!(
+    project: project,
+    freelancer: freelancer,
+    status: 1
+  )
+
+  raise "Shared project not created!" if shared_project.nil?
+
+  # Create Discussion
+  discussion = Discussion.create!(
+    project: project,
+    freelancer: freelancer,
+    enterprise: enterprise
+  )
+
+  raise "Discussion not created!" if discussion.nil?
+
+  # Create Messages
+  Message.create!(discussion: discussion, sender: enterprise, receiver: freelancer, content: "Hello Freelancer!", read: false)
+  Message.create!(discussion: discussion, sender: freelancer, receiver: enterprise, content: "Hi Enterprise!", read: false)
+end
+
+puts "✅ Seed data created successfully!"

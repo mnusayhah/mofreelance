@@ -40,22 +40,23 @@
   text-align: left;
 }
 
-.sidebar ul li .dropdown-content {
+.sidebar ul li .dashboard-dropdown-content {
 
   padding-left: 15px;
 }
 
 .hidden {
   display: none;
-  list-style: none;
 }
 
-.dropdown-content {
+.dashboard-dropdown-content {
   display: block;
   background: #34495e;
   padding: 10px;
   border-radius: 5px;
   list-style: none;
+  display: none;
+  transition: all 0.3s ease-in-out;
 }
 
 .sidebar ul li a {
@@ -67,4 +68,12 @@
 
 .dropdown-item.dropdown-content:hover {
   display: none;
+}
+
+.dashboard-dropdown-content.hidden {
+  display: none;
+}
+
+.dashboard-dropdown-content:not(.hidden) {
+  display: block;
 }

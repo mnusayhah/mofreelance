@@ -1,28 +1,34 @@
 <div class="dashboard-container">
   <!-- Sidebar -->
-  <aside class="sidebar">
-    <h2>Dashboard</h2>
+  <div class="sidebar" style="width: 250px; margin-right: 20px;">
     <ul>
-      <li data-controller="dropdown">
-        <button class="dropdown-btn" data-action="click->dropdown#toggle">
-          Projects
-        </button>
-          <ul class="dropdown-content hidden" data-dropdown-target="menu">
-            <li><%= link_to "Ongoing Projects", freelancer_shared_projects_path(status: 1), data: { turbo_frame: "projects_frame" } %></li>
-            <li><%= link_to "Pending Projects", freelancer_shared_projects_path(status: 0), data: { turbo_frame: "projects_frame" } %></li>
-            <li><%= link_to "Completed Projects", freelancer_shared_projects_path(status: 4), data: { turbo_frame: "projects_frame" } %></li>
-          </ul>
-      </li>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Projects
+      </button>
+      <ul class="dropdown-menu">
+        <li><%= link_to "Ongoing Projects", freelancer_shared_projects_path(status: 1), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %></li>
+        <li><%= link_to "Pending Projects", freelancer_shared_projects_path(status: 0), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %></li>
+        <li><%= link_to "Completed Projects", freelancer_shared_projects_path(status: 4), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %></li>
+      </ul>
+    </div>
 
-      <li>Messages</li>
-      <li>My Profile
-        <ul>
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Messages
+      </button>
+    </div>
+
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Profile
+      </button>
+        <ul class="dropdown-menu">
           <li><%= link_to "Edit My Profile" %></li>
+          <li><%= link_to "Create My Profile" %></li>
         </ul>
-      </li>
-    </ul>
-  </aside>
-
+    </div>
+  </div>
 
 
   <!-- Main Content -->

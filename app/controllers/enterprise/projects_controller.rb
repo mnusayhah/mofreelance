@@ -16,7 +16,7 @@ module Enterprise
       @project = current_user.projects.build(project_params)
       #@project.status = 0
       if @project.save
-        redirect_to enterprise_projects_path(current_user, @project), notice: 'Project was successfully created.'
+        redirect_to enterprise_projects_path(current_user), notice: 'Project was successfully created.'
       else
         render :new
       end
