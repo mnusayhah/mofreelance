@@ -3,20 +3,21 @@ class ProfilesController < ApplicationController
   before_action :set_profile, only: [:show, :edit, :update]
 
   # Afficher la liste des profils de freelances
-  def index
-    @profiles = if params[:q].present?
-      Profile.where("title ILIKE :query OR skills ILIKE :query OR language ILIKE :query", query: "%#{params[:q]}%")
-    else
-      Profile.joins(:user).where(users: {role: :freelancer})
-    end
+  @profiles = Profile.joins(:user).where(users: {role: :freelancer})
+
+  if params[:q].present?
+    @profiles = @profiles.where("job_title ILIKE :query OR skills ILIKE :query OR language ILIKE :query", query: "%#{params[:q]}%")
   end
 
-  # Afficher un profil en détail d'un freelance
+  @profiles = @profiles.where("job_title ILIKE ?", "%#{params[:job_title]}%") if params[:job_title].present?
+  @profiles = @profiles.where("skills ILIKE ?", "%#{params[:skills]}%") if params[:skills].present?
+  @profiles = @profiles.where("education ILIKE ?", "%#{params[:education]}%") if params[:education].present?
+
   def show
     if @profile.user.freelancer?
       render :show
     else
-      redirect_to profiles_path, alert: "Ce profil n'est pas disponible."
+      redirect_to freelancer_profiles_path, alert: "Ce profil n'est pas disponible."
     end
   end
 
@@ -29,7 +30,7 @@ class ProfilesController < ApplicationController
         render :edit, status: :unprocessable_entity
       end
     else
-      redirect_to profiles_path, alert: "Vous ne pouvez pas modifier ce profil."
+      redirect_to freelancer_profiles_path, alert: "Vous ne pouvez pas modifier ce profil."
     end
   end
 
@@ -43,16 +44,16 @@ class ProfilesController < ApplicationController
     if @profile.user == current_user
       render :edit
     else
-      redirect_to profiles_path, alert: "Vous ne pouvez modifier que votre propre profil."
+      redirect_to freelancer_profiles_path, alert: "Vous ne pouvez modifier que votre propre profil."
     end
   end
 
   def destroy
     if @profile.user == current_user
       @profile.destroy
-      redirect_to profiles_path, notice: "Votre profil a été supprimé avec succès."
+      redirect_to freelancer_profiles_path, notice: "Votre profil a été supprimé avec succès."
     else
-      redirect_to profiles_path, alert: "Vous ne pouvez pas supprimer ce profil."
+      redirect_to freelancer_profiles_path, alert: "Vous ne pouvez pas supprimer ce profil."
     end
   end
 
@@ -65,7 +66,7 @@ class ProfilesController < ApplicationController
       render :edit
     else
       # Optionnel : Si le profil n'existe pas, rediriger l'utilisateur vers une page de création ou un message d'alerte.
-      redirect_to profiles_path, alert: "Votre profil n'existe pas encore."
+      redirect_to freelancer_profiles_path, alert: "Votre profil n'existe pas encore."
     end
   end
 
@@ -85,7 +86,7 @@ class ProfilesController < ApplicationController
   def set_profile
     @profile = Profile.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    redirect_to profiles_path, alert: "Profil introuvable."
+    redirect_to freelancer_profiles_path, alert: "Profil introuvable."
   end
 
   def profile_params
