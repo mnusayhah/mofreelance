@@ -15,6 +15,19 @@ module Enterprise
       render partial: "projects_table", locals: { projects: @projects }
     end
 
+    def change_content
+      case params[:status]
+      when '2'
+        @projects = Project.ongoing
+      when '5'
+        @projects = Project.archived
+      else
+        @projects = Project.my_projects(current_user)
+      end
+
+      render partial: 'projects_table', locals: { projects: @projects }
+    end
+
     def update_content
       render partial: 'new_content'
     end
