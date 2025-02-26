@@ -41,8 +41,23 @@
       </div>
       <!-- Bouton "Proposer une mission" en haut à droite -->
     <div class="col-auto text-end">
-      <a href="#" class="btn btn-danger">Proposer une mission</a>
-    </div>
+        <div class="dropdown">
+          <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            Proposer une mission
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <% if @projects.present? %><!-- Check if there are projects to display -->
+              <% @projects.each do |project| %>
+                <li><a class="dropdown-item" href="#">
+                  <%= project.title %> <!-- Display the project title here -->
+                </a></li>
+              <% end %>
+            <% else %> <!-- If no projects, show a message -->
+              <li><a class="dropdown-item" href="#">No open projects available.</a></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 

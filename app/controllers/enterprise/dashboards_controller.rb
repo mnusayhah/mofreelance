@@ -40,6 +40,8 @@ module Enterprise
       else
         render 'company'
       end
+
+      @profiles = User.where(role: 'freelancer')
     end
   end
 end

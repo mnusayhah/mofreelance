@@ -5,10 +5,10 @@ class Project < ApplicationRecord
   has_many :shared_projects, dependent: :destroy
   has_many :reviews, dependent: :destroy
 
-  enum status: {open: 0, pending: 1, ongoing: 2, paid: 3, completed: 4, archived: 5}
+  enum status: { open: 0, pending: 1, ongoing: 2, paid: 3, completed: 4, archived: 5 }
 
   validates :status, presence: true
-  
+
   after_initialize :set_default_status, if: :new_record?
   after_update :create_discussion_if_accepted
   after_update :archive_project_if_completed_for_30_days

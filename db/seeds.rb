@@ -18,104 +18,50 @@ ActiveRecord::Base.transaction do
     role: 1,
     company: "TechCorp",
     phone_number: "1234567890"
+  )
 end
-  
+
 puts "👤 Création des utilisateurs freelances..."
 
-5.times do
-  user = User.create!(
-    email: Faker::Internet.email,
-    password: "password",
-    first_name: Faker::Name.first_name,
-    last_name: Faker::Name.last_name,
-    role: :freelancer
-  )
+ActiveRecord::Base.transaction do
+  freelancers = [
+    { first_name: "Alice", last_name: "Durand", email: "alice@example.com", password: "password",
+    title: "Graphiste Freelance", bio: "Expert en design graphique avec plus de 5 ans d'expérience.",
+    address: "Port-Louis", language: "FR", tech_skills: "Photoshop, Illustrator, InDesign", hourly_rate: 500 },
+    { first_name: "Bob", last_name: "Martin", email: "bob@example.com", password: "password",
+    title: "Développeur Web", bio: "Spécialiste en développement Ruby on Rails et JavaScript.",
+    address: "Curepipe", language: "EN", tech_skills: "Ruby, Rails, JavaScript", hourly_rate: 600 },
+    { first_name: "Claire", last_name: "Petit", email: "claire@example.com", password: "password",
+    title: "Consultante Marketing Digital", bio: "Aide les entreprises à améliorer leur présence en ligne.",
+    address: "Quatre Bornes", language: "FR", tech_skills: "SEO, SEM, Google Analytics", hourly_rate: 550 },
+    { first_name: "David", last_name: "Lefevre", email: "david@example.com", password: "password",
+    title: "UX/UI Designer", bio: "Créateur d'expériences utilisateurs intuitives et modernes.",
+    address: "Vacoas-Phoenix", language: "FR", tech_skills: "Sketch, Figma, Adobe XD", hourly_rate: 650 },
+    { first_name: "Emma", last_name: "Laurent", email: "emma@example.com", password: "password",
+    title: "Illustratrice", bio: "Passionnée d'illustration et de création visuelle.",
+    address: "Port-Louis", language: "FR", tech_skills: "Procreate, Photoshop, Illustrator", hourly_rate: 480 }
+  ]
 
-  puts "📌 Création du profil pour #{user.email}..."
+  # Création des utilisateurs et de leurs profils associés
+  freelancers.each do |data|
+    user = User.create!(
+      first_name: data[:first_name],
+      last_name: data[:last_name],
+      email: data[:email],
+      password: data[:password],
+      role: "freelancer"
+    )
 
-  profile = Profile.create!(
-    user: user,
-    title: Faker::Job.title,
-    address: Faker::Address.city,
-    bio: Faker::Lorem.paragraph(sentence_count: 3),
-    years_of_experience: rand(1..15),
-    portfolio_url: Faker::Internet.url,
-    hourly_rate: rand(30..150),
-    availability_status: ["available", "busy", "unavailable"].sample,
-    language: ["Français", "Anglais", "Espagnol"].sample,
-    #tech_skills: Array.new(3) { Faker::ProgrammingLanguage.name }  # ✅ Fix Here
-  )
-
-# Create 3-5 associated skills and attach them to the profile
-skills = []
-rand(3..5).times do
-  start_date = Faker::Date.backward(days: rand(1000..4000))
-  end_date = start_date + rand(365..1460) # Ensure end_date is after start_date
-  skills << Skill.create!(
-    profile_id: profile.id,
-    job_title: Faker::Job.position,
-    company: Faker::Company.name,
-    start_date: start_date,
-    end_date: end_date,
-    description: Faker::Job.key_skill,
-    localisation: Faker::Address.city
-  )
-end
-
-# Attach the created skills to the profile
-  profile.skills_id << skill.id
-
-    # Create 1-2 education records for each profile
-    rand(1..2).times do
-      Education.create!(
-        profile_id: profile.id,
-        school: Faker::University.name,
-        diploma: Faker::Educator.course_name,
-        start_date: Faker::Date.backward(days: 2500),
-        end_date: Faker::Date.backward(days: 1000),
-        localisation: Faker::Address.city
-      )
-    end
+    Profile.create!(
+      user: user,
+      title: data[:title],
+      bio: data[:bio],
+      address: data[:address],
+      language: data[:language],
+      tech_skills: data[:tech_skills],
+      hourly_rate: data[:hourly_rate]
+    )
   end
 
-  # Create a Sample Project
-  project = Project.create!(
-    user: enterprise,
-    title: "Website Development",
-    description: "Build a modern web app using Rails and React.",
-    budget: 5000,
-    status: "ongoing",
-    required_skills: "Ruby on Rails, React",
-    visibility: "public",
-    start_date: Date.today,
-    end_date: Date.today + 30.days
-  )
-
-  raise "Project not created!" if project.nil?
-
-  # Assign the First Freelancer to the Project
-  freelancer = User.where(role: 0).first
-
-  shared_project = SharedProject.create!(
-    project: project,
-    freelancer: freelancer,
-    status: 1
-  )
-
-  raise "Shared project not created!" if shared_project.nil?
-
-  # Create Discussion
-  discussion = Discussion.create!(
-    project: project,
-    freelancer: freelancer,
-    enterprise: enterprise
-  )
-
-  raise "Discussion not created!" if discussion.nil?
-
-  # Create Messages
-  Message.create!(discussion: discussion, sender: enterprise, receiver: freelancer, content: "Hello Freelancer!", read: false)
-  Message.create!(discussion: discussion, sender: freelancer, receiver: enterprise, content: "Hi Enterprise!", read: false)
+  puts "Création de #{User.where(role: 'freelancer').count} utilisateurs freelancers et de leurs profils."
 end
-
-puts "✅ Seed data created successfully!"
