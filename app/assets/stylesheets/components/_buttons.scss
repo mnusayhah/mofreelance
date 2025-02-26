@@ -1,0 +1,88 @@
+.btn-pill-custom-blue {
+  text-decoration: none;
+  background-color: #0E6378;
+  color: #fff;
+  border: none;
+  border-radius: 9999px; // pour l'effet pilule
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: darken(#0E6378, 10%); // besoin de Sass
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(14,99,120,0.25);
+  }
+}
+
+
+.btn-pill-custom-red {
+  text-decoration: none;
+  background-color: #FC5757;
+  color: #fff;
+  border: none;
+  border-radius: 9999px; // Effet "pilule"
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    // Nécessite Sass (darken)
+    background-color: darken(#FC5757, 10%);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(252, 87, 87, 0.25);
+  }
+}
+
+
+.btn-pill-custom-red-outline {
+  text-decoration: none;
+  background-color: transparent;
+  color: #FC5757;          /* Couleur du texte */
+  border: 2px solid #FC5757;
+  border-radius: 9999px;   /* Effet "pill" */
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #FC5757;  /* Passe en fond rouge */
+    color: #fff;                /* Texte blanc */
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(252, 87, 87, 0.25);
+  }
+}
+
+.btn-pill-custom-blue-outline {
+  text-decoration: none;
+  background-color: transparent;
+  color: #0E6378;          /* Couleur du texte */
+  border: 2px solid #0E6378;
+  border-radius: 9999px;   /* Effet "pill" */
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #0E6378;  /* Passe en fond bleu */
+    color: #fff;                /* Texte blanc */
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(14,99,120,0.25);
+  }
+}
