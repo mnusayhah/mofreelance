@@ -1,51 +1,47 @@
+<!-- Fichier: app/views/pages/home.html.erb (exemple) -->
+
+<!-- Enveloppe principale -->
 <div class="notion-style">
-<!-- Hero Section -->
-<div class="hero-section" style="background-image: url('https://images.unsplash.com/photo-1572021335469-31706a17aaef?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
-  <div class="hero-overlay"></div>
-  <div class="container py-5">
-    <div class="hero-content text-center py-5">
-      <h1 class="display-4 fw-bold mb-4 text-white">Connect with Top Freelance Talent</h1>
-      <p class="lead mb-5 text-white">Your workspace to find and collaborate with skilled freelancers worldwide.</p>
 
-      <div class="search-container mx-auto mb-5">
+  <!-- Hero Section, avec image de fond sur cette div SEULEMENT -->
+  <div class="hero-section position-relative"
+       style="background-image: url('https://images.unsplash.com/photo-1572021335469-31706a17aaef?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3');
+              background-size: cover;
+              background-position: center;
+              background-repeat: no-repeat;">
+
+    <!-- Overlay sombre si tu veux assombrir l’image -->
+    <div class="hero-overlay"></div>
+
+    <div class="container py-5">
+      <div class="hero-content text-center py-5">
+        <h1 class="display-4 fw-bold mb-4 text-white">Connect with Top Freelance Talent</h1>
+        <p class="lead mb-5 text-white">Your workspace to find and collaborate with skilled freelancers worldwide.</p>
+
+        <!-- Search Container -->
         <div class="row justify-content-center">
-          <div class="col-md-10">
-            <div class="input-group notion-search mb-4">
-              <span class="input-group-text border-0">
-                <i class="fas fa-search search-icon"></i>
-  <div class="container my-5">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <!-- Barre de recherche -->
-        <div class="d-flex align-items-center p-3 bg-white shadow-sm rounded search-bar">
-          <!-- Formulaire de recherche -->
-          <form class="d-flex align-items-center flex-grow-1">
-            <div class="input-group rounded me-2">
-              <span class="input-group-text bg-white border-0 rounded-start">
-                <i class="fas fa-search text-muted"></i>
-
-              </span>
-              <input type="text"
-                    class="form-control border-0 search-input"
-                    placeholder="Search skills, expertise...">
-              <button class="btn btn-primary search-button">
-                Find a Freelancer
-              </button>
+          <div class="col-md-8">
+            <div class="bg-white shadow-sm rounded p-3 d-flex align-items-center search-bar">
+              <form class="d-flex flex-grow-1 align-items-center">
+                <div class="input-group">
+                  <span class="input-group-text bg-white border-0">
+                    <i class="fas fa-search text-muted"></i>
+                  </span>
+                  <input type="text" class="form-control border-0" placeholder="Search skills, expertise...">
+                </div>
+                <button class="btn-pill-custom-blue ms-3">Find a Freelancer</button>
+              </form>
             </div>
-            <a href="freelancer/profiles" class="btn btn-primary rounded" >Trouver un freelance</a>
-          </form>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
   <!-- Social Proof Section -->
   <div class="container col-xxl-8 px-4 py-5">
     <div class="text-center">
       <p class="display-6 mb-5">70,000 companies boost their business with MoFreelance</p>
-
       <!-- Company Logos -->
       <div class="company-logos">
         <div class="row align-items-center justify-content-center">
@@ -132,7 +128,7 @@
       <div class="col-lg-6">
         <h2 class="h2 mb-4">Boost Your Freelance Career</h2>
         <p class="text-muted mb-4">Transform your freelancing journey with our platform. Access a wide range of projects, connect directly with potential clients, and build your professional portfolio. Our tools help you focus on what matters most - delivering exceptional work while we handle the administrative tasks.</p>
-        <%= link_to "Join the Community", "#", class: "btn btn-primary main-cta-button" %>
+        <%= link_to "Join the Community", "#", class: "btn-pill-custom-red" %>
       </div>
       <div class="col-lg-6">
         <div class="notion-image-container">
@@ -150,7 +146,7 @@
       <div class="col-lg-6 order-lg-2">
         <h2 class="h2 mb-4">Find the Perfect Talent for Your Business</h2>
         <p class="text-muted mb-4">Discover qualified professionals who can bring your projects to life. Our platform connects you with skilled freelancers across various domains. Post your project, review profiles, and collaborate seamlessly - all in one place. Find the expertise you need, when you need it.</p>
-        <%= link_to "Post a Project", "#", class: "btn btn-primary main-cta-button" %>
+        <%= link_to "Post a Project", "#", class: "btn btn-pill-custom-red" %>
       </div>
       <div class="col-lg-6 order-lg-1">
         <div class="notion-image-container">
