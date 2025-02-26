@@ -11,6 +11,7 @@ module Freelancer
       @pending_projects = SharedProject.where(status: "pending")
       @accepted_projects = SharedProject.where(status: "accepted")
       @completed_projects = SharedProject.where(status: "completed")
+      @declined_projects = SharedProject.where(status: "declined")
 
       if params[:status].present?
         @shared_projects = @shared_projects.where(status: params[:status])
@@ -24,7 +25,7 @@ module Freelancer
     end
 
     def ongoing_projects
-      @shared_projects = SharedProject.where(freelancer_id: current_user.id).where(status: 1)
+      @shared_projects = SharedProject.where(freelancer_id: current_user.id, status: "accepted")
     end
 
 
@@ -71,30 +72,25 @@ module Freelancer
 
 
     def accept
-      @shared_project = SharedProject.find(params[:id])
-        if @shared_project.pending?
-          @shared_project.update(status: 'accepted')
-
-          respond_to do |format|
-            format.turbo_stream { render turbo_stream: turbo_stream.replace("status_badge_#{@shared_project.id}", partial: "shared_projects/status_badge", locals: { shared_project: @shared_project }) }
-            format.html { redirect_to freelancer_dashboard_path, notice: 'Project accepted.' }
-          end
-          # else
-          #   redirect_to freelancer_shared_projects_path, alert: 'There was an error accepting the project.'
+      if @shared_project.update(status: "accepted")
+        respond_to do |format|
+          format.html { redirect_to freelancer_dashboard_path, notice: "Project accepted successfully!" }
+          format.turbo_stream
         end
+      else
+        flash[:alert] = "Failed to accept the project."
+      end
     end
 
     def decline
-      @shared_project = SharedProject.find(params[:id])
-      @shared_project.update(status: 'declined')
-
+      if @shared_project.update!(status: "declined")
         respond_to do |format|
-          format.turbo_stream { render turbo_stream: turbo_stream.replace("status_badge_#{@shared_project.id}", partial: "shared_projects/status_badge", locals: { shared_project: @shared_project }) }
-          format.html { redirect_to freelancer_dashboard_path, notice: 'Project declined.' }
+          format.html { redirect_to freelancer_dashboard_path, notice: "Project declined!" }
+          format.turbo_stream
         end
-      # else
-      #   redirect_to freelancer_dashboard_path, alert: 'There was an error declining the project.'
-      # end
+      else
+        flash[:alert] = "Failed to decline the project."
+      end
     end
 
 

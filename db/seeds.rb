@@ -100,7 +100,7 @@ puts "👤 Création des utilisateurs freelances..."
     SharedProject.create!(
     project: projects.sample,
     freelancer: freelancers.sample,
-    status: rand(0..4), # Example: 0 = pending, 1 = accepted, 2 = completed
+    status: 0, # Example: 0 = pending, 1 = accepted, 2 = completed
   )
   end
 
