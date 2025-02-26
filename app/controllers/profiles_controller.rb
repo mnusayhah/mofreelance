@@ -5,13 +5,13 @@ class ProfilesController < ApplicationController
   # Afficher la liste des profils de freelances
   @profiles = Profile.joins(:user).where(users: {role: :freelancer})
 
-  if params[:q].present?
-    @profiles = @profiles.where("job_title ILIKE :query OR skills ILIKE :query OR language ILIKE :query", query: "%#{params[:q]}%")
-  end
+  # if params[:q].present?
+  #   @profiles = @profiles.where("job_title ILIKE :query OR skills ILIKE :query OR language ILIKE :query", query: "%#{params[:q]}%")
+  # end
 
-  @profiles = @profiles.where("job_title ILIKE ?", "%#{params[:job_title]}%") if params[:job_title].present?
-  @profiles = @profiles.where("skills ILIKE ?", "%#{params[:skills]}%") if params[:skills].present?
-  @profiles = @profiles.where("education ILIKE ?", "%#{params[:education]}%") if params[:education].present?
+  # @profiles = @profiles.where("job_title ILIKE ?", "%#{params[:job_title]}%") if params[:job_title].present?
+  # @profiles = @profiles.where("skills ILIKE ?", "%#{params[:skills]}%") if params[:skills].present?
+  # @profiles = @profiles.where("education ILIKE ?", "%#{params[:education]}%") if params[:education].present?
 
   #def show
     #if @profile.user.freelancer?
@@ -94,6 +94,58 @@ class ProfilesController < ApplicationController
       render :new
     end
   end
+
+    # Recherche globale (pg_search, ou un simple LIKE)
+    if params[:query].present?
+      @profiles = @profiles.search_by_freelance_data(params[:query])
+      # ou bien @profiles = @profiles.where("title ILIKE :query OR bio ILIKE :query", query: "%#{params[:query]}%")
+    end
+
+    # Disponibilité
+    if params[:availability_status].present?
+      @profiles = @profiles.where(availability_status: params[:availability_status])
+    end
+
+    # Expérience
+    if params[:experience_range].present?
+      case params[:experience_range]
+      when "0-2"
+        @profiles = @profiles.where("years_of_experience <= 2")
+      when "3-7"
+        @profiles = @profiles.where("years_of_experience BETWEEN 3 AND 7")
+      when "8-15"
+        @profiles = @profiles.where("years_of_experience BETWEEN 8 AND 15")
+      when "16+"
+        @profiles = @profiles.where("years_of_experience >= 16")
+      end
+    end
+
+    # Langue
+    if params[:language].present?
+      @profiles = @profiles.where(language: params[:language])
+    end
+
+    # Localisation
+    if params[:address].present?
+      @profiles = @profiles.where("address ILIKE ?", "%#{params[:address]}%")
+    end
+
+    # Tech Skills
+    if params[:tech_skills].present?
+      # Cherche si la skill tapée se trouve dans la chaîne `tech_skills`
+      # (ou tu peux faire un split pour matcher plusieurs).
+      @profiles = @profiles.where("tech_skills ILIKE ?", "%#{params[:tech_skills]}%")
+    end
+
+    # Taux horaire min
+    if params[:min_rate].present?
+      @profiles = @profiles.where("hourly_rate >= ?", params[:min_rate])
+    end
+
+    # Taux horaire max
+    if params[:max_rate].present?
+      @profiles = @profiles.where("hourly_rate <= ?", params[:max_rate])
+    end
 
   private
 

@@ -1,0 +1,25 @@
+// Couleur principale Malt : #F47721 (un orange vif)
+$primary: #0E6378;
+
+// Tu peux choisir une couleur secondaire plus sombre
+$secondary: #FC5757; // Un gris foncé ou bleu nuit, par exemple
+
+// Autres variables pour un thème cohérent
+$success: #81c784;    // Vert clair
+$info: #ECF3F4;       // Bleu clair
+$warning: #ffd54f;    // Jaune
+$danger: #e53935;     // Rouge
+$light: #f8f9fa;      // Gris très clair
+$dark: #212121;       // Noir-ish
+
+
+$theme-colors: (
+   "primary": $primary,
+   "secondary": $secondary,
+   "success": $success,
+   "info": $info,
+   "warning": $warning,
+   "danger": $danger,
+   "light": $light,
+   "dark": $dark
+ );
