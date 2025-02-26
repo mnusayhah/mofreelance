@@ -10,9 +10,9 @@ class SharedProject < ApplicationRecord
   private
 
   def create_discussion_after_acceptance
-    if saved_change_to_status? && accepted? && project.discussion.nil?
-      Discussion.create(project: project)
-    end
+    # if saved_change_to_status? && accepted? && project.discussion.nil?
+    #   Discussion.create(project: project)
+    # end
   end
 
   def update_project_status_on_acceptance

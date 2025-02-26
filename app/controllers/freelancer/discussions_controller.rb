@@ -13,5 +13,11 @@ module Freelancer
         render "enterprise/discussions/show"
       end
     end
+
+
+    private
+    def discussion_params
+      params.require(:discussion).permit(:project_id, :enterprise_id, :freelancer_id)
+    end
   end
 end

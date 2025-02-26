@@ -53,8 +53,8 @@ Rails.application.routes.draw do
 
     resources :shared_projects, only: [:index, :show] do
       member do
-        patch "accept"
-        patch "decline"
+        post :accept
+        post :decline
       end
     end
 

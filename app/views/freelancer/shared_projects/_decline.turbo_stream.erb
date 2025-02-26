@@ -1,0 +1,5 @@
+<turbo-stream action="replace" target="projects-container">
+  <template>
+    <%= render partial: "freelancer/dashboard/projects_list", locals: { projects: current_user.freelancer.declined_projects } %>
+  </template>
+</turbo-stream>
