@@ -23,7 +23,6 @@ module Enterprise
     end
 
     def show
-      @project = current_user.projects.find(params[:id])
     end
 
     def edit
@@ -82,10 +81,23 @@ module Enterprise
 
     def share
       @project = Project.find(params[:id])
-      @freelancer = User.find(params[:user_id])
-      @project.shared_projects.create(user: @freelancer)
 
-      redirect_to company_dashboard_path, notice: 'Project shared successfully.'
+      # Find the freelancer by their profile
+      profile = Profile.find(params[:profile_id])
+      freelancer = profile.user_id# Assuming each profile is associated with a user (freelancer)
+
+      # Create a new SharedProject for this freelancer with the status 'pending'
+        shared_project = SharedProject.create(
+        project_id: @project.id,
+        freelancer_id: freelancer,
+        status: 0
+      )
+
+      if shared_project.save
+        redirect_to enterprise_project_path(@project), notice: 'Project successfully shared with freelancer.'
+      else
+        redirect_to enterprise_project_path(@project), alert: 'Failed to share the project.'
+      end
     end
 
     def destroy
@@ -96,7 +108,7 @@ module Enterprise
     private
 
     def set_project
-      @project = current_user.projects.find(params[:id])
+      @project = Project.find(params[:id])
     end
 
     def project_params

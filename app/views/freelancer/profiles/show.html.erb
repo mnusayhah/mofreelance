@@ -40,9 +40,24 @@
         <% end %>
       </div>
       <!-- Bouton "Proposer une mission" en haut à droite -->
-    <div class="col-auto text-end">
-      <a href="#" class="btn btn-danger">Proposer une mission</a>
-    </div>
+      <div class="col-auto text-end">
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Propose a Project
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <% if @projects.present? && @projects.any? { |project| project.status == 'open' } %>
+              <% @projects.each do |project| %>
+                <%= button_to "Share: #{project.title}", share_enterprise_project_path(project_id: @project, profile_id: @profile.id), method: :post, class: "dropdown-item" %>
+              <% end %>
+            <% else %>
+              <span class="dropdown-item text-muted">No available projects</span>
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+
     </div>
   </div>
 

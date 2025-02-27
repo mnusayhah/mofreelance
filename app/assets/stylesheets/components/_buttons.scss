@@ -86,3 +86,25 @@
     box-shadow: 0 0 0 0.2rem rgba(14,99,120,0.25);
   }
 }
+
+.btn-pill-custom-yellow {
+  text-decoration: none;
+  background-color: #FDC849;
+  color: #fff;
+  border: none;
+  border-radius: 9999px; // Effet "pilule"
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    // Nécessite Sass (darken)
+    background-color: darken(#FC5757, 10%);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(252, 87, 87, 0.25);
+  }
+}
