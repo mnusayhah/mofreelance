@@ -10,3 +10,6 @@ window.jQuery = jquery
 import "cocoon";
 import Rails from "@rails/ujs"
 Rails.start()
+
+
+
