@@ -3,7 +3,7 @@ class ProfilesController < ApplicationController
   before_action :set_profile, only: [:show, :edit, :update]
 
   # Afficher la liste des profils de freelances
-  @profiles = Profile.joins(:user).where(users: {role: :freelancer})
+  @profiles = Profile.joins(:user).where(users: { role: :freelancer })
 
   # if params[:q].present?
   #   @profiles = @profiles.where("job_title ILIKE :query OR skills ILIKE :query OR language ILIKE :query", query: "%#{params[:q]}%")
@@ -13,12 +13,18 @@ class ProfilesController < ApplicationController
   # @profiles = @profiles.where("skills ILIKE ?", "%#{params[:skills]}%") if params[:skills].present?
   # @profiles = @profiles.where("education ILIKE ?", "%#{params[:education]}%") if params[:education].present?
 
+  #def show
+    #if @profile.user.freelancer?
+      #render :show
+    #else
+      #redirect_to freelancer_profiles_path, alert: "Ce profil n'est pas disponible."
+    #end
+  #end
+
   def show
     @profile = Profile.find(params[:id])
       if @profile.user.freelancer?
         @projects = Project.where(user_id: current_user.id, status: 'open')
-        # Log to confirm what @projects is being set to
-        # Rails.logger.debug "Open projects for company #{current_user.id}: #{@projects.inspect}" # Ensure it's never nil
         Rails.logger.debug "Open projects for freelancer #{current_user.id}: #{@projects.inspect}"
         render :show
       else
@@ -41,7 +47,7 @@ class ProfilesController < ApplicationController
 
   def new
     @profile = Profile.new
-    @profile.skills.build  # Ajoute un skill vide pour le formulaire
+    @profile.skills.build # Ajoute un skill vide pour le formulaire
     @profile.educations.build
   end
 

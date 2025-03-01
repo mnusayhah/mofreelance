@@ -20,7 +20,27 @@
                 <td><%= project.start_date.strftime('%B %d, %Y') %></td>
                 <td><%= project.end_date.strftime('%B %d, %Y') %></td>
                 <td><%= link_to 'Edit', edit_enterprise_project_path(project) %></td>
-                <td><%= project.status.humanize %></td>
+                <td>
+                  <%
+                    case project.status
+                    when 0
+                      status_label = 'Open'
+                    when 1
+                      status_label = 'Pending'
+                    when 2
+                      status_label = 'Ongoing'
+                    when 3
+                      status_label = 'Paid'
+                    when 4
+                      status_label = 'Completed'
+                    when 5
+                      status_label = 'Archived'
+                    else
+                      status_label = 'Unknown'
+                    end
+                  %>
+                  <%= status_label %>
+                </td>
               </tr>
             <% end %>
           <% else %>

@@ -65,6 +65,20 @@ module Freelancer
       end
     end
 
+
+    # def accept
+    #   @shared_project = SharedProject.find(params[:id])
+    #   if @shared_project.update(status: 'accepted')
+    #     # You can add Turbo Streams to update the status in the view without refreshing the page.
+    #     respond_to do |format|
+    #       format.html { redirect_to freelancer_shared_projects_path, notice: 'Project accepted.' }
+    #       format.turbo_stream { render turbo_stream: turbo_stream.replace("status_badge_#{@shared_project.id}", partial: 'shared_projects/status_badge', locals: { shared_project: @shared_project }) }
+    #     end
+    #   else
+    #     redirect_to freelancer_shared_projects_path, alert: 'There was an error accepting the project.'
+    #   end
+    # end
+
     def decline
       if @shared_project.update!(status: "declined")
         respond_to do |format|

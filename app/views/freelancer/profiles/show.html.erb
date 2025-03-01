@@ -68,7 +68,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <% if @projects.present? && @projects.any? { |project| project.status == 'open' } %>
                 <% @projects.each do |project| %>
-                  <%= button_to "Share: #{project.title}", share_enterprise_project_path(project_id: @project, profile_id: @profile.id), method: :post, class: "dropdown-item" %>
+                  <%= button_to "Share: #{project.title}", share_enterprise_project_path(project_id: project, profile_id: @profile.id), method: :post, class: "dropdown-item" %>
                 <% end %>
                <% else %>
                 <span class="dropdown-item text-muted">No available projects</span>
