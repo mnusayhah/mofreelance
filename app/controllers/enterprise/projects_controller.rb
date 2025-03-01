@@ -57,14 +57,14 @@ module Enterprise
     #end
 
     def mark_as_paid
+      @project = Project.find(params[:id])
+
       if @project.update(status: "paid")
-        respond_to do |format|
-          format.html { redirect_to enterprise_dashboard_path, notice: "Project paid" }
-          format.turbo_stream
-        end
+        redirect_to enterprise_project_path(@project), notice: "Project marked as paid."
       else
-        flash[:alert] = "Failed to complete the project."
+        redirect_to enterprise_project_path(@project), alert: "Failed to mark project as paid."
       end
+
       # @project = Project.find(params[:id])
 
       # if @project.update(status: :paid)
@@ -77,22 +77,22 @@ module Enterprise
 
     # Then, to mark as completed:
     def mark_as_completed
-        if @project.update(status: "completed")
-          respond_to do |format|
-            format.html { redirect_to enterprise_dashboard_path, notice: "Project completed successfully!" }
-            format.turbo_stream
-          end
-        else
-          flash[:alert] = "Failed to complete the project."
-        end
-      # @project = Project.find(params[:id])
+        # if @project.update(status: "completed")
+        #   respond_to do |format|
+        #     format.html { redirect_to enterprise_dashboard_path, notice: "Project completed successfully!" }
+        #     format.turbo_stream
+        #   end
+        # else
+        #   flash[:alert] = "Failed to complete the project."
+        # end
+      @project = Project.find(params[:id])
 
-      # if @project.status == 'paid' # Ensure it can only be completed after paid
-      #   @project.update(status: :completed, completed_at: Time.current)
-      #   redirect_to @project, notice: "Project marked as completed!"
-      # else
-      #   redirect_to @project, alert: "Project must be marked as paid before completing."
-      # end
+      if @project.status == 'paid' # Ensure it can only be completed after paid
+        @project.update(status: 'completed')
+        redirect_to enterprise_project_path(@project), notice: "Project marked as completed!"
+      else
+        redirect_to enterprise_project_path(@project), alert: "Project must be marked as paid before completing."
+      end
     end
 
     def share
