@@ -1,184 +1,249 @@
-<div class="container mt-5" style="background-color: #fff;">
-  <!-- Barre supérieure avec avatar, nom, titre, et CTA -->
-  <div class="row align-items-center mb-4">
-    <div class="col-auto text-center mt-4">
-      <!-- Avatar parfaitement rond -->
-      <%= image_tag(
-        "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",
-        alt: "Avatar",
-        style: "width: 320px; height: 320px; object-fit: cover; border-radius: 50%;"
-      ) %>
-    </div>
+<!-- Fichier: app/views/freelancer/profiles/show.html.erb -->
 
-    <!-- Carte "Header" du profil -->
-    <div class="card mb-4 shadow-sm border-0 bg-white col">
-      <div class=" text-center py-4">
-        <!-- Nom & Titre -->
-        <h2 class="fw-bold mb-1" style="font-size: 2rem;">
-          <%= @profile.user.first_name %> <%= @profile.user.last_name %>
-        </h2>
-        <p class="text-danger fw-bold mb-3" style="font-size: 1.25rem;">
-          <%= @profile.title %>
-        </p>
+<div class="container mt-5 mb-5" style="max-width: 1200px;">
+  <!-- Section combinée (couverture + informations) -->
+  <div class="position-relative mb-5">
+    <!-- Image de couverture -->
+    <div
+      style="
+        height: 100px;
+        background-image: url('https://firefox-settings-attachments.cdn.mozilla.net/main-workspace/newtab-wallpapers-v2/a205885e-194a-41f9-ae47-e7da66a74041.avif');
+        background-size: cover;
+        background-position: center;
+        border-radius: 0.75rem 0.75rem 0 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      "
+    ></div>
 
-        <!-- Adresse & Langue -->
-        <p class="mb-1">
-          <i class="bi bi-geo-alt"></i> <%= @profile.address %>
-        </p>
-        <p class="mb-1 text-muted">
-          <%= @profile.language.present? ? @profile.language.capitalize : "N/A" %>
-        </p>
+    <!-- Carte blanche d'informations -->
+    <div class="card shadow-sm border-0 rounded-0 rounded-bottom-4 bg-white p-4 pt-5">
+      <div class="row">
+        <!-- Conteneur flexible avec espacement pour la photo -->
+        <div class="col-md-8">
+          <div class="d-flex">
+            <!-- Espace réservé pour l'avatar (invisible) -->
+            <div style="width: 300px; margin-right: 2rem;"></div>
 
-        <!-- Disponibilité -->
-        <% case @profile.availability_status %>
-          <% when "available" %>
-            <span class="badge bg-success">Available</span>
-          <% when "busy" %>
-            <span class="badge bg-warning">Busy</span>
-          <% else %>
-            <span class="badge bg-danger">Unavailable</span>
-        <% end %>
-      </div>
-      <!-- Bouton "Proposer une mission" en haut à droite -->
-      <div class="col-auto text-end">
-        <div class="dropdown">
-          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Propose a Project
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <% if @projects.present? && @projects.any? { |project| project.status == 'open' } %>
-              <% @projects.each do |project| %>
-                <%= button_to "Share: #{project.title}", share_enterprise_project_path(project_id: @project, profile_id: @profile.id), method: :post, class: "dropdown-item" %>
-              <% end %>
-            <% else %>
-              <span class="dropdown-item text-muted">No available projects</span>
-            <% end %>
+            <!-- Nom et titre -->
+            <div>
+              <h2 class="fw-bold mb-2"><%= @profile.user.first_name %> <%= @profile.user.last_name %></h2>
+              <p class="text-muted" style="font-size: 1.1rem;"><%= @profile.title %></p>
+
+              <!-- Statistiques du profil -->
+              <div class="d-flex flex-wrap gap-4 mt-4">
+                <!-- Tarif indicatif -->
+                <div class="bg-primary text-white p-3" style="border-radius: 0.75rem; min-width: 170px;">
+                  <h6 class="text-white-50 mb-2">Tarif indicatif</h6>
+                  <p class="mb-0 fw-bold fs-4">
+                    <% if @profile.hourly_rate.present? %>
+                      <%= @profile.hourly_rate %> €<span class="fw-normal fs-6">/jour</span>
+                    <% else %>
+                      N/A
+                    <% end %>
+                  </p>
+                </div>
+
+                <!-- Expérience -->
+                <div class="bg-light p-3" style="border-radius: 0.75rem; min-width: 170px;">
+                  <h6 class="text-primary mb-2">Expérience</h6>
+                  <p class="mb-0 fw-bold fs-4">
+                    <% if @profile.years_of_experience.present? %>
+                      <%= @profile.years_of_experience %> ans
+                    <% else %>
+                      N/A
+                    <% end %>
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-      </div>
+        <!-- CTA "Proposer une mission" -->
+        <div class="col-md-4 d-flex flex-column align-items-md-end justify-content-md-start mt-4 mt-md-0">
+          <div class="dropdown">
+          <button class="btn-pill-custom-red dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Propose a Project
+          </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <% if @projects.present? && @projects.any? { |project| project.status == 'open' } %>
+                <% @projects.each do |project| %>
+                  <%= button_to "Share: #{project.title}", share_enterprise_project_path(project_id: @project, profile_id: @profile.id), method: :post, class: "dropdown-item" %>
+                <% end %>
+               <% else %>
+                <span class="dropdown-item text-muted">No available projects</span>
+               <% end %>
+             </div>
+          </div>
+        </div>
 
+
+    <!-- Photo de profil positionnée par-dessus les deux sections -->
+    <div class="position-absolute" style="top: 80px; left: 40px;">
+      <%= image_tag(
+        "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",
+        alt: "Avatar",
+        style: "width: 250px; height: 250px; object-fit: cover; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);"
+      ) %>
     </div>
   </div>
 
-  <!-- Corps de la page : cartes pour Bio, Skills, Education, Reviews -->
-  <div class="row">
-    <div class="col-12 col-md-4">
-      <!-- Espace libre ou section complémentaire si nécessaire -->
-    </div>
+  <!-- Contenu principal : 2 colonnes (1/3 - 2/3) -->
+  <div class="row g-5">
+    <!-- Colonne gauche (1/3) : Bio, Localisation, Compétences -->
+    <div class="col-lg-4">
 
-    <div class="col-12 col-md-8">
-      <!-- Bio -->
-      <div class="card mb-4 shadow-sm border-0 bg-white">
-        <div class="card-header bg-white border-0">
-          <h4 class="mb-0">
-            <i class="fas fa-user me-2"></i>Bio
+      <!-- Localisation -->
+      <div class="card shadow-sm border-0 rounded-4 bg-white mb-4">
+        <div class="card-header bg-white border-0 rounded-4 pt-4 px-4">
+          <h4 class="mb-0 fw-bold">
+            <i class="fas fa-map-marker-alt me-2 text-primary"></i>Localisation
           </h4>
         </div>
-        <div class="card-body">
-          <p><%= @profile.bio %></p>
+        <div class="card-body px-4 pb-4">
+          <p class="text-muted mb-0">
+            <%= @profile.address %>
+          </p>
         </div>
       </div>
 
-      <!-- Technical Skills -->
-      <div class="card mb-4 shadow-sm border-0 bg-white">
-        <div class="card-header bg-white border-0">
-          <h4 class="mb-0">
-            <i class="fas fa-laptop-code me-2"></i>Technical Skills
+      <!-- Compétences -->
+      <div class="card shadow-sm border-0 rounded-4 bg-white">
+        <div class="card-header bg-white border-0 rounded-4 pt-4 px-4">
+          <h4 class="mb-0 fw-bold">
+            <i class="fas fa-code me-2 text-primary"></i>Compétences
           </h4>
         </div>
-        <div class="card-body">
+        <div class="card-body px-4 pb-4">
           <% if @profile.tech_skills.present? %>
-            <% @profile.tech_skills.split(',').each do |tech| %>
-              <span class="badge bg-secondary me-1"><%= tech.strip %></span>
+            <% @profile.tech_skills.split(',').each do |skill| %>
+              <span class="badge bg-info text-primary me-2 mb-2 py-2 px-3" style="font-size: 0.9rem; border-radius: 50rem;"><%= skill.strip %></span>
             <% end %>
           <% else %>
-            <p class="text-muted">No technical skills provided.</p>
+            <p class="text-muted mb-0">Aucune compétence renseignée.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colonne droite (2/3) : Expériences, Formations, Avis -->
+    <div class="col-lg-8">
+      <!-- Bio -->
+      <div class="card shadow-sm border-0 rounded-4 bg-white mb-4">
+        <div class="card-header bg-white border-0 rounded-4 pt-4 px-4">
+          <h4 class="mb-0 fw-bold">
+            <i class="fas fa-user me-2 text-primary"></i>Bio
+          </h4>
+        </div>
+        <div class="card-body px-4 pb-4">
+          <% if @profile.bio.present? %>
+            <p class="mb-0"><%= @profile.bio %></p>
+          <% else %>
+            <p class="text-muted mb-0">Aucune bio renseignée.</p>
           <% end %>
         </div>
       </div>
 
-      <!-- Experiences & Skills -->
-      <div class="card mb-4 shadow-sm border-0 bg-white">
-        <div class="card-header bg-white border-0">
-          <h4 class="mb-0">
-            <i class="fas fa-briefcase me-2"></i>Experiences & Skills
+      <!-- Expériences -->
+      <div class="card shadow-sm border-0 rounded-4 bg-white mb-4">
+        <div class="card-header bg-white border-0 rounded-4 pt-4 px-4">
+          <h4 class="mb-0 fw-bold">
+            <i class="fas fa-briefcase me-2 text-primary"></i>Expériences
           </h4>
         </div>
-        <div class="card-body">
+        <div class="card-body px-4 pb-4">
           <% if @profile.skills.any? %>
-            <% @profile.skills.each do |skill| %>
-              <div class="mb-3 border-bottom pb-2">
-                <h6 class="mb-1">
-                  <strong><%= skill.job_title %></strong>
-                  <small class="text-muted">at <%= skill.company %></small>
-                </h6>
-                <p class="small text-muted">
+            <% @profile.skills.each_with_index do |skill, index| %>
+              <div class="<%= index < @profile.skills.size - 1 ? 'border-bottom pb-4 mb-4' : '' %>">
+                <h5 class="mb-2 fw-bold">
+                  <%= skill.job_title %>
+                  <% if skill.company.present? %>
+                    <span class="text-muted fw-normal">chez <%= skill.company %></span>
+                  <% end %>
+                </h5>
+                <p class="text-muted mb-3" style="font-size: 0.95rem;">
                   <%= skill.start_date.present? ? skill.start_date.strftime("%b %Y") : "-" %>
                   -
-                  <%= skill.end_date.present? ? skill.end_date.strftime("%b %Y") : "Present" %>
-                  | <%= skill.localisation %>
+                  <%= skill.end_date.present? ? skill.end_date.strftime("%b %Y") : "Présent" %>
+                  <% if skill.localisation.present? %>
+                    | <%= skill.localisation %>
+                  <% end %>
                 </p>
-                <p><%= skill.description %></p>
+                <% if skill.description.present? %>
+                  <p class="mb-0"><%= skill.description %></p>
+                <% end %>
               </div>
             <% end %>
           <% else %>
-            <p class="text-muted">No experiences provided.</p>
+            <p class="text-muted mb-0">Aucune expérience renseignée.</p>
           <% end %>
         </div>
       </div>
 
-      <!-- Education -->
-      <div class="card mb-4 shadow-sm border-0 bg-white">
-        <div class="card-header bg-white border-0">
-          <h4 class="mb-0">
-            <i class="fas fa-graduation-cap me-2"></i>Education
+      <!-- Formations -->
+      <div class="card shadow-sm border-0 rounded-4 bg-white mb-4">
+        <div class="card-header bg-white border-0 rounded-4 pt-4 px-4">
+          <h4 class="mb-0 fw-bold">
+            <i class="fas fa-graduation-cap me-2 text-primary"></i>Formations
           </h4>
         </div>
-        <div class="card-body">
+        <div class="card-body px-4 pb-4">
           <% if @profile.educations.any? %>
-            <% @profile.educations.each do |edu| %>
-              <div class="mb-3 border-bottom pb-2">
-                <h6 class="mb-1"><strong><%= edu.school %></strong></h6>
-                <p class="small text-muted">
+            <% @profile.educations.each_with_index do |edu, index| %>
+              <div class="<%= index < @profile.educations.size - 1 ? 'border-bottom pb-4 mb-4' : '' %>">
+                <h5 class="mb-2 fw-bold"><%= edu.school %></h5>
+                <p class="text-muted mb-2" style="font-size: 0.95rem;">
                   <%= edu.diploma %>
                   (<%= edu.start_date.present? ? edu.start_date.strftime("%Y") : "-" %>
                   -
-                  <%= edu.end_date.present? ? edu.end_date.strftime("%Y") : "Present" %>)
+                  <%= edu.end_date.present? ? edu.end_date.strftime("%Y") : "Présent" %>)
                 </p>
-                <p class="small text-muted"><%= edu.localisation %></p>
+                <% if edu.localisation.present? %>
+                  <p class="text-muted mb-0"><%= edu.localisation %></p>
+                <% end %>
               </div>
             <% end %>
           <% else %>
-            <p class="text-muted">No education details provided.</p>
+            <p class="text-muted mb-0">Aucune formation renseignée.</p>
           <% end %>
         </div>
       </div>
 
-      <!-- Reviews -->
-      <div class="card mb-4 shadow-sm border-0 bg-white">
-        <div class="card-header bg-white border-0">
-          <h4 class="mb-0">
-            <i class="fas fa-star me-2"></i>Reviews
+      <!-- Avis (Reviews) -->
+      <div class="card shadow-sm border-0 rounded-4 bg-white">
+        <div class="card-header bg-white border-0 rounded-4 pt-4 px-4">
+          <h4 class="mb-0 fw-bold">
+            <i class="fas fa-star me-2 text-warning"></i>Avis
           </h4>
         </div>
-        <div class="card-body">
+        <div class="card-body px-4 pb-4">
           <% if @profile.user.reviews_received.any? %>
-            <% @profile.user.reviews_received.each do |review| %>
-              <div class="card mb-3 border-0 shadow-sm">
+            <% @profile.user.reviews_received.each_with_index do |review, index| %>
+              <div class="card mb-4 border-0 shadow-sm rounded-4 p-3">
                 <div class="card-body">
-                  <h6 class="card-title">Rating: <%= review.score %>/5</h6>
-                  <p class="card-text"><%= review.comment %></p>
-                  <p class="card-text">
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="card-title mb-0 fw-bold">Note : <%= review.score %>/5</h6>
+                    <div>
+                      <% review.score.times do %>
+                        <i class="fas fa-star text-warning"></i>
+                      <% end %>
+                      <% (5 - review.score).times do %>
+                        <i class="far fa-star text-warning"></i>
+                      <% end %>
+                    </div>
+                  </div>
+                  <p class="card-text mb-3"><%= review.comment %></p>
+                  <p class="card-text text-end">
                     <small class="text-muted">
-                      By user ID <%= review.user_id %> on project ID <%= review.project_id %>
+                      Avis laissé par l'utilisateur ID <%= review.user_id %>
+                      sur le projet ID <%= review.project_id %>
                     </small>
                   </p>
                 </div>
               </div>
             <% end %>
           <% else %>
-            <p class="text-muted">No reviews available.</p>
+            <p class="text-muted mb-0">Aucun avis pour le moment.</p>
           <% end %>
         </div>
       </div>
