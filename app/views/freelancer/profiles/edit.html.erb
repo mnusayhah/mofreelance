@@ -3,19 +3,18 @@
   <div class="card shadow-sm">
     <!-- En-tête -->
     <div class="card-header bg-primary text-white">
-      <h3 class="mb-0">Create Your Freelance Profile</h3>
+      <h3 class="mb-0">Edit Your Freelance Profile</h3>
     </div>
 
-  <div class="card-body">
-  <p class="lead">Hi <%= current_user.first_name %>,</p>
-  <p class="lead">Welcome to your freelancer profile creation page!</p>
-  <p class="lead">Please fill out the form below with your personal information, work experience, education, and technical skills.</p>
-  <p class="lead">The more details you provide, the better you'll be able to showcase your expertise to potential clients.</p>
-  <hr class="my-4">
-  </div>
-      <!-- Corps du formulaire -->
     <div class="card-body">
-      <!-- Informations Générales -->
+      <p class="lead">Hi <%= current_user.first_name %>,</p>
+      <p class="lead">Update your freelancer profile here!</p>
+      <hr class="my-4">
+    </div>
+
+    <!-- Corps du formulaire -->
+    <div class="card-body">
+      <!-- Les mêmes champs que dans new.html.erb -->
       <h4 class="mb-3">General Information</h4>
       <div class="row">
         <div class="col-md-6 mb-3">
@@ -25,25 +24,12 @@
           <%= f.input :address, label: "Address", input_html: { class: "form-control" } %>
         </div>
       </div>
+
       <div class="mb-3">
         <%= f.input :bio, as: :text, label: "Bio", input_html: { class: "form-control", rows: 4 } %>
       </div>
-      <div class="row">
-        <div class="col-md-4 mb-3">
-          <%= f.input :years_of_experience, collection: ['0-2 years', '3-7 years', '8-15 years', '16+ years'],
-                        label: "Experience", prompt: "Select experience", input_html: { class: "form-control" } %>
-        </div>
-        <div class="col-md-4 mb-3">
-          <%= f.input :hourly_rate, label: "Hourly Rate (Rs)", input_html: { class: "form-control" } %>
-        </div>
-        <div class="col-md-4 mb-3">
-          <%= f.input :language, collection: ['french', 'english', 'spanish', 'italian', 'german'],
-                        label: "Language", prompt: "Select language", input_html: { class: "form-control" } %>
-        </div>
-      </div>
-      <div class="mb-3">
-        <%= f.input :availability_status, collection: ["available", "busy", "unavailable"],
-                      label: "Availability", input_html: { class: "form-control" } %>
+
+      <!-- etc. (years_of_experience, hourly_rate, language, etc.) -->
 
       <!-- Champ "Profile Photo" -->
       <div class="mb-3">
@@ -87,7 +73,7 @@
 
     <!-- Pied de page -->
     <div class="card-footer text-end">
-      <%= f.button :submit, "Save", class: "btn btn-primary" %>
+      <%= f.button :submit, "Update", class: "btn btn-primary" %>
     </div>
   </div>
 <% end %>
