@@ -11,7 +11,7 @@ class Project < ApplicationRecord
 
   after_initialize :set_default_status, if: :new_record?
   after_update :create_discussion_if_accepted
-  after_update :archive_project_if_completed_for_30_days
+  # after_update :archive_project_if_completed_for_30_days
 
   private
 
@@ -25,11 +25,11 @@ class Project < ApplicationRecord
     end
   end
 
-  def archive_project_if_completed_for_30_days
-    if completed? && completed_at && completed_at < 30.days.ago
-      self.update(status: :archived)
-    end
-  end
+  # def archive_project_if_completed_for_30_days
+  #   if completed? && completed_at && completed_at < 30.days.ago
+  #     self.update(status: :archived)
+  #   end
+  # end
 
   has_many :freelancers, through: :shared_projects, source: :user
 end
