@@ -21,4 +21,18 @@ class SharedProject < ApplicationRecord
       project.update(status: :ongoing)
     end
   end
+
+  def update_project_status_on_decline
+    # If freelancer accepts the project, set project to ongoing
+    if declined? && project.status != 'open'
+      project.update(status: :open)
+    end
+  end
+
+  # def update_project_status_on_payment_received
+  #   # If freelancer accepts the project, set project to ongoing
+  #   if paid? && project.status != 'completed'
+  #     project.update(status: :completed)
+  #   end
+  # end
 end
