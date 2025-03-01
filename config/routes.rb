@@ -90,7 +90,7 @@ Rails.application.routes.draw do
       get 'projects', to: 'dashboards#projects'
     end
     resources :projects, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
-      resources :shared_projects, only: [:edit, :update]
+      resources :shared_projects, only: [:new, :create, :edit, :update]
     end
 
     resources :projects do

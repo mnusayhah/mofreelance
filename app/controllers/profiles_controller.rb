@@ -25,7 +25,7 @@ class ProfilesController < ApplicationController
     @profile = Profile.find(params[:id])
 
     if @profile.user.freelancer?
-      @projects = current_user.projects.open.to_a
+      @projects = Project.where(user_id: current_user.id, status: 'open')
       # Log to confirm what @projects is being set to
       # Rails.logger.debug "Open projects for company #{current_user.id}: #{@projects.inspect}" # Ensure it's never nil
       Rails.logger.debug "Open projects for freelancer #{current_user.id}: #{@projects.inspect}"

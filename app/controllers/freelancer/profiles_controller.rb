@@ -22,9 +22,11 @@ module Freelancer
     end
 
     def show
-      @profile = Profile.find_by(id: params[:id])
+      @profile = Profile.find(params[:id])
 
       if @profile.user.freelancer?
+        @projects = Project.where(user_id: current_user.id, status: 'open')
+        Rails.logger.debug "Open projects for freelancer #{current_user.id}: #{@projects.inspect}"
         render :show
       else
         redirect_to freelancer_profiles_path, alert: "Ce profil n'est pas disponible."

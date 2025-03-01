@@ -66,17 +66,37 @@ module Freelancer
 
 
     def accept
-      @shared_project = SharedProject.find(params[:id])
-      if @shared_project.update(status: 'accepted')
-        # You can add Turbo Streams to update the status in the view without refreshing the page.
-        respond_to do |format|
-          format.html { redirect_to freelancer_shared_projects_path, notice: 'Project accepted.' }
-          format.turbo_stream { render turbo_stream: turbo_stream.replace("status_badge_#{@shared_project.id}", partial: 'shared_projects/status_badge', locals: { shared_project: @shared_project }) }
-        end
-      else
-        redirect_to freelancer_shared_projects_path, alert: 'There was an error accepting the project.'
+      @project = Project.find(params[:id])  # Find the project the freelancer wants to accept
+      @freelancer = current_freelancer       # Get the currently logged-in freelancer
+
+      # Check if the freelancer has already accepted the project
+      if @project.freelancers.include?(@freelancer)
+        redirect_to freelancer_dashboard_path, notice: 'You have already accepted this project.'
+        return
       end
+
+      # Create the FreelancerProject join record with status 'pending'
+      @freelancer_project = @project.freelancer_projects.create(freelancer: @freelancer, status: :pending)
+
+      # Optionally, update the project status to 'pending' if the first freelancer accepts it
+      @project.update(status: :pending)
+
+      redirect_to freelancer_dashboard_path, notice: 'You have successfully accepted the project.'
     end
+
+
+    # def accept
+    #   @shared_project = SharedProject.find(params[:id])
+    #   if @shared_project.update(status: 'accepted')
+    #     # You can add Turbo Streams to update the status in the view without refreshing the page.
+    #     respond_to do |format|
+    #       format.html { redirect_to freelancer_shared_projects_path, notice: 'Project accepted.' }
+    #       format.turbo_stream { render turbo_stream: turbo_stream.replace("status_badge_#{@shared_project.id}", partial: 'shared_projects/status_badge', locals: { shared_project: @shared_project }) }
+    #     end
+    #   else
+    #     redirect_to freelancer_shared_projects_path, alert: 'There was an error accepting the project.'
+    #   end
+    # end
 
     def decline
       @shared_project = SharedProject.find(params[:id])

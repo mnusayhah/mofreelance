@@ -46,13 +46,18 @@
             Proposer une mission
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <% if @projects.present? %><!-- Check if there are projects to display -->
+            <% if @projects.present? %>
+              <!-- Check if there are projects to display -->
               <% @projects.each do |project| %>
-                <li><a class="dropdown-item" href="#">
-                  <%= project.title %> <!-- Display the project title here -->
-                </a></li>
+                <% if project.status == 'open'%>
+                  <li>
+                    <%= button_to project.title, share_enterprise_project_path(project), method: :post, class: "dropdown-item" %>
+                    <!-- The link will now use the correct path for the accept action -->
+                  </li>
+                <% end %>
               <% end %>
-            <% else %> <!-- If no projects, show a message -->
+            <% else %>
+              <!-- If no open projects, show a message -->
               <li><a class="dropdown-item" href="#">No open projects available.</a></li>
             <% end %>
           </ul>

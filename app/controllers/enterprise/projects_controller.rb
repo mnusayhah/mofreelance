@@ -83,9 +83,15 @@ module Enterprise
     def share
       @project = Project.find(params[:id])
       @freelancer = User.find(params[:user_id])
-      @project.shared_projects.create(user: @freelancer)
 
-      redirect_to company_dashboard_path, notice: 'Project shared successfully.'
+      if @project && @freelancer
+        freelancer.shared_projects.create!(project_id: project.id, freelancer_id: freelancer.id, status: 'pending')
+        flash[:notice] = "Project '#{project.title}' proposed to #{freelancer.name} successfully!"
+      else
+        flash[:alert] = "Invalid project selection."
+      end
+
+      redirect_to share_enterprise_project_path, notice: 'Project shared successfully.'
     end
 
     def destroy

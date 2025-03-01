@@ -2,9 +2,11 @@ module Freelancer
   class DashboardsController < ApplicationController
     before_action :authenticate_user!
 
-
     def show
-      @pending_projects = current_user.projects.where(status: 0)
+      @freelancer = current_user
+      @projects = @freelancer.projects.joins(:shared_projects).where(shared_projects: { status: ['pending', 'accepted'] })
+      # @projects = @freelancer.projects.where(freelancer_projects: { status: 'pending' })
+      # @pending_projects = current_user.projects.where(status: 0)
     end
 
     def freelancer
