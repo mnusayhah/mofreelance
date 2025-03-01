@@ -22,7 +22,7 @@
               <td><%= shared_project.project.end_date %></td>
               <td>
                 <div class="dropdown"> <%= turbo_stream_from "status_badge_#{shared_project.id}" %>
-                  <button class="btn btn-sm dropdown-toggle <%= status_class(shared_project.status) %>" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <button class="btn-pill-custom-accepted dropdown-toggle <%= status_class(shared_project.status) %>" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <%= shared_project.status.capitalize %>
                   </button>
                   <ul class="dropdown-menu">

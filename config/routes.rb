@@ -95,7 +95,8 @@ Rails.application.routes.draw do
 
     resources :projects do
       member do
-        patch "complete"
+        post :mark_as_completed
+        post :mark_as_paid
         post "share/:profile_id", to: "projects#share", as: :share
       end
     end
