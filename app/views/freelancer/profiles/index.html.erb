@@ -15,7 +15,6 @@
     class="container h-100 d-flex align-items-center justify-content-center "
     style="position: relative; z-index: 1;"
   >
-    <!-- Classe my-malt-header pour la couleur du texte (définie dans ton Sass) -->
     <h1 class="fw-bold">Explore our freelancer talents</h1>
   </div>
 </div>
@@ -124,10 +123,8 @@
                 <span id="price-max" class="ms-2 fw-bold"></span>
               </div>
 
-              <!-- Champs caché pour stocker la valeur max_rate -->
               <%= hidden_field_tag :max_rate, params[:max_rate], id: "max_rate_input" %>
 
-              <!-- Script JS inline pour un seul curseur -->
               <script>
                 document.addEventListener("turbo:load", () => {
                   const maxRange = document.getElementById("max_range");
@@ -136,15 +133,11 @@
 
                   function update() {
                     let maxVal = parseFloat(maxRange.value);
-                    // Afficher la valeur
                     priceMax.textContent = maxVal + " €";
-                    // Mettre à jour le champ caché
                     maxInput.value = maxVal;
                   }
 
                   maxRange.addEventListener("input", update);
-
-                  // initial
                   update();
                 });
               </script>
@@ -174,15 +167,25 @@
               >
                 <!-- Photo / Overlay -->
                 <div class="position-relative" style="height: 200px;">
-                  <%= image_tag(
-                    "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",
-                    alt: "Freelancer Photo",
-                    style: "width: 100%; height: 100%; object-fit: cover;"
-                  ) %>
+
+                  <% if profile.photo.attached? %>
+                    <!-- Photo réelle si attachée -->
+                    <%= image_tag profile.photo, alt: "Freelancer Photo", style: "width: 100%; height: 100%; object-fit: cover;" %>
+                  <% else %>
+                    <!-- Fallback : image neutre -->
+                    <%= image_tag(
+                      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+                      alt: "Freelancer Photo",
+                      style: "width: 100%; height: 100%; object-fit: cover;"
+                    ) %>
+                  <% end %>
+
+                  <!-- Overlay assombri -->
                   <div
                     class="position-absolute top-0 start-0 w-100 h-100"
                     style="background-color: rgba(0,0,0,0.4);"
                   ></div>
+
                   <!-- Nom + Titre -->
                   <div
                     class="position-absolute bottom-0 start-0 text-white p-3"
@@ -205,8 +208,8 @@
                     <%= profile.address %>
                   </p>
 
-                  <!-- Tarif journalier (exemple) -->
-                  <p class="fw-bold mb-3" style="">
+                  <!-- Tarif journalier -->
+                  <p class="fw-bold mb-3">
                     <%= profile.hourly_rate.present? ? "Rs #{profile.hourly_rate} /jour" : "N/A" %>
                   </p>
 
@@ -233,11 +236,9 @@
   </div>
 
   <!-- Footer -->
-    <footer class="notion-footer py-5 bg-light">
-        <div class="border-top mt-4 pt-4">
-          <p class="text-muted text-center mb-0">&copy; 2025 MoFreelance. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
-
+  <footer class="notion-footer py-5 bg-light">
+    <div class="border-top mt-4 pt-4">
+      <p class="text-muted text-center mb-0">&copy; 2025 MoFreelance. All rights reserved.</p>
+    </div>
+  </footer>
 </div>

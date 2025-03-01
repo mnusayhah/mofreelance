@@ -7,7 +7,7 @@ class Profile < ApplicationRecord
   accepts_nested_attributes_for :skills, allow_destroy: true
 
   has_many :received_reviews, class_name: "Review", foreign_key: "rated_user_id"
-  has_one_attached :avatar
+  has_one_attached :photo
 
   validates :tech_skills, presence: false
 

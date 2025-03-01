@@ -5,37 +5,60 @@
       <!-- Projects Dropdown -->
       <li class="nav-item">
         <button class="btn-pill-custom-blue w-100" type="button" data-bs-toggle="collapse" data-bs-target="#projectsDropdown">
-        Projects
+          Projects
         </button>
         <ul id="projectsDropdown" class="collapse mt-2">
-        <li>
-          <%= link_to "Ongoing", freelancer_shared_projects_path(status: 'accepted'), class: "dropdown-item",
-                data: { turbo_frame: "projects_frame" } %>
-        </li>
-          <li><%= link_to "Pending", freelancer_shared_projects_path(status: 'pending'), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %></li>
-          <li><%= link_to "Completed", freelancer_shared_projects_path(status: 'completed'), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %></li>
-          <li><%= link_to "Declined", freelancer_shared_projects_path(status: 'declined'), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %></li>
+          <li>
+            <%= link_to "Ongoing", freelancer_shared_projects_path(status: 'accepted'), class: "dropdown-item",
+                  data: { turbo_frame: "projects_frame" } %>
+          </li>
+          <li>
+            <%= link_to "Pending", freelancer_shared_projects_path(status: 'pending'), class: "dropdown-item",
+                  data: { turbo_frame: "projects_frame" } %>
+          </li>
+          <li>
+            <%= link_to "Completed", freelancer_shared_projects_path(status: 'completed'), class: "dropdown-item",
+                  data: { turbo_frame: "projects_frame" } %>
+          </li>
+          <li>
+            <%= link_to "Declined", freelancer_shared_projects_path(status: 'declined'), class: "dropdown-item",
+                  data: { turbo_frame: "projects_frame" } %>
+          </li>
         </ul>
       </li>
 
       <!-- Messages -->
-      <li class="nav-item">
-        <button class="btn-pill-custom-blue w-100 mt-2">
-        Messages
+      <li class="nav-item mt-2">
+        <button class="btn-pill-custom-blue w-100">
+          Messages
         </button>
       </li>
 
       <!-- Profile Dropdown -->
-      <li class="nav-item">
-        <button class="btn-pill-custom-blue w-100 mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#profileDropdown">
-        Profile
+      <li class="nav-item mt-2">
+        <button class="btn-pill-custom-blue w-100" type="button" data-bs-toggle="collapse" data-bs-target="#profileDropdown">
+          Profile
         </button>
         <ul id="profileDropdown" class="collapse mt-2">
-          <%= link_to "Edit Profile", edit_user_registration_path, class: "dropdown-item",
-          data: { turbo_frame: "projects_frame" } %>
+          <!-- Lien "Edit Profile" si le profil existe -->
+          <% if current_user.profile.present? %>
+            <li>
+              <%= link_to "Edit Profile",
+                  edit_freelancer_profile_path(current_user.profile),
+                  class: "dropdown-item",
+                  data: { turbo_frame: "projects_frame" } %>
+            </li>
+          <% end %>
 
-          <%= link_to "Create Profile", new_freelancer_profile_path, class: "dropdown-item",
-          data: { turbo_frame: "projects_frame" } %>
+          <!-- Lien "Create Profile" si aucun profil -->
+          <% if current_user.profile.blank? %>
+            <li>
+              <%= link_to "Create Profile",
+                  new_freelancer_profile_path,
+                  class: "dropdown-item",
+                  data: { turbo_frame: "projects_frame" } %>
+            </li>
+          <% end %>
         </ul>
       </li>
     </ul>
@@ -43,9 +66,8 @@
 
   <!-- Main Content -->
   <main class="dashboard-content flex-grow-1 p-4">
-  <turbo-frame id="projects_frame">
-    <%= render partial: "projects_list", locals: { shared_projects: @shared_projects } %>
-  </turbo-frame>
+    <turbo-frame id="projects_frame">
+      <%= render partial: "projects_list", locals: { shared_projects: @shared_projects } %>
+    </turbo-frame>
   </main>
-
 </div>
