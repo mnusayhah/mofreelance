@@ -80,11 +80,19 @@
 
     <!-- Photo de profil positionnée par-dessus les deux sections -->
     <div class="position-absolute" style="top: 80px; left: 40px;">
-      <%= image_tag(
-        "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",
-        alt: "Avatar",
-        style: "width: 250px; height: 250px; object-fit: cover; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);"
-      ) %>
+      <% if @profile.photo.attached? %>
+        <!-- Photo réelle via Active Storage -->
+        <%= image_tag @profile.photo,
+                      alt: "Avatar",
+                      style: "width: 250px; height: 250px; object-fit: cover; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" %>
+      <% else %>
+        <!-- Fallback si aucune photo n'est attachée -->
+        <%= image_tag(
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+          alt: "Avatar",
+          style: "width: 250px; height: 250px; object-fit: cover; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);"
+        ) %>
+      <% end %>
     </div>
   </div>
 

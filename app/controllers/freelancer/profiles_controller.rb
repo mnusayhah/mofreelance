@@ -38,7 +38,8 @@ module Freelancer
     def update
       if @profile.user == current_user
         if @profile.update(profile_params)
-          redirect_to @profile, notice: "Votre profil a été mis à jour avec succès."
+          # Avant : redirect_to @profile
+          redirect_to freelancer_profile_path(@profile), notice: "Votre profil a été mis à jour avec succès."
         else
           render :edit, status: :unprocessable_entity
         end
@@ -59,17 +60,20 @@ module Freelancer
     end
 
     def edit
-      if @profile.user == current_user
-        render :edit
-      else
-        redirect_to freelancer_profiles_path, alert: "Vous ne pouvez modifier que votre propre profil."
+      # Vérifier que le profil appartient bien à l’utilisateur courant
+      unless @profile.user == current_user
+        redirect_to freelancer_profiles_path(@profile), alert: "Vous ne pouvez modifier que votre propre profil."
+        return
       end
 
       respond_to do |format|
-        format.turbo_stream { render partial: "profiles/edit", locals: { profile: @profile } }
-        format.html
+        format.turbo_stream do
+          render partial: "profiles/edit", locals: { profile: @profile }
+        end
+        format.html do
+          render :edit
+        end
       end
-
     end
 
     def destroy
@@ -96,10 +100,16 @@ module Freelancer
 
     # Crée un profil en BDD à partir des infos du formulaire
     def create
+      if current_user.profile.present?
+        # Il a déjà un profil -> on bloque
+        redirect_to freelancer_profile_path(current_user.profile), alert: "You already have a profile!"
+        return
+      end
+      
       @profile = Profile.new(profile_params)
       @profile.user = current_user
       if @profile.save
-        redirect_to @profile, notice: "Profil créé avec succès"
+        redirect_to freelancer_profile_path(@profile), notice: "Profil créé avec succès"
       else
         render :new
       end
