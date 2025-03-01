@@ -28,23 +28,6 @@ module Freelancer
       @shared_projects = SharedProject.where(freelancer_id: current_user.id, status: "accepted")
     end
 
-
-    def share_project
-      @project = Project.find(params[:id])
-      @freelancer = User.find(params[:freelancer_id])
-
-      @shared_project = SharedProject.create(
-        project: @project,
-        freelancer: @freelancer,
-        status: :pending
-      )
-
-      # Update the project status to pending
-      @project.update(status: :pending)
-
-      # Additional logic if needed (redirect, success message, etc.)
-    end
-
     def update
       @shared_project = SharedProject.find(params[:id])
 
@@ -120,6 +103,10 @@ module Freelancer
         redirect_to shared_projects_path, alert: "No project found."
       end
     end
+
+    # def set_project
+    #   @project = Project.find(params[:id])
+    # end
 
     def authorize_freelancer!
       unless current_user.freelancer? && @shared_project.freelancer == current_user

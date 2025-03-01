@@ -146,6 +146,7 @@ puts "✅ Seed terminée ! 5 freelances ont été créés avec leurs profils, co
 
 
 # Liste de freelancers avec leurs données
+
 freelancers = [
   { first_name: "Alice", last_name: "Durand", email: "alice@example.com", password: "password",
     title: "Graphiste Freelance", bio: "Expert en design graphique avec plus de 5 ans d'expérience.",
@@ -179,6 +180,7 @@ freelancers.each do |data|
     title:        data[:title],
     bio:          data[:bio],
     address:      data[:address],
+    availability_status: "available",
     language:     data[:language],
     tech_skills:  data[:tech_skills],
     hourly_rate:  data[:hourly_rate]
