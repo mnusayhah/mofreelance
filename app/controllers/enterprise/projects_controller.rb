@@ -80,23 +80,21 @@ module Enterprise
     end
 
     def share
-      @project = Project.find(params[:id])
-
-      # Find the freelancer by their profile
+      @project = Project.find(params[:project_id])
       profile = Profile.find(params[:profile_id])
-      freelancer = profile.user_id# Assuming each profile is associated with a user (freelancer)
-
-      # Create a new SharedProject for this freelancer with the status 'pending'
-        shared_project = SharedProject.create(
+      freelancer = profile.user_id
+      shared_project = SharedProject.create(
         project_id: @project.id,
         freelancer_id: freelancer,
         status: 0
       )
+      @project.status = 1
 
       if shared_project.save
-        redirect_to enterprise_project_path(@project), notice: 'Project successfully shared with freelancer.'
+        @project.save
+        redirect_to enterprise_projects_path(@project.id), notice: 'Project successfully shared with freelancer.'
       else
-        redirect_to enterprise_project_path(@project), alert: 'Failed to share the project.'
+        redirect_to enterprise_projects_path(current_user), alert: 'Failed to share the project.'
       end
     end
 
@@ -108,7 +106,10 @@ module Enterprise
     private
 
     def set_project
-      @project = Project.find(params[:id])
+      @project = Project.find_by(id: params[:id]) # Use find_by to avoid exceptions if not found
+      if @project.nil?
+        redirect_to projects_path, alert: "No project found."
+      end
     end
 
     def project_params

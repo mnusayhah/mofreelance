@@ -14,7 +14,7 @@
       <tbody>
         <% @projects.each do |project| %>
           <tr>
-            <td><%= link_to project.title, enterprise_project_path(current_user, project) %></td>
+            <td><%= link_to project.title, enterprise_project_path(project.id) %></td>
             <td>
               <% if project.start_date.present? %>
                 <%= project.start_date.strftime('%B %d, %Y') %>
@@ -29,7 +29,7 @@
                 N/A
               <% end %>
             </td>
-            <td><%= link_to 'Edit', edit_enterprise_project_path(current_user, project) %>
+            <td><%= link_to 'Edit', edit_enterprise_project_path(project.id) %>
             <td><%= project.status %></td>
           </tr>
         <% end %>

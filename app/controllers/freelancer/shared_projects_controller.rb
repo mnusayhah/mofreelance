@@ -55,15 +55,6 @@ module Freelancer
 
 
     def accept
-<<<<<<< HEAD
-      @project = Project.find(params[:id])  # Find the project the freelancer wants to accept
-      @freelancer = current_freelancer       # Get the currently logged-in freelancer
-
-      # Check if the freelancer has already accepted the project
-      if @project.freelancers.include?(@freelancer)
-        redirect_to freelancer_dashboard_path, notice: 'You have already accepted this project.'
-        return
-=======
       if @shared_project.update(status: "accepted")
         respond_to do |format|
           format.html { redirect_to freelancer_dashboard_path, notice: "Project accepted successfully!" }
@@ -71,16 +62,7 @@ module Freelancer
         end
       else
         flash[:alert] = "Failed to accept the project."
->>>>>>> master
       end
-
-      # Create the FreelancerProject join record with status 'pending'
-      @freelancer_project = @project.freelancer_projects.create(freelancer: @freelancer, status: :pending)
-
-      # Optionally, update the project status to 'pending' if the first freelancer accepts it
-      @project.update(status: :pending)
-
-      redirect_to freelancer_dashboard_path, notice: 'You have successfully accepted the project.'
     end
 
 

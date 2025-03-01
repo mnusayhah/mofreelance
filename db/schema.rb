@@ -99,7 +99,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_26_085641) do
     t.string "title"
     t.text "description"
     t.decimal "budget"
-    t.integer "status", default: 0
+    t.integer "status", default: 0, null: false
     t.string "required_skills"
     t.string "visibility"
     t.date "start_date"

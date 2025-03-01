@@ -68,7 +68,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <% if @projects.present? && @projects.any? { |project| project.status == 'open' } %>
                 <% @projects.each do |project| %>
-                  <%= button_to "Share: #{project.title}", share_enterprise_project_path(project_id: @project, profile_id: @profile.id), method: :post, class: "dropdown-item" %>
+                  <%= button_to "Share: #{project.title}", share_enterprise_project_path(project_id: project, profile_id: @profile.id), method: :post, class: "dropdown-item" %>
                 <% end %>
                <% else %>
                 <span class="dropdown-item text-muted">No available projects</span>
@@ -86,64 +86,6 @@
         style: "width: 250px; height: 250px; object-fit: cover; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);"
       ) %>
     </div>
-<<<<<<< HEAD
-
-    <!-- Carte "Header" du profil -->
-    <div class="card mb-4 shadow-sm border-0 bg-white col">
-      <div class=" text-center py-4">
-        <!-- Nom & Titre -->
-        <h2 class="fw-bold mb-1" style="font-size: 2rem;">
-          <%= @profile.user.first_name %> <%= @profile.user.last_name %>
-        </h2>
-        <p class="text-danger fw-bold mb-3" style="font-size: 1.25rem;">
-          <%= @profile.title %>
-        </p>
-
-        <!-- Adresse & Langue -->
-        <p class="mb-1">
-          <i class="bi bi-geo-alt"></i> <%= @profile.address %>
-        </p>
-        <p class="mb-1 text-muted">
-          <%= @profile.language.present? ? @profile.language.capitalize : "N/A" %>
-        </p>
-
-        <!-- Disponibilité -->
-        <% case @profile.availability_status %>
-          <% when "available" %>
-            <span class="badge bg-success">Available</span>
-          <% when "busy" %>
-            <span class="badge bg-warning">Busy</span>
-          <% else %>
-            <span class="badge bg-danger">Unavailable</span>
-        <% end %>
-      </div>
-      <!-- Bouton "Proposer une mission" en haut à droite -->
-    <div class="col-auto text-end">
-        <div class="dropdown">
-          <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            Proposer une mission
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <% if @projects.present? %>
-              <!-- Check if there are projects to display -->
-              <% @projects.each do |project| %>
-                <% if project.status == 'open'%>
-                  <li>
-                    <%= button_to project.title, share_enterprise_project_path(project), method: :post, class: "dropdown-item" %>
-                    <!-- The link will now use the correct path for the accept action -->
-                  </li>
-                <% end %>
-              <% end %>
-            <% else %>
-              <!-- If no open projects, show a message -->
-              <li><a class="dropdown-item" href="#">No open projects available.</a></li>
-            <% end %>
-          </ul>
-        </div>
-      </div>
-    </div>
-=======
->>>>>>> master
   </div>
 
   <!-- Contenu principal : 2 colonnes (1/3 - 2/3) -->
