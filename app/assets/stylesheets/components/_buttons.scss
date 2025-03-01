@@ -32,7 +32,6 @@
   transition: background-color 0.2s ease-in-out;
 
   &:hover {
-    // Nécessite Sass (darken)
     background-color: darken(#FC5757, 10%);
   }
 
