@@ -22,12 +22,9 @@ module Freelancer
     end
 
     def show
-      @profile = Profile.find(params[:id])
+      @profile = Profile.find_by(id: params[:id])
+
       if @profile.user.freelancer?
-        @projects = Project.where(user_id: current_user, status: 'open')
-        # Log to confirm what @projects is being set to
-        # Rails.logger.debug "Open projects for company #{current_user.id}: #{@projects.inspect}" # Ensure it's never nil
-        Rails.logger.debug "Open projects for freelancer #{current_user}: #{@projects.inspect}"
         render :show
       else
         redirect_to freelancer_profiles_path, alert: "Ce profil n'est pas disponible."
@@ -38,8 +35,10 @@ module Freelancer
     def update
       if @profile.user == current_user
         if @profile.update(profile_params)
-          # Avant : redirect_to @profile
-          redirect_to freelancer_profile_path(@profile), notice: "Votre profil a été mis à jour avec succès."
+          respond_to do |format|
+            format.html { redirect_to freelancer_profile_path(@profile), notice: "Votre profil a été mis à jour avec succès." }
+            format.turbo_stream { redirect_to freelancer_profile_path(@profile), notice: "Votre profil a été mis à jour avec succès." }
+          end
         else
           render :edit, status: :unprocessable_entity
         end
@@ -98,20 +97,32 @@ module Freelancer
       end
     end
 
+    def new_experience
+      @profile = current_user.profile
+      @skill = @profile.skills.build
+
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.append(
+            "experience_list",
+            partial: "freelancer/profiles/_experience_fields",
+            locals: { f: ActionView::Helpers::FormBuilder.new(:profile, @profile, self, {}, nil) }
+          )
+        end
+        format.html { render partial: "freelancer/profiles/_experience_fields", locals: { f: @skill } }
+      end
+    end
+
     # Crée un profil en BDD à partir des infos du formulaire
     def create
-      if current_user.profile.present?
-        # Il a déjà un profil -> on bloque
-        redirect_to freelancer_profile_path(current_user.profile), alert: "You already have a profile!"
-        return
-      end
-      
-      @profile = Profile.new(profile_params)
-      @profile.user = current_user
+      @profile = current_user.build_profile(profile_params)
       if @profile.save
-        redirect_to freelancer_profile_path(@profile), notice: "Profil créé avec succès"
+        respond_to do |format|
+          format.html { redirect_to freelancer_profile_path(@profile.id), notice: "Profile created successfully." }
+          format.turbo_stream { redirect_to freelancer_profile_path(@profile.id), notice: "Profile created successfully." }
+        end
       else
-        render :new
+        render :new, status: :unprocessable_entity
       end
     end
 

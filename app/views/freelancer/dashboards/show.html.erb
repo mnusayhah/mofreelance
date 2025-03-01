@@ -51,7 +51,7 @@
           <% end %>
 
           <!-- Lien "Create Profile" si aucun profil -->
-          <% if current_user.profile.blank? %>
+          <% if current_user.present? %>
             <li>
               <%= link_to "Create Profile",
                   new_freelancer_profile_path,
