@@ -3,9 +3,10 @@ import "@hotwired/turbo-rails";
 import "controllers";
 import "@popperjs/core";
 import "bootstrap";
-import "jquery";
-import jquery from "jquery";
-window.$ = jquery
-window.jQuery = jquery
+// import "jquery";
+// import jquery from "jquery";
+// window.$ = jquery
+// window.jQuery = jquery
 import "cocoon";
-//=
+import Rails from "@rails/ujs"
+Rails.start()

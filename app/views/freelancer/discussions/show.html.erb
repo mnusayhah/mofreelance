@@ -2,16 +2,13 @@
 <p>Find me in app/views/freelancer/discussions/show.html.erb</p>
 <h2>Project Discussion</h2>
 
-<%= simple_form_for [@discussion, @message],
-  html: {class: "d-flex",
-         data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" }} do |f|
-%>
-<% end %>
-
+<%= simple_form_for [:freelancer, @discussion || Discussion.new, @message]
+#   html: {class: "d-flex",data: { controller: "reset-form", action: "turbo:submit-end->reset-form#reset" }} do |f| %>
 <%= form_with model: [ :freelancer, @discussion, Message.new ], url: freelancer_discussion_messages_path(@discussion), data: { turbo_stream: true } do |f| %>
   <div>
     <%= f.text_area :content, placeholder: "Type a message...", rows: 3 %>
   </div>
+
   <div>
     <%= f.submit "Send", class: "btn btn-primary" %>
   </div>

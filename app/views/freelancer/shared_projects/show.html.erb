@@ -1,24 +1,46 @@
 <turbo-frame id="projects_frame">
-<% if @shared_project&.project.present? %>
-  <h1>Project: <%= @shared_project.project.title %> </h1>
-    <p><strong>Project Name:</strong> <%= @shared_project.project.title %></p>
-    <p><strong>Project Description:</strong> <%= @shared_project.project.description %></p>
-    <p><strong>Project Budget:</strong> <%= @shared_project.project.budget %></p>
-    <p><strong>Project Status:</strong> <%= @shared_project.project.status %></p>
-    <p><strong>Project Start Date:</strong> <%= @shared_project.project.start_date %></p>
-    <p><strong>Project Due Date:</strong> <%= @shared_project.project.end_date %></p>
-    <p><strong>Project Required Skills:</strong> <%= @shared_project.project.required_skills %></p>
+  <% if @shared_project&.project.present? %>
+    <div class="card shadow-lg p-4">
+      <h1 class="text-primary mb-3">📌 Project: <%= @shared_project.project.title %></h1>
 
+      <div class="mb-3">
+        <h4 class="text-secondary"><strong>Project Details</strong></h4>
+        <p><strong>Name:</strong> <%= @shared_project.project.title %></p>
+        <p><strong>Description:</strong> <%= @shared_project.project.description %></p>
+        <p><strong>Budget:</strong> <span class="badge bg-success">$<%= @shared_project.project.budget %></span></p>
+        <p><strong>Status:</strong> <span class="badge bg-info"><%= @shared_project.status %></span></p>
+      </div>
 
-    <%# <p><strong>Collaborators:</strong> <%= @shared_project.freelancer @shared_project.project.user %>
+      <div class="mb-3">
+        <h4 class="text-secondary"><strong>Timeline</strong></h4>
+        <p><strong>Start Date:</strong> <%= @shared_project.project.start_date.strftime('%B %d, %Y') %></p>
+        <p><strong>Due Date:</strong> <%= @shared_project.project.end_date.strftime('%B %d, %Y') %></p>
+      </div>
 
+      <div class="mb-3">
+        <h4 class="text-secondary"><strong>Skills Required</strong></h4>
+        <p class="text-muted"><%= @shared_project.project.required_skills %></p>
+      </div>
 
-    <%# <div id="review-form-container">
-      <%= render partial: "reviews/form", locals: { review: Review.new, project_id: @shared_project.project.id, rated_user_id: @shared_project.freelancer.id } %>
-    <%# </div> %>
-<% else %>
-  <p class="alert alert-danger">You do not have any project yet.</p>
-<% end %>
-<!-- You can also display a link to go back to the previous page -->
-<%= link_to 'Back to My Projects', freelancer_shared_projects_path, class: 'btn btn-secondary mt-3' %>
+      <div class="mb-3">
+        <h4 class="text-secondary"><strong>Collaborators</strong></h4>
+        <p><strong>Enterprise:</strong> <%= @shared_project.project.user.company %> </p>
+        <p><strong>Freelancer:</strong> <%= @shared_project.freelancer.first_name %> </p>
+      </div>
+
+      <% if @shared_project.status == "pending" %>
+        <div class="d-flex gap-2">
+          <%= button_to "Accept", accept_freelancer_shared_project_path(@shared_project), method: :post, class: "btn btn-success", data: { turbo_confirm: "Are you sure you want to accept this project?" } %>
+          <%= button_to "Decline", decline_freelancer_shared_project_path(@shared_project), method: :post, class: "btn btn-danger", data: { turbo_confirm: "Are you sure you want to decline this project?" } %>
+        </div>
+      <% end %>
+
+      <%= link_to 'Back to My Projects', freelancer_shared_projects_path, class: 'btn btn-secondary mt-3' %>
+    </div>
+  <% else %>
+    <div class="alert alert-danger text-center">
+      🚨 You do not have any project yet.
+    </div>
+    <%= link_to 'Back to My Projects', freelancer_shared_projects_path, class: 'btn btn-secondary mt-3' %>
+  <% end %>
 </turbo-frame>

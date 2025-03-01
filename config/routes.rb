@@ -53,8 +53,8 @@ Rails.application.routes.draw do
 
     resources :shared_projects, only: [:index, :show] do
       member do
-        patch "accept"
-        patch "decline"
+        post :accept
+        post :decline
       end
     end
 
@@ -90,13 +90,13 @@ Rails.application.routes.draw do
       get 'projects', to: 'dashboards#projects'
     end
     resources :projects, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
-      resources :shared_projects, only: [:new, :create, :edit, :update]
+      resources :shared_projects, only: [:index, :new, :create, :edit, :update]
     end
 
     resources :projects do
       member do
         patch "complete"
-        post "share"
+        post "share/:profile_id", to: "projects#share", as: :share
       end
     end
 
@@ -107,7 +107,6 @@ Rails.application.routes.draw do
     #     get 'archived'
     #   end
     # end
-
     resources :discussions, only: [:index, :show] do
       resources :messages, only: [:create]
     end
