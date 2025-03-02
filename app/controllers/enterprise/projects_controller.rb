@@ -124,7 +124,7 @@ module Enterprise
     def set_project
       @project = Project.find_by(id: params[:id]) # Use find_by to avoid exceptions if not found
       if @project.nil?
-        redirect_to projects_path, alert: "No project found."
+        redirect_to enterprise_projects_path, alert: "No project found."
       end
     end
 

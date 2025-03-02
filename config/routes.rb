@@ -55,6 +55,7 @@ Rails.application.routes.draw do
       member do
         post :accept
         post :decline
+        post :mark_payment_received
       end
     end
 
@@ -98,6 +99,12 @@ Rails.application.routes.draw do
         post :mark_as_completed
         post :mark_as_paid
         post "share/:profile_id", to: "projects#share", as: :share
+      end
+    end
+
+    resources :projects do
+      collection do
+        get 'user/:user_id', to: 'projects#index', as: :user_projects
       end
     end
 

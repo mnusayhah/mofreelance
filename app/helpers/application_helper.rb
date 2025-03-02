@@ -10,7 +10,7 @@ module ApplicationHelper
   when "in_progress"
     "bg-primary"
   when "completed"
-    "bg-info text-white"
+    "bg-success text-white"
   else
     "bg-secondary"
   end
