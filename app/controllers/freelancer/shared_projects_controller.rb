@@ -5,7 +5,6 @@ module Freelancer
     before_action :set_shared_project, only: [:accept, :decline, :mark_payment_received]
     before_action :authorize_freelancer!, only: [:accept, :decline, :mark_payment_received]
 
-
     def index
       @shared_projects = SharedProject.where(freelancer_id: current_user.id)
       @pending_projects = SharedProject.where(status: "pending")
@@ -97,7 +96,6 @@ module Freelancer
     end
 
     def update_project_and_shared_project_status_on_paid
-      # If freelancer accepts the project, set project to ongoing
       if paid? && project.status != 'completed'
         project.update(status: :completed)
       end
@@ -106,10 +104,8 @@ module Freelancer
     def mark_payment_received
       @shared_project = SharedProject.find(params[:id])
       @project = @shared_project.project
-      # Ensure that the project status is 'paid' before marking as completed
       if @shared_project.status == 'paid'
         @shared_project.update(status: 'completed')
-        # Optionally, you can also update the related project status here if needed
         @shared_project.update_project_and_shared_project_status_on_paid
         @project.update_project_and_shared_project_status_on_paid
 

@@ -18,7 +18,7 @@ class Project < ApplicationRecord
   def update_project_and_shared_project_status_on_paid
     self.update(status: 'completed')
   end
-  
+
   private
 
   def set_default_status
