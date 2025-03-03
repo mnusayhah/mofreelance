@@ -86,6 +86,7 @@ Rails.application.routes.draw do
 
   # Enterprise Routes
   namespace :enterprise do
+    get 'profiles/new'
 
     resource :dashboard, only: [:show] do
       get 'projects', to: 'dashboards#projects'
@@ -107,6 +108,8 @@ Rails.application.routes.draw do
         get 'user/:user_id', to: 'projects#index', as: :user_projects
       end
     end
+
+    resources :profiles, only: [:new, :create, :edit, :update]
 
     # resources :projects do
     #   collection do
