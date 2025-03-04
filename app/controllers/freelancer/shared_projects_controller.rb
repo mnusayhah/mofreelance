@@ -2,9 +2,8 @@ module Freelancer
   class SharedProjectsController < ApplicationController
     before_action :authenticate_user!
     before_action :ensure_freelancer!
-    before_action :set_shared_project, only: [:accept, :decline]
-    before_action :authorize_freelancer!, only: [:accept, :decline]
-
+    before_action :set_shared_project, only: [:accept, :decline, :mark_payment_received]
+    before_action :authorize_freelancer!, only: [:accept, :decline, :mark_payment_received]
 
     def index
       @shared_projects = SharedProject.where(freelancer_id: current_user.id)
@@ -14,7 +13,13 @@ module Freelancer
       @declined_projects = SharedProject.where(status: "declined")
 
       if params[:status].present?
-        @shared_projects = @shared_projects.where(status: params[:status])
+        if params[:status] == 'paid'
+          # Fetch both 'paid' and 'completed' projects when the status is 'paid'
+          @shared_projects = @shared_projects.where(status: ['paid', 'completed'])
+        else
+          # Filter by the given status (i.e., pending, accepted, etc.)
+          @shared_projects = @shared_projects.where(status: params[:status])
+        end
       end
 
       # respond_to do |format|
@@ -41,7 +46,7 @@ module Freelancer
       end
     end
 
-# GET /freelancer/shared_projects/:id
+    # GET /freelancer/shared_projects/:id
     def show
       @shared_project = SharedProject.find_by(id: params[:id], freelancer_id: current_user.id)
       respond_to do |format|
@@ -90,6 +95,32 @@ module Freelancer
       end
     end
 
+    def update_project_and_shared_project_status_on_paid
+      if paid? && project.status != 'completed'
+        project.update(status: :completed)
+      end
+    end
+
+    def mark_payment_received
+      @shared_project = SharedProject.find(params[:id])
+      @project = @shared_project.project
+      if @shared_project.status == 'paid'
+        @shared_project.update(status: 'completed')
+        @shared_project.update_project_and_shared_project_status_on_paid
+        @project.update_project_and_shared_project_status_on_paid
+
+        respond_to do |format|
+          format.turbo_stream {
+            render turbo_stream: turbo_stream.replace("status_badge_#{@shared_project.id}",
+                                                 partial: "freelancer/shared_projects/status_badge",
+                                                 locals: { shared_project: @shared_project })
+          }
+          format.html { redirect_to freelancer_shared_projects_path(status: 'paid'), notice: "Payment received and project marked as completed!" }
+        end
+      else
+        redirect_to freelancer_shared_projects_path, alert: "Project is not marked as paid."
+      end
+    end
 
     private
 

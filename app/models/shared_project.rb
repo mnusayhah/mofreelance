@@ -6,6 +6,22 @@ class SharedProject < ApplicationRecord
 
   after_update :create_discussion_after_acceptance
   after_update :update_project_status_on_acceptance
+  after_update :update_project_status_on_decline
+  after_update :update_project_and_shared_project_status_on_paid
+
+  def update_project_and_shared_project_status_on_paid
+    # If freelancer accepts the project, set project to ongoing
+    if paid? && project.status != 'completed'
+      project.update(status: :completed)
+    end
+  end
+
+  def mark_payment_received
+    if status == 'paid'
+      update(status: :completed)
+      project.update(status: :completed)
+    end
+  end
 
   private
 
@@ -23,16 +39,9 @@ class SharedProject < ApplicationRecord
   end
 
   def update_project_status_on_decline
-    # If freelancer accepts the project, set project to ongoing
+    # If freelancer declines the project, set project to open
     if declined? && project.status != 'open'
       project.update(status: :open)
     end
   end
-
-  # def update_project_status_on_payment_received
-  #   # If freelancer accepts the project, set project to ongoing
-  #   if paid? && project.status != 'completed'
-  #     project.update(status: :completed)
-  #   end
-  # end
 end

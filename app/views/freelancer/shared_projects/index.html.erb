@@ -33,6 +33,11 @@
                       <li>
                         <%= button_to 'Decline', decline_freelancer_shared_project_path(shared_project), method: :post, class: 'dropdown-item text-danger', data: { turbo_stream: "status_badge_#{shared_project}" } %>
                       </li>
+                    <% elsif shared_project.paid? %>
+                      <!-- Option to mark payment as received -->
+                      <li>
+                        <%= button_to 'Mark Payment Received', mark_payment_received_freelancer_shared_project_path(shared_project), method: :post, class: 'dropdown-item text-success', data: { turbo_stream: "status_badge_#{shared_project}", confirm: 'Mark payment as received and complete the project?' } %>
+                      </li>
                     <% else %>
                       <li>
                         <span class="dropdown-item disabled"><%= shared_project.status.capitalize %></span>
