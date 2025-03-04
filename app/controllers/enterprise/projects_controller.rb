@@ -5,7 +5,12 @@ module Enterprise
     before_action :set_project, only: [:show, :edit, :update, :destroy]
 
     def index
-      @projects = current_user.projects
+      if params[:status].present?
+        # Assuming status is an array (e.g., ['open', 'pending']) or a single status
+        @projects = Project.where(status: params[:status])
+      else
+        @projects = Project.all
+      end
     end
 
     def new
@@ -16,7 +21,11 @@ module Enterprise
       @project = current_user.projects.build(project_params)
       #@project.status = 0
       if @project.save
-        redirect_to enterprise_projects_path(current_user), notice: 'Project was successfully created.'
+        respond_to do |format|
+          format.html { redirect_to enterprise_projects_path, notice: "Project created successfully." }
+          format.turbo_stream { render turbo_stream: turbo_stream.replace("projects_frame", partial: "projects_list", locals: { shared_projects: @projects }) }
+        end
+        # redirect_to enterprise_projects_path(current_user), notice: 'Project was successfully created.'
       else
         render :new
       end
@@ -26,12 +35,18 @@ module Enterprise
     end
 
     def edit
-      # already handled
+      @project = Project.find(params[:id])
     end
 
     def update
+      @project = Project.find(params[:id])
       if @project.update(project_params)
-        redirect_to enterprise_projects_path(current_user, @project), notice: 'Project was successfully updated.'
+        respond_to do |format|
+          format.html { redirect_to enterprise_projects_path(current_user), notice: 'Project was successfully updated.' }
+          format.turbo_stream do
+            render turbo_stream: turbo_stream.replace("projects_frame", template: "enterprise/projects/show", locals: { project: @project })
+          end
+        end
       else
         render :edit
       end
@@ -115,8 +130,13 @@ module Enterprise
     end
 
     def destroy
+      @project = Project.find(params[:id])
       @project.destroy
-      redirect_to enterprise_projects_path(current_user), notice: 'Project was successfully deleted.'
+
+      respond_to do |format|
+        format.html { redirect_to enterprise_projects_path(current_user), notice: 'Project was successfully deleted.' }
+        format.turbo_stream { render turbo_stream: turbo_stream.remove("project_#{@project.id}") }
+      end
     end
 
     private

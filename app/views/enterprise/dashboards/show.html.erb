@@ -4,75 +4,46 @@
   <!-- Sidebar -->
   <div class="sidebar p-3">
     <ul class="nav flex-column">
-     <!-- Dropdown for Projects -->
-     <li class="nav-item">
-       <button class="btn-pill-custom-blue w-100" type="button" data-bs-toggle="collapse" data-bs-target="#projectsDropdown">
-         Projects
-       </button>
-       <ul id="projectsDropdown" class="collapse mt-2">
-        <li>
-          <%= link_to 'Create New Project', new_enterprise_project_path, class: "dropdown-item", data: { turbo_frame: "projects_frame" } %>
-        </li>
-        <li>
-          <%= link_to "Open / Pending", enterprise_projects_path(status: ['open', 'pending']), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %>
-        </li>
-        <li>
-          <%= link_to "Ongoing", enterprise_projects_path(status: 'ongoing'), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %>
-        </li>
-        <li>
-          <%= link_to "Paid / Completed", enterprise_projects_path(status: ['paid', 'completed']), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %>
-        </li>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Messages text (instead of link) -->
-    <li class="nav-item mt-2">
-      <button class="btn-pill-custom-blue w-100">
-        Messages
-      </button>
-    </li>
-
-    <li class="nav-item mt-2">
-        <button class="btn-pill-custom-blue w-100" type="button" data-bs-toggle="collapse" data-bs-target="#profileDropdown">
-          Profile
+      <!-- Dropdown for Projects -->
+      <li class="nav-item">
+        <button class="btn-pill-custom-blue w-100" type="button" data-bs-toggle="collapse" data-bs-target="#projectsDropdown">
+          Projects
         </button>
-        <ul id="profileDropdown" class="collapse mt-2">
-          <!-- Lien "Edit Profile" si le profil existe -->
-          <% if current_user.profile.present? %>
-            <li>
-              <%= link_to "Edit Profile",
-                  edit_enterprise_profile_path(current_user.profile),
-                  class: "dropdown-item",
-                  data: { turbo_frame: "projects_frame" } %>
-            </li>
-          <% end %>
-
-          <!-- Lien "Create Profile" si aucun profil -->
-          <% if current_user.profile.blank? %>
-            <li>
-              <%= link_to "Create Profile",
-                  new_enterprise_profile_path(current_user.profile),
-                  class: "dropdown-item",
-                  data: { turbo_frame: "projects_frame" } %>
-            </li>
-          <% end %>
+        <ul id="projectsDropdown" class="collapse mt-2">
+          <li>
+            <%= link_to 'Create New Project', new_enterprise_project_path, class: "dropdown-item", data: { turbo_frame: "projects_frame" } %>
+          </li>
+          <li>
+            <%= link_to "Open / Pending", enterprise_projects_path(status: ['open', 'pending']), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %>
+          </li>
+          <li>
+            <%= link_to "Ongoing", enterprise_projects_path(status: 'ongoing'), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %>
+          </li>
+          <li>
+            <%= link_to "Paid / Completed", enterprise_projects_path(status: ['paid', 'completed']), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %>
+          </li>
         </ul>
+      </li>
+
+      <!-- Messages text (instead of link) -->
+      <li class="nav-item mt-2">
+        <button class="btn-pill-custom-blue w-100">
+          Messages
+        </button>
+      </li>
+
+      <!-- Browse Freelancers button styled like other buttons -->
+      <li class="nav-item mt-2">
+        <%= link_to 'Browse Talents', freelancer_profiles_path, class: "btn-pill-custom-blue w-100 btn text-white text-center" %>
       </li>
     </ul>
   </div>
 
-    <!-- Browse Freelancers text (instead of link) -->
-    <p class="btn btn-link">
-      <%= link_to 'Browse Freelancers', freelancer_profiles_path, data: { action: "click->dashboard#changeContent" } %>
-    </p>
-  </div>
 
-  <!-- Main content area where the table will be injected -->
-    <!-- Main Content -->
+<!-- Main content area where the table will be injected -->
   <main class="dashboard-content flex-grow-1 p-4">
     <turbo-frame id="projects_frame">
-      <%= render partial: "projects_list", locals: { shared_projects: @shared_projects } %>
+      <%= render partial: "projects_list", locals: { projects: @projects } %>
     </turbo-frame>
   </main>
 </div>

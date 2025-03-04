@@ -91,6 +91,7 @@ Rails.application.routes.draw do
     resource :dashboard, only: [:show] do
       get 'projects', to: 'dashboards#projects'
     end
+
     resources :projects, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
       resources :shared_projects, only: [:index, :new, :create, :edit, :update]
     end
@@ -109,7 +110,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :profiles, only: [:new, :create, :edit, :update]
+    # resources :profiles, only: [:new, :create, :edit, :update]
 
     # resources :projects do
     #   collection do
