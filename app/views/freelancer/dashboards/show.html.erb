@@ -1,73 +1,103 @@
-<div class="dashboard-container d-flex">
+<div class="dashboard-container d-flex" style="min-height: 100vh;">
   <!-- Sidebar -->
-  <div class="sidebar p-3">
-    <ul class="nav flex-column">
+  <aside class="sidebar shadow-sm p-3" style="width: 240px;">
+    <ul class="nav flex-column gap-3">
       <!-- Projects Dropdown -->
-      <li class="nav-item">
-        <button class="btn-pill-custom-blue w-100" type="button" data-bs-toggle="collapse" data-bs-target="#projectsDropdown">
-          Projects
+      <li class="mt-5 nav-item">
+        <button
+          class="sidebar-button d-flex justify-content-between align-items-center"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#projectsDropdown"
+          aria-expanded="false"
+          aria-controls="projectsDropdown"
+        >
+          <span><i class="fa-solid fa-folder-open me-2"></i> Projects</span>
+          <i class="fas fa-chevron-down"></i>
         </button>
-        <ul id="projectsDropdown" class="collapse mt-2">
+        <ul id="projectsDropdown" class="collapse mt-2 list-unstyled ps-3">
           <li>
-            <%= link_to "Ongoing", freelancer_shared_projects_path(status: 'accepted'), class: "dropdown-item",
-                  data: { turbo_frame: "projects_frame" } %>
+            <%= link_to "Ongoing", freelancer_shared_projects_path(status: 'accepted'),
+                        class: "sidebar-dropdown-link",
+                        data: { turbo_frame: "projects_frame" } %>
           </li>
           <li>
-            <%= link_to "Pending", freelancer_shared_projects_path(status: 'pending'), class: "dropdown-item",
-                  data: { turbo_frame: "projects_frame" } %>
+            <%= link_to "Pending", freelancer_shared_projects_path(status: 'pending'),
+                        class: "sidebar-dropdown-link",
+                        data: { turbo_frame: "projects_frame" } %>
           </li>
           <li>
-            <%= link_to "Completed", freelancer_shared_projects_path(status: 'completed'), class: "dropdown-item",
-                  data: { turbo_frame: "projects_frame" } %>
+            <%= link_to "Completed", freelancer_shared_projects_path(status: 'completed'),
+                        class: "sidebar-dropdown-link",
+                        data: { turbo_frame: "projects_frame" } %>
           </li>
           <li>
-            <%= link_to "Declined", freelancer_shared_projects_path(status: 'declined'), class: "dropdown-item",
-                  data: { turbo_frame: "projects_frame" } %>
+            <%= link_to "Declined", freelancer_shared_projects_path(status: 'declined'),
+                        class: "sidebar-dropdown-link",
+                        data: { turbo_frame: "projects_frame" } %>
           </li>
         </ul>
       </li>
 
       <!-- Messages -->
-      <li class="nav-item mt-2">
-        <button class="btn-pill-custom-blue w-100">
-          Messages
-        </button>
+      <li class="nav-item">
+        <%= link_to "#",
+          class: "sidebar-button text-decoration-none d-flex align-items-center justify-content-start" do %>
+          <i class="fas fa-comment me-2"></i>
+          <span>Messages</span>
+        <% end %>
       </li>
 
       <!-- Profile Dropdown -->
-      <li class="nav-item mt-2">
-        <button class="btn-pill-custom-blue w-100" type="button" data-bs-toggle="collapse" data-bs-target="#profileDropdown">
-          Profile
+      <li class="nav-item">
+        <button
+          class="sidebar-button d-flex justify-content-between align-items-center"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#profileDropdown"
+          aria-expanded="false"
+          aria-controls="profileDropdown"
+        >
+          <span><i class="fas fa-user me-2"></i> Profile</span>
+          <i class="fas fa-chevron-down"></i>
         </button>
-        <ul id="profileDropdown" class="collapse mt-2">
-          <!-- Lien "Edit Profile" si le profil existe -->
+        <ul id="profileDropdown" class="collapse mt-2 list-unstyled ps-3">
           <% if current_user.profile.present? %>
             <li>
               <%= link_to "Edit Profile",
-                  edit_freelancer_profile_path(current_user.profile),
-                  class: "dropdown-item",
-                  data: { turbo_frame: "projects_frame" } %>
+                          edit_freelancer_profile_path(current_user.profile),
+                          class: "sidebar-dropdown-link",
+                          data: { turbo_frame: "projects_frame" } %>
+            </li>
+          <% else %>
+            <li>
+              <span class="sidebar-dropdown-link text-muted">No Profile</span>
             </li>
           <% end %>
-
-          <!-- Lien "Create Profile" si aucun profil -->
           <% if current_user.profile.blank? %>
             <li>
               <%= link_to "Create Profile",
-                  new_freelancer_profile_path,
-                  class: "dropdown-item",
-                  data: { turbo_frame: "projects_frame" } %>
+                          new_freelancer_profile_path,
+                          class: "sidebar-dropdown-link",
+                          data: { turbo_frame: "projects_frame" } %>
             </li>
           <% end %>
         </ul>
       </li>
     </ul>
-  </div>
+  </aside>
 
   <!-- Main Content -->
-  <main class="dashboard-content flex-grow-1 p-4">
+  <main class="flex-grow-1 p-4" style="background-color: #f9fafb;">
     <turbo-frame id="projects_frame">
       <%= render partial: "projects_list", locals: { shared_projects: @shared_projects } %>
     </turbo-frame>
   </main>
 </div>
+
+  <!-- Footer -->
+  <footer class="notion-footer py-5 bg-light">
+    <div class="border-top mt-4 pt-4">
+      <p class="text-muted text-center mb-0">&copy; 2025 MoFreelance. All rights reserved.</p>
+    </div>
+  </footer>

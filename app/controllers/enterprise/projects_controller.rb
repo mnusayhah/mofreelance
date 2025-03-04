@@ -112,7 +112,7 @@ module Enterprise
     end
 
     def project_params
-      params.require(:project).permit(:title, :description, :budget, :required_skills, :visibility, :start_date, :end_date, :status)
+      params.require(:project).permit(:title, :description, :budget, :required_skills,:logo, :visibility, :start_date, :end_date, :status)
     end
   end
 end

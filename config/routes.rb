@@ -78,6 +78,10 @@ Rails.application.routes.draw do
         get 'me', to: 'profiles#me'
       end
 
+      member do
+        post :new_experience
+      end
+
       resources :skills, only: [:index, :create, :edit, :update, :destroy]
       resources :educations, only: [:index, :create, :edit, :update, :destroy]
     end

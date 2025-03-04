@@ -1,10 +1,13 @@
 module Freelancer
   class DashboardsController < ApplicationController
     before_action :authenticate_user!
+    before_action :ensure_freelancer!
 
 
     def show
       @pending_projects = current_user.projects.where(status: 0)
+      @shared_projects = SharedProject.where(freelancer_id: current_user.id)
+
     end
 
     def freelancer
@@ -29,6 +32,14 @@ module Freelancer
       #   format.turbo_stream
       #   format.html { render partial: "projects_list", locals: { projects: @projects } }
       # end
+    end
+
+    private
+
+    def ensure_freelancer!
+      unless current_user.role == "freelancer"
+        redirect_to root_path, alert: "Access denied! You must be a freelancer."
+      end
     end
 
   end

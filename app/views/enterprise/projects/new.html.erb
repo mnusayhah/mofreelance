@@ -1,4 +1,4 @@
-<%= simple_form_for [:enterprise, @project] do |f| %>
+<%= simple_form_for [:enterprise, @project, html: { multipart: true }] do |f| %>
   <% if @project.errors.any? %>
     <div class="alert alert-danger">
       <h4>Form contains errors:</h4>
@@ -17,6 +17,11 @@
   <div class="form-group">
     <%= f.input :description, label: "Project Description", as: :text %>
   </div>
+
+  <div class="form-group">
+    <%= f.input :logo, as: :file, label: "Company Logo" %>
+  </div>
+
 
   <div class="form-group">
     <%= f.input :budget, label: "Project Budget", as: :decimal %>

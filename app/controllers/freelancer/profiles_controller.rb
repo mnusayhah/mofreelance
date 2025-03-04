@@ -98,6 +98,24 @@ module Freelancer
       end
     end
 
+
+    def new_experience
+      @profile = current_user.profile
+      @skill = @profile.skills.build
+
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.append(
+            "experience_list",
+            partial: "freelancer/profiles/_experience_fields",
+            locals: { f: ActionView::Helpers::FormBuilder.new(:profile, @profile, self, {}, nil) }
+          )
+        end
+        format.html { render partial: "freelancer/profiles/_experience_fields", locals: { f: @skill } }
+      end
+    end
+
+
     # Crée un profil en BDD à partir des infos du formulaire
     def create
       if current_user.profile.present?
@@ -105,7 +123,7 @@ module Freelancer
         redirect_to freelancer_profile_path(current_user.profile), alert: "You already have a profile!"
         return
       end
-      
+
       @profile = Profile.new(profile_params)
       @profile.user = current_user
       if @profile.save

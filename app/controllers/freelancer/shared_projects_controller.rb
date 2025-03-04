@@ -44,12 +44,14 @@ module Freelancer
 # GET /freelancer/shared_projects/:id
     def show
       @shared_project = SharedProject.find_by(id: params[:id], freelancer_id: current_user.id)
-      respond_to do |format|
-        format.html # Normal full-page load
-        format.turbo_stream { render partial: "shared_projects/show", locals: { shared_project: @shared_project } }
-      end
       if @shared_project.nil?
         redirect_to freelancer_shared_projects_path, alert: "Project not found."
+        return
+      end
+
+      respond_to do |format|
+        format.html
+        format.turbo_stream { render partial: "shared_projects/show", locals: { shared_project: @shared_project } }
       end
     end
 
@@ -100,7 +102,7 @@ module Freelancer
     def set_shared_project
       @shared_project = SharedProject.find_by(id: params[:id]) # Use find_by to avoid exceptions if not found
       if @shared_project.nil?
-        redirect_to shared_projects_path, alert: "No project found."
+        redirect_to freelancer_shared_projects_path, alert: "No project found."
       end
     end
 
