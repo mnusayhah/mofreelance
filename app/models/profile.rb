@@ -1,12 +1,12 @@
 class Profile < ApplicationRecord
   include PgSearch::Model
   belongs_to :user
-  has_many :educations, inverse_of: :profile
-  has_many :skills, inverse_of: :profile
+  has_many :educations, dependent: :destroy
+  has_many :skills, dependent: :destroy
 
   accepts_nested_attributes_for :educations, allow_destroy: true
-  accepts_nested_attributes_for :skills, allow_destroy: true
-  
+  accepts_nested_attributes_for :skills, allow_destroy: true, reject_if: :all_blank
+
   has_many :received_reviews, class_name: "Review", foreign_key: "rated_user_id"
   has_one_attached :photo
 

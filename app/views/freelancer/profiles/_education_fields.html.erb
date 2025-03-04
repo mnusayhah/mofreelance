@@ -1,20 +1,12 @@
+<!-- filepath: /home/nusayhah/code/mnusayhah/mofreelance/app/views/freelancer/profiles/_education_fields.html.erb -->
 <div class="nested-fields">
-  <div class="mb-3">
-    <%= f.input :school, label: "School / Education" %>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= f.input :school, label: "School", input_html: { class: "form-control" } %>
+    </div>
+    <div class="col-md-6 mb-3">
+      <%= f.input :diploma, label: "Diploma", input_html: { class: "form-control" } %>
+    </div>
   </div>
-  <div class="mb-3">
-    <%= f.input :diploma, label: "Diploma" %>
-  </div>
-  <div class="mb-3">
-    <%= f.input :start_date, as: :date, label: "Start date" %>
-  </div>
-  <div class="mb-3">
-    <%= f.input :end_date, as: :date, label: "End date" %>
-  </div>
-  <div class="mb-3">
-    <%= f.input :localisation, label: "Location" %>
-  </div>
-  <div class="mb-3">
-    <%= link_to_remove_association "Delete this education", f, class: "btn btn-danger" %>
-  </div>
+  <%= link_to "Remove Education", '#', class: "remove_fields btn btn-danger" %>
 </div>

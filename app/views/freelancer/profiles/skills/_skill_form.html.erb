@@ -1,0 +1,11 @@
+<%= simple_form_for([:freelancer, profile, skill], remote: true) do |f| %>
+    <div class="nested-fields">
+        <%= f.input :job_title, label: "Job Title" %>
+        <%= f.input :description, label: "Description" %>
+        <%= f.input :company, label: "Company" %>
+        <%= f.input :start_date, label: "Start Date" %>
+        <%= f.input :end_date, label: "End Date" %>
+        <%= f.button :submit, "Save Skill" %>
+        <%= link_to "Remove", "#", class: "remove_fields" %>
+    </div>
+<% end %>

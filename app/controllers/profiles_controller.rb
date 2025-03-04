@@ -5,21 +5,6 @@ class ProfilesController < ApplicationController
   # Afficher la liste des profils de freelances
   @profiles = Profile.joins(:user).where(users: { role: :freelancer })
 
-  # if params[:q].present?
-  #   @profiles = @profiles.where("job_title ILIKE :query OR skills ILIKE :query OR language ILIKE :query", query: "%#{params[:q]}%")
-  # end
-
-  # @profiles = @profiles.where("job_title ILIKE ?", "%#{params[:job_title]}%") if params[:job_title].present?
-  # @profiles = @profiles.where("skills ILIKE ?", "%#{params[:skills]}%") if params[:skills].present?
-  # @profiles = @profiles.where("education ILIKE ?", "%#{params[:education]}%") if params[:education].present?
-
-  #def show
-    #if @profile.user.freelancer?
-      #render :show
-    #else
-      #redirect_to freelancer_profiles_path, alert: "Ce profil n'est pas disponible."
-    #end
-  #end
 
   def show
     @profile = Profile.find(params[:id])
@@ -47,13 +32,14 @@ class ProfilesController < ApplicationController
 
   def new
     @profile = Profile.new
-    @profile.skills.build # Ajoute un skill vide pour le formulaire
+    @profile.skills.build
     @profile.educations.build
   end
 
   def edit
-    if @profile.user == current_user
-      render :edit
+    @profile = Profile.find(params[:id])
+    if @profile.skills.empty?
+      @profile.skills.build
     else
       redirect_to freelancer_profiles_path, alert: "Vous ne pouvez modifier que votre propre profil."
     end
@@ -86,10 +72,15 @@ class ProfilesController < ApplicationController
     @profile = Profile.new(profile_params)
     @profile.user = current_user
     if @profile.save
-      redirect_to @profile, notice: "Profil créé avec succès"
+      redirect_to @profile, notice: "Profile created successfully"
     else
-      render :new
+      puts @profile.errors.full_messages # Log validation errors
+      render :new, status: :unprocessable_entity
     end
+  end
+
+  private
+
   end
 
     # Recherche globale (pg_search, ou un simple LIKE)
@@ -143,6 +134,13 @@ class ProfilesController < ApplicationController
     if params[:max_rate].present?
       @profiles = @profiles.where("hourly_rate <= ?", params[:max_rate])
     end
+
+    private
+
+    def skill_params
+      params.require(:skill).permit(:job_title, :company, :start_date, :end_date, :description, :localisation)
+    end
+
 
   private
 

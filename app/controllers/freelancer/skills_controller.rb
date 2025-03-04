@@ -1,62 +1,30 @@
 module Freelancer
   class SkillsController < ApplicationController
-    before_action :set_profile
-    before_action :set_skill, only: [:edit, :update, :destroy]
     before_action :authenticate_user!
+    before_action :set_profile
 
-    # GET /profiles/:profile_id/skills
-    def index
-      @skills = @profile.skills
-    end
-
-    # GET /profiles/:profile_id/skills/new
-    def new
-      @skill = @profile.skills.build
-    end
-
-    # POST /profiles/:profile_id/skills
-    def create
-      @skill = @profile.skills.build(skill_params)
-      if @skill.save
-        redirect_to profile_skills_path(@profile), notice: 'Skill created successfully.'
-      else
-        render :new, status: :unprocessable_entity
+      def new
+        @skill = @profile.skills.build
+        render partial: 'freelancer/skills/skill_form', locals: { profile: @profile, skill: @skill } # Pass profile and skill as locals
       end
-    end
 
-    # GET /profiles/:profile_id/skills/:id/edit
-    def edit
-    end
-
-    # PATCH/PUT /profiles/:profile_id/skills/:id
-    def update
-      if @skill.update(skill_params)
-        redirect_to profile_skills_path(@profile), notice: 'Skill updated successfully.'
-      else
-        render :edit, status: :unprocessable_entity
+      def create
+          @skill = @profile.skills.build(skill_params)
+          if @skill.save
+              render json: { success: true }
+          else
+              render json: { success: false, errors: @skill.errors.full_messages }, status: :unprocessable_entity
+          end
       end
-    end
 
-    # DELETE /profiles/:profile_id/skills/:id
-    def destroy
-      @skill.destroy
-      redirect_to profile_skills_path(@profile), notice: 'Skill deleted successfully.'
-    end
+      private
 
-    private
+      def set_profile
+          @profile = Freelancer::Profile.find(params[:profile_id])
+      end
 
-    # Find the profile based on profile_id
-    def set_profile
-      @profile = Profile.find(params[:profile_id])
-    end
-
-    # Find the skill based on id
-    def set_skill
-      @skill = @profile.skills.find(params[:id])
-    end
-
-    def skill_params
-      params.require(:skill).permit(:job_title, :company, :start_date, :end_date, :description, :localisation)
-    end
+      def skill_params
+          params.require(:skill).permit(:job_title, :description, :company, :start_date, :end_date)
+      end
   end
 end

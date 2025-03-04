@@ -7,6 +7,8 @@ import "bootstrap";
 // import jquery from "jquery";
 // window.$ = jquery
 // window.jQuery = jquery
-import "cocoon";
-import Rails from "@rails/ujs"
-Rails.start()
+// import "cocoon";
+// import Rails from "@rails/ujs"
+// Rails.start()
+import "./controllers/nested_fields_controller"
+

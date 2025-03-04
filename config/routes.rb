@@ -78,8 +78,13 @@ Rails.application.routes.draw do
         get 'me', to: 'profiles#me'
       end
 
-      resources :skills, only: [:index, :create, :edit, :update, :destroy]
-      resources :educations, only: [:index, :create, :edit, :update, :destroy]
+      resources :skills, only: [:index, :new, :create, :edit, :update, :destroy] do
+        collection do
+          post :ajax_create
+        end
+      end
+      
+      resources :educations, only: [:index, :new, :create, :edit, :update, :destroy]
     end
   end
 

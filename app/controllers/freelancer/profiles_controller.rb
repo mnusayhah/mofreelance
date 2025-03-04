@@ -32,48 +32,81 @@ module Freelancer
     end
 
     # Mettre à jour le profil
+    # def update
+    #   if @profile.user == current_user
+    #     if @profile.update(profile_params)
+    #       respond_to do |format|
+    #         format.html { redirect_to freelancer_profile_path(@profile), notice: "Votre profil a été mis à jour avec succès." }
+    #         format.turbo_stream { redirect_to freelancer_profile_path(@profile), notice: "Votre profil a été mis à jour avec succès." }
+    #       end
+    #     else
+    #       render :edit, status: :unprocessable_entity
+    #     end
+    #   else
+    #     redirect_to freelancer_profiles_path, alert: "Vous ne pouvez pas modifier ce profil."
+    #   end
+    # end
     def update
-      if @profile.user == current_user
-        if @profile.update(profile_params)
-          respond_to do |format|
-            format.html { redirect_to freelancer_profile_path(@profile), notice: "Votre profil a été mis à jour avec succès." }
-            format.turbo_stream { redirect_to freelancer_profile_path(@profile), notice: "Votre profil a été mis à jour avec succès." }
-          end
-        else
-          render :edit, status: :unprocessable_entity
-        end
+      if @profile.update(profile_params)
+        redirect_to freelancer_profile_path(@profile), notice: 'Profile was successfully updated.'
       else
-        redirect_to freelancer_profiles_path, alert: "Vous ne pouvez pas modifier ce profil."
+        render :edit
       end
     end
 
     def new
       @profile = Profile.new
-      @profile.skills.build  # Ajoute un skill vide pour le formulaire
-      @profile.educations.build
+      @profile.skills.build  # Initialize at least one skill
+      @profile.educations.build # Initialize at least one education
+    end
 
-      respond_to do |format|
-        format.turbo_stream { render partial: "profiles/new", locals: { profile: @profile } }
-        format.html
+    def create
+      @profile = current_user.build_profile(profile_params)
+
+      if @profile.save!
+        redirect_to freelancer_profiles_path, notice: "Profile created successfully!"
+      else
+        render :new
       end
     end
+
 
     def edit
-      # Vérifier que le profil appartient bien à l’utilisateur courant
-      unless @profile.user == current_user
-        redirect_to freelancer_profiles_path(@profile), alert: "Vous ne pouvez modifier que votre propre profil."
-        return
-      end
-
-      respond_to do |format|
-        format.turbo_stream do
-          render partial: "profiles/edit", locals: { profile: @profile }
-        end
-        format.html do
-          render :edit
-        end
+      @profile = Profile.find(params[:id])
+      if @profile.skills.empty?
+        @profile.skills.build
+      else
+        redirect_to freelancer_profiles_path, alert: "Vous ne pouvez modifier que votre propre profil."
       end
     end
+
+    # def new
+    #   @profile = Profile.new
+    #   @profile.skills.build  # Ajoute un skill vide pour le formulaire
+    #   @profile.educations.build
+
+    #   respond_to do |format|
+    #     format.turbo_stream { render partial: "profiles/new", locals: { profile: @profile } }
+    #     format.html
+    #   end
+    # end
+
+    # def edit
+    #   # Vérifier que le profil appartient bien à l’utilisateur courant
+    #   unless @profile.user == current_user
+    #     redirect_to freelancer_profiles_path(@profile), alert: "Vous ne pouvez modifier que votre propre profil."
+    #     return
+    #   end
+
+    #   respond_to do |format|
+    #     format.turbo_stream do
+    #       render partial: "profiles/edit", locals: { profile: @profile }
+    #     end
+    #     format.html do
+    #       render :edit
+    #     end
+    #   end
+    # end
 
     def destroy
       if @profile.user == current_user
@@ -97,51 +130,31 @@ module Freelancer
       end
     end
 
-    def new_experience
-      @profile = current_user.profile
-      @skill = @profile.skills.build
 
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.append(
-            "experience_list",
-            partial: "freelancer/profiles/_experience_fields",
-            locals: { f: ActionView::Helpers::FormBuilder.new(:profile, @profile, self, {}, nil) }
-          )
-        end
-        format.html { render partial: "freelancer/profiles/_experience_fields", locals: { f: @skill } }
-      end
-    end
-
-    # Crée un profil en BDD à partir des infos du formulaire
-    def create
-      @profile = current_user.build_profile(profile_params)
-      if @profile.save
-        respond_to do |format|
-          format.html { redirect_to freelancer_profile_path(@profile.id), notice: "Profile created successfully." }
-          format.turbo_stream { redirect_to freelancer_profile_path(@profile.id), notice: "Profile created successfully." }
-        end
-      else
-        render :new, status: :unprocessable_entity
-      end
-    end
 
     private
 
     def set_profile
-      @profile = Profile.find(params[:id])
+      @profile = current_user.profile
     rescue ActiveRecord::RecordNotFound
       redirect_to freelancer_profiles_path, alert: "Profil introuvable."
     end
 
-    def profile_params
-      params.require(:profile).permit(
-        :title, :bio, :address, :years_of_experience, :hourly_rate,
-        :availability_status, :language, :photo, :tech_skills,
-        skills_attributes: [:id, :job_title, :company, :start_date, :end_date, :description, :localisation, :_destroy],
-        educations_attributes: [:id, :school, :diploma, :start_date, :end_date, :localisation, :_destroy]
-      )
-    end
 
+      def profile_params
+        params.require(:profile).permit(
+          :title, :address, :bio, :years_of_experience, :hourly_rate,
+          :language, :availability_status, :avatar, :tech_skills,
+          skills_attributes: [:id, :job_title, :company, :start_date, :end_date, :_destroy],
+          educations_attributes: [:id, :school, :diploma, :start_date, :end_date, :_destroy]
+        )
+      end
+    #   params.require(:profile).permit(
+    #     :title, :bio, :address, :years_of_experience, :hourly_rate,
+    #     :availability_status, :language, :photo, :tech_skills,
+    #     skills_attributes: [:id, :job_title, :company, :start_date, :end_date, :description, :localisation, :_destroy],
+    #     educations_attributes: [:id, :school, :diploma, :start_date, :end_date, :localisation, :_destroy]
+    #   )
+    # end
   end
 end
