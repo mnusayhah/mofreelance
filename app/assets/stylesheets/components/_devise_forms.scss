@@ -1,0 +1,85 @@
+// Styles pour les formulaires Devise
+
+// Fond des pages d'authentification
+.devise-background {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+// Styles des champs de formulaire
+.form-control {
+  padding: 12px 15px;
+  font-size: 16px;
+  border: 1px solid #dfe3e7;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:focus {
+    border-color: #4a80ff;
+    box-shadow: 0 0 0 0.25rem rgba(74, 128, 255, 0.15);
+  }
+}
+
+// Style des labels
+.form-label {
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #344054;
+}
+
+// Style pour les cartes de sélection de rôle
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.card.border-primary {
+  border-color: #4a80ff !important;
+  background-color: rgba(74, 128, 255, 0.05);
+}
+
+// Animation de transition
+.company-field {
+  transition: all 0.3s ease;
+}
+
+// Styles des alertes et notifications
+.alert {
+  border-radius: 8px;
+  border: none;
+  padding: 15px;
+  margin-bottom: 20px;
+
+  &.alert-success {
+    background-color: #eefbf6;
+    color: #027a48;
+  }
+
+  &.alert-danger {
+    background-color: #fdf2f2;
+    color: #b91c1c;
+  }
+
+  &.alert-info {
+    background-color: #eff6ff;
+    color: #1e40af;
+  }
+}
+
+// Styles des boutons
+.btn-primary {
+  background-color: #4a80ff;
+  border-color: #4a80ff;
+  padding: 12px 24px;
+  font-weight: 500;
+
+  &:hover {
+    background-color: darken(#4a80ff, 5%);
+    border-color: darken(#4a80ff, 5%);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .card-body {
+    padding: 20px;
+  }
+}
