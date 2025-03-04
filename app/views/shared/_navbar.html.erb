@@ -14,29 +14,56 @@
           <li class="nav-item active">
             <%= link_to "Home", root_path, class: "nav-link" %>
           </li>
-          <li class="nav-item">
-            <%= link_to "Messages", "#", class: "nav-link" %>
-          </li>
-          <!-- Nouveaux onglets pour les pages statiques -->
-          <li class="nav-item">
-            <%= link_to "Enterprises", "/enterprises.html", class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Freelancers", "/freelancers.html", class: "nav-link" %>
-          </li>
+
+          <% if current_user.enterprise? %>
+            <!-- Liens spécifiques aux entreprises -->
+            <li class="nav-item">
+              <%= link_to "Find a talent", freelancer_profiles_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "My Projects", enterprise_projects_path(current_user), class: "nav-link" %>
+            </li>
+          <% elsif current_user.freelancer? %>
+            <!-- Liens spécifiques aux freelances -->
+            <li class="nav-item">
+              <%= link_to "My Projects", freelancer_shared_projects_path, class: "nav-link" %>
+            </li>
+            <% if current_user.profile.present? %>
+              <li class="nav-item">
+                <%= link_to "My Profile", freelancer_profile_path(current_user.profile), class: "nav-link" %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to "Create Profile", new_freelancer_profile_path, class: "nav-link" %>
+              </li>
+            <% end %>
+          <% end %>
+
+          <!-- Menu déroulant avec avatar -->
           <li class="nav-item dropdown ms-3">
             <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
             </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "Action", "#", class: "dropdown-item" %>
-              <%= link_to "Another action", "#", class: "dropdown-item" %>
+              <% if current_user.enterprise? %>
+                <%= link_to "Dashboard", enterprise_dashboard_path, class: "dropdown-item" %>
+                <%= link_to "My Projects", enterprise_projects_path(current_user), class: "dropdown-item" %>
+              <% elsif current_user.freelancer? %>
+                <%= link_to "Dashboard", freelancer_dashboard_path, class: "dropdown-item" %>
+                <%= link_to "My Projects", freelancer_shared_projects_path, class: "dropdown-item" %>
+              <% end %>
+              <%= link_to "Account Settings", edit_user_registration_path, class: "dropdown-item" %>
+              <div class="dropdown-divider"></div>
               <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %>
             </div>
           </li>
         <% else %>
+          <!-- Utilisateur non connecté -->
           <li class="nav-item">
             <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Sign up", new_user_registration_path, class: "nav-link" %>
           </li>
         <% end %>
       </ul>
