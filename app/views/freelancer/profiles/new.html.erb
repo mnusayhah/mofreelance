@@ -52,7 +52,7 @@
 
       <hr class="my-4">
 
-      <!-- Technical Skills -->
+    <!-- Technical Skills -->
       <h4 class="mb-3">Technical Skills</h4>
       <div class="mb-3">
         <%= f.input :tech_skills, label: "Tech Skills (comma-separated)", input_html: { class: "form-control" } %>
@@ -61,14 +61,15 @@
       <hr class="my-4">
 
       <!-- Experiences -->
-      <h4 class="mb-3">Experiences</h4>
-      <div id="skills" class="mb-3">
-        <%= f.simple_fields_for :skills do |skill_form| %>
-          <%= render 'freelancer/profiles/skill_fields', f: skill_form %>
-        <% end %>
-      </div>
-      <div class="mb-3">
-        <%= link_to_add_association "Add Experience", f, :skills, partial: 'freelancer/profiles/skill_fields', class: "btn btn-secondary" %>
+      <h4 class="mb-3">Experience</h4>
+      <div data-controller="experience">
+        <turbo-frame id="experience_list">
+          <%= f.fields_for :skills do |skill_form| %>
+            <%= render 'freelancer/profiles/experience_fields', f: skill_form %>
+          <% end %>
+        </turbo-frame>
+
+        <button type="button" class="btn btn-secondary add-experience" data-action="click->experience#add">Add Experience</button>
       </div>
 
       <hr class="my-4">
@@ -91,4 +92,3 @@
     </div>
   </div>
 <% end %>
-</turbo-frame>

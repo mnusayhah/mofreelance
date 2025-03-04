@@ -19,6 +19,15 @@
       <%= f.input :description, label: "Project Description", as: :text, input_html: { class: 'form-control' } %>
     </div>
 
+  <div class="form-group">
+    <%= f.input :logo, as: :file, label: "Company Logo" %>
+  </div>
+
+
+  //<div class="form-group">
+    //<%= f.input :budget, label: "Project Budget", as: :decimal %>
+  //</div>
+
     <div class="form-group">
       <%= f.input :budget, label: "Project Budget", as: :decimal, input_html: { class: 'form-control' } %>
     </div>

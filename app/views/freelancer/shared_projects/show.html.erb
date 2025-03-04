@@ -1,45 +1,137 @@
+<!-- app/views/freelancer/shared_projects/show.html.erb -->
 <turbo-frame id="projects_frame">
   <% if @shared_project&.project.present? %>
-    <div class="card shadow-lg p-4">
-      <h1 class="text-primary mb-3">📌 Project: <%= @shared_project.project.title %></h1>
+    <!-- Carte principale -->
+    <div class="card border-0 shadow-sm mb-4" style="border-radius: 0.75rem; background-color: #fff;">
+      <div class="card-body p-4 position-relative" style="min-height: 200px;">
 
-      <div class="mb-3">
-        <h4 class="text-secondary"><strong>Project Details</strong></h4>
-        <p><strong>Name:</strong> <%= @shared_project.project.title %></p>
-        <p><strong>Description:</strong> <%= @shared_project.project.description %></p>
-        <p><strong>Budget:</strong> <span class="badge bg-success">$<%= @shared_project.project.budget %></span></p>
-        <p><strong>Status:</strong> <span class="badge bg-info"><%= @shared_project.status %></span></p>
-      </div>
-
-      <div class="mb-3">
-        <h4 class="text-secondary"><strong>Timeline</strong></h4>
-        <p><strong>Start Date:</strong> <%= @shared_project.project.start_date.strftime('%B %d, %Y') %></p>
-        <p><strong>Due Date:</strong> <%= @shared_project.project.end_date.strftime('%B %d, %Y') %></p>
-      </div>
-
-      <div class="mb-3">
-        <h4 class="text-secondary"><strong>Skills Required</strong></h4>
-        <p class="text-muted"><%= @shared_project.project.required_skills %></p>
-      </div>
-
-      <div class="mb-3">
-        <h4 class="text-secondary"><strong>Collaborators</strong></h4>
-        <p><strong>Enterprise:</strong> <%= @shared_project.project.user.company %> </p>
-        <p><strong>Freelancer:</strong> <%= @shared_project.freelancer.first_name %> </p>
-      </div>
-
-      <% if @shared_project.status == "pending" %>
-        <div class="d-flex gap-2">
-          <%= button_to "Accept", accept_freelancer_shared_project_path(@shared_project), method: :post, class: "btn btn-success", data: { turbo_confirm: "Are you sure you want to accept this project?" } %>
-          <%= button_to "Decline", decline_freelancer_shared_project_path(@shared_project), method: :post, class: "btn btn-danger", data: { turbo_confirm: "Are you sure you want to decline this project?" } %>
+        <!-- Logo du projet en haut à droite -->
+        <div class="position-absolute" style="top: 1rem; right: 1rem;">
+          <% if @shared_project.project.logo.attached? %>
+            <%= image_tag(
+                  @shared_project.project.logo.variant(resize_to_fill: [150, 150]),
+                  alt: "Project Logo",
+                  style: "width: 150px; height: 150px; object-fit: cover; border-radius: 0.25rem;"
+                ) %>
+          <% else %>
+            <!-- Fallback si pas de logo -->
+            <%= image_tag(
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmh9vkk6_jsS7TrTY4mcX8B_GzdExoumLtdg&s",
+                  alt: "No Logo",
+                  style: "width: 150px; height: 150px; object-fit: cover; border-radius: 0.25rem;"
+                ) %>
+          <% end %>
         </div>
-      <% end %>
 
-      <%= link_to 'Back to My Projects', freelancer_shared_projects_path, class: 'btn btn-secondary mt-3' %>
+        <!-- Titre du projet -->
+        <h2 class="mb-4 fs-4">
+          <strong><%= @shared_project.project.title %></strong>
+        </h2>
+
+        <!-- Carte 1 : Project Details -->
+        <div class="">
+          <div class="card-body">
+            <h3 class="fs-5 fw-bold pb-2 mb-3">
+              <i class="fa-solid fa-list-check me-1" style="color: #0E6378;"></i>
+              Project Details
+            </h3>
+            <p class="mb-2">
+              <strong>Name:</strong> <%= @shared_project.project.title %>
+            </p>
+            <p class="mb-2">
+              <strong>Description:</strong> <%= @shared_project.project.description %>
+            </p>
+            <p class="mb-2">
+              <strong>Budget:</strong>
+              Rs <%= @shared_project.project.budget %>
+            </p>
+            <p class="mb-0">
+              <strong>Status:</strong>
+              <span class="badge bg-info"><%= @shared_project.status %></span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Carte 2 : Timeline -->
+        <div class="card border-0 shadow-sm mb-4" style="border-radius: 0.75rem;">
+          <div class="card-body">
+            <h3 class="fs-5 fw-bold pb-2 mb-3" style="border-bottom: 1px solid #eee;">
+              <i class="fa-solid fa-timeline me-1" style="color: #0E6378;"></i>
+              Timeline
+            </h3>
+            <p class="mb-2">
+              <strong>Start Date:</strong>
+              <%= @shared_project.project.start_date.strftime('%B %d, %Y') %>
+            </p>
+            <p class="mb-0">
+              <strong>Due Date:</strong>
+              <%= @shared_project.project.end_date.strftime('%B %d, %Y') %>
+            </p>
+          </div>
+        </div>
+
+        <!-- Carte 3 : Skills Required -->
+        <div class="card border-0 shadow-sm mb-4" style="border-radius: 0.75rem;">
+          <div class="card-body">
+            <h3 class="fs-5 fw-bold pb-2 mb-3" style="border-bottom: 1px solid #eee;">
+              <i class="fa-solid fa-font-awesome me-1" style="color: #0E6378;"></i>
+              Skills Required
+            </h3>
+            <p class="text-muted mb-0">
+              <%= @shared_project.project.required_skills.presence || "N/A" %>
+            </p>
+          </div>
+        </div>
+
+        <!-- Carte 4 : Collaborators -->
+        <div class="card border-0 shadow-sm mb-4" style="border-radius: 0.75rem;">
+          <div class="card-body">
+            <h3 class="fs-5 fw-bold pb-2 mb-3" style="border-bottom: 1px solid #eee;">
+              <i class="fa-solid fa-user me-1" style="color: #0E6378;"></i>
+              Collaborators
+            </h3>
+            <p class="mb-2">
+              <strong>Enterprise:</strong>
+              <%= @shared_project.project.user.company %>
+            </p>
+            <p class="mb-0">
+              <strong>Freelancer:</strong>
+              <%= @shared_project.freelancer.first_name %>
+            </p>
+          </div>
+        </div>
+
+        <!-- Boutons Accept / Decline si status = "pending" -->
+        <% if @shared_project.status == "pending" %>
+          <div class="d-flex gap-2">
+            <%= button_to "Accept",
+                          accept_freelancer_shared_project_path(@shared_project),
+                          method: :post,
+                          class: "btn btn-success",
+                          data: { turbo_confirm: "Are you sure you want to accept this project?" } %>
+
+            <%= button_to "Decline",
+                          decline_freelancer_shared_project_path(@shared_project),
+                          method: :post,
+                          class: "btn btn-danger",
+                          data: { turbo_confirm: "Are you sure you want to decline this project?" } %>
+          </div>
+        <% end %>
+
+        <!-- Bouton de retour -->
+        <div class="mt-4">
+          <%= link_to 'Back to My Projects',
+                      freelancer_shared_projects_path,
+                      class: 'btn-pill-custom-blue-outline' %>
+        </div>
+      </div>
     </div>
+
   <% else %>
+    <!-- Alerte si aucun projet -->
     <div class="alert alert-danger text-center">
-      🚨 You do not have any project yet.
+      <i class="fas fa-exclamation-triangle me-2"></i>
+      You do not have any project yet.
     </div>
     <%= link_to 'Back to My Projects', freelancer_shared_projects_path, class: 'btn btn-secondary mt-3' %>
   <% end %>
