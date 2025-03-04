@@ -11,4 +11,15 @@ class ApplicationController < ActionController::Base
   def enterprise_user?
     current_user&.role == 'enterprise'
   end
+
+  # Redirection après connexion selon le rôle de l'utilisateur
+  def after_sign_in_path_for(resource)
+    if resource.enterprise?
+      enterprise_dashboard_path
+    elsif resource.freelancer?
+      freelancer_dashboard_path
+    else
+      root_path
+    end
+  end
 end

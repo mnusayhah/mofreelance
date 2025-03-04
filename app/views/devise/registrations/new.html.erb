@@ -1,42 +1,93 @@
-<h2>Sign up</h2>
+<%# Registration page with improved design and Stimulus controller %>
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-8 col-lg-7">
+      <div class="card shadow-sm border-0 rounded-4 bg-white">
+        <div class="card-body p-4 p-md-5">
+          <div class="text-center mb-4">
+            <h2 class="fw-bold">Create an Account</h2>
+            <p class="text-muted">Join the MoFreelance community</p>
+          </div>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
+          <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+            <%= f.error_notification %>
 
-  <div class="form-inputs">
-    <!-- Conteneur contrôlé par Stimulus pour le rôle et le champ Company -->
-    <div data-controller="role">
-      <%= f.input :role,
-                  collection: User.roles.keys.map { |r| [r.humanize, r] },
-                  prompt: "Choisissez votre rôle",
-                  label: "Quel type de compte souhaitez-vous créer ?",
-                  input_html: { data: { action: "change->role#toggle" } } %>
+            <%# Using existing Stimulus controller %>
+            <div data-controller="role">
+              <%# Account type selection %>
+              <div class="mb-4">
+                <%= f.input :role,
+                          collection: User.roles.keys.map { |r| [r.humanize, r] },
+                          label: "What type of account would you like to create?",
+                          input_html: {
+                            class: "form-select rounded-3",
+                            data: { action: "change->role#toggle" }
+                          },
+                          label_html: { class: "form-label fw-semibold mb-3" } %>
+              </div>
 
-      <!-- Ce conteneur est le target "companyField" du contrôleur role.
-           Il est masqué par défaut et s'affichera si le rôle "enterprise" est sélectionné -->
-      <div data-role-target="companyField" style="display: none;">
-        <%= f.input :company, hint: "Requis si vous êtes une entreprise" %>
+              <%# Company field (conditional controlled by Stimulus) %>
+              <div class="mb-3" data-role-target="companyField" style="display: none;">
+                <%= f.input :company,
+                          hint: "Required if you are a company",
+                          input_html: { class: "form-control rounded-3" },
+                          label_html: { class: "form-label" },
+                          hint_html: { class: "form-text small text-muted" } %>
+              </div>
+            </div>
+
+            <%# Personal information %>
+            <div class="row mb-3">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <%= f.input :first_name,
+                          required: true,
+                          autofocus: true,
+                          input_html: { class: "form-control rounded-3" },
+                          label_html: { class: "form-label" } %>
+              </div>
+              <div class="col-md-6">
+                <%= f.input :last_name,
+                          required: true,
+                          input_html: { class: "form-control rounded-3" },
+                          label_html: { class: "form-label" } %>
+              </div>
+            </div>
+
+            <%# Email and Password %>
+            <div class="mb-3">
+              <%= f.input :email,
+                        required: true,
+                        input_html: { autocomplete: "email", class: "form-control rounded-3" },
+                        label_html: { class: "form-label" } %>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <%= f.input :password,
+                          required: true,
+                          hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                          input_html: { autocomplete: "new-password", class: "form-control rounded-3" },
+                          label_html: { class: "form-label" },
+                          hint_html: { class: "form-text small text-muted" } %>
+              </div>
+              <div class="col-md-6">
+                <%= f.input :password_confirmation,
+                          required: true,
+                          input_html: { autocomplete: "new-password", class: "form-control rounded-3" },
+                          label_html: { class: "form-label" } %>
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <%= f.button :submit, "Sign Up", class: "btn-pill-custom-red py-3" %>
+            </div>
+          <% end %>
+
+          <div class="mt-4 pt-3 border-top text-center">
+            <p class="mb-0">Already have an account? <%= link_to "Sign in", new_session_path(resource_name), class: "text-primary fw-semibold text-decoration-none" %></p>
+          </div>
+        </div>
       </div>
     </div>
-
-    <%= f.input :first_name %>
-    <%= f.input :last_name %>
-    <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" } %>
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

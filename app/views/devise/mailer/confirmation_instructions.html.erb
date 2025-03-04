@@ -1,5 +1,24 @@
-<p>Welcome <%= @email %>!</p>
+<%# Email template for confirmation instructions %>
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
+  <div style="text-align: center; margin-bottom: 30px;">
+    <h1 style="color: #333; font-size: 24px; margin-bottom: 10px;">Welcome to MoFreelance!</h1>
+    <div style="width: 100px; height: 4px; background-color: #4a80ff; margin: 0 auto;"></div>
+  </div>
 
-<p>You can confirm your account email through the link below:</p>
+  <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Hello <%= @resource.first_name %>,</p>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+  <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">Thank you for signing up with MoFreelance. You can confirm your account email through the link below:</p>
+
+  <div style="text-align: center; margin: 30px 0;">
+    <a href="<%= confirmation_url(@resource, confirmation_token: @token) %>" style="display: inline-block; background-color: #4a80ff; color: white; text-decoration: none; padding: 12px 24px; border-radius: 30px; font-weight: bold;">
+      Confirm my account
+    </a>
+  </div>
+
+  <p style="color: #555; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">After confirming your account, you'll be able to access all features and start exploring MoFreelance.</p>
+
+  <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e0e0e0; color: #777; font-size: 14px; text-align: center;">
+    <p>If you didn't create an account with us, please ignore this email.</p>
+    <p>This is an automated email from MoFreelance. Please do not reply to this email.</p>
+  </div>
+</div>
