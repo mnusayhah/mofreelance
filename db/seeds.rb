@@ -20,6 +20,7 @@ ActiveRecord::Base.transaction do
     phone_number: "1234567890"
   )
 end
+
 puts "👤 Création des utilisateurs freelances..."
 
 5.times do

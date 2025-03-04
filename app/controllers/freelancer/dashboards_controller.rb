@@ -3,11 +3,12 @@ module Freelancer
     before_action :authenticate_user!
     before_action :ensure_freelancer!
 
-
     def show
-      @pending_projects = current_user.projects.where(status: 0)
+      @freelancer = current_user
       @shared_projects = SharedProject.where(freelancer_id: current_user.id)
-
+      @projects = @freelancer.projects.joins(:shared_projects).where(shared_projects: { status: ['pending', 'accepted'] })
+      # @projects = @freelancer.projects.where(freelancer_projects: { status: 'pending' })
+      # @pending_projects = current_user.projects.where(status: 0)
     end
 
     def freelancer

@@ -22,7 +22,7 @@
               <td><%= shared_project.project.end_date %></td>
               <td>
                 <div class="dropdown"> <%= turbo_stream_from "status_badge_#{shared_project.id}" %>
-                  <button class="btn btn-sm dropdown-toggle <%= status_class(shared_project.status) %>" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <button class="btn-pill-custom-accepted dropdown-toggle <%= status_class(shared_project.status) %>" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <%= shared_project.status.capitalize %>
                   </button>
                   <ul class="dropdown-menu">
@@ -32,6 +32,11 @@
                       </li>
                       <li>
                         <%= button_to 'Decline', decline_freelancer_shared_project_path(shared_project), method: :post, class: 'dropdown-item text-danger', data: { turbo_stream: "status_badge_#{shared_project}" } %>
+                      </li>
+                    <% elsif shared_project.paid? %>
+                      <!-- Option to mark payment as received -->
+                      <li>
+                        <%= button_to 'Mark Payment Received', mark_payment_received_freelancer_shared_project_path(shared_project), method: :post, class: 'dropdown-item text-success', data: { turbo_stream: "status_badge_#{shared_project}", confirm: 'Mark payment as received and complete the project?' } %>
                       </li>
                     <% else %>
                       <li>

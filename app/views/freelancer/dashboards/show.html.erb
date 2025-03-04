@@ -27,9 +27,8 @@
                         data: { turbo_frame: "projects_frame" } %>
           </li>
           <li>
-            <%= link_to "Completed", freelancer_shared_projects_path(status: 'completed'),
-                        class: "sidebar-dropdown-link",
-                        data: { turbo_frame: "projects_frame" } %>
+            <%= link_to "Paid / Completed", freelancer_shared_projects_path(status: ['paid', 'completed']), class: "sidebar-dropdown-link",
+                  data: { turbo_frame: "projects_frame" } %>
           </li>
           <li>
             <%= link_to "Declined", freelancer_shared_projects_path(status: 'declined'),
