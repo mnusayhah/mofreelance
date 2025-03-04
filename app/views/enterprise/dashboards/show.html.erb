@@ -1,15 +1,23 @@
 <!--h1>Company Dashboard</h1-->
 
-<div class="dashboard-container d-flex">
+<div class="dashboard-container d-flex" style="min-height: 100vh;">
   <!-- Sidebar -->
-  <div class="sidebar p-3">
-    <ul class="nav flex-column">
-      <!-- Dropdown for Projects -->
-      <li class="nav-item">
-        <button class="btn-pill-custom-blue w-100" type="button" data-bs-toggle="collapse" data-bs-target="#projectsDropdown">
-          Projects
+  <aside class="sidebar shadow-sm p-3" style="width: 240px;">
+    <ul class="nav flex-column gap-3">
+      <!-- Projects Dropdown -->
+      <li class="mt-5 nav-item">
+        <button
+          class="sidebar-button d-flex justify-content-between align-items-center"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#projectsDropdown"
+          aria-expanded="false"
+          aria-controls="projectsDropdown"
+        >
+          <span><i class="fa-solid fa-folder-open me-2"></i> Projects</span>
+          <i class="fas fa-chevron-down"></i>
         </button>
-        <ul id="projectsDropdown" class="collapse mt-2">
+        <ul id="projectsDropdown" class="collapse mt-2 list-unstyled ps-3">
           <li>
             <%= link_to 'Create New Project', new_enterprise_project_path, class: "dropdown-item", data: { turbo_frame: "projects_frame" } %>
           </li>
@@ -25,25 +33,37 @@
         </ul>
       </li>
 
-      <!-- Messages text (instead of link) -->
-      <li class="nav-item mt-2">
-        <button class="btn-pill-custom-blue w-100">
-          Messages
-        </button>
+      <!-- Messages -->
+      <li class="nav-item">
+        <%= link_to "#",
+          class: "sidebar-button text-decoration-none d-flex align-items-center justify-content-start" do %>
+          <i class="fas fa-comment me-2"></i>
+          <span>Messages</span>
+        <% end %>
       </li>
 
-      <!-- Browse Freelancers button styled like other buttons -->
-      <li class="nav-item mt-2">
-        <%= link_to 'Browse Talents', freelancer_profiles_path, class: "btn-pill-custom-blue w-100 btn text-white text-center" %>
+      <!-- Browse Freelancers -->
+      <li class="nav-item">
+        <%= link_to freelancer_profiles_path,
+          class: "sidebar-button text-decoration-none d-flex align-items-center justify-content-start" do %>
+          <i class="fas fa-comment me-2"></i>
+          <span>Browse Freelancers</span>
+        <% end %>
       </li>
     </ul>
-  </div>
+  </aside>
 
-
-<!-- Main content area where the table will be injected -->
-  <main class="dashboard-content flex-grow-1 p-4">
+  <!-- Main Content -->
+  <main class="flex-grow-1 p-4" style="background-color: #f9fafb;">
     <turbo-frame id="projects_frame">
       <%= render partial: "projects_list", locals: { projects: @projects } %>
     </turbo-frame>
   </main>
 </div>
+
+  <!-- Footer -->
+  <footer class="notion-footer py-5 bg-light">
+    <div class="border-top mt-4 pt-4">
+      <p class="text-muted text-center mb-0">&copy; 2025 MoFreelance. All rights reserved.</p>
+    </div>
+  </footer>
