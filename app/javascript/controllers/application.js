@@ -1,13 +1,7 @@
-import { Controller } from "@hotwired/stimulus";
+// app/javascript/controllers/application.js
+import { Application } from "@hotwired/stimulus"
+import { Controller } from "@hotwired/stimulus"
 
-import { Dropdown } from "bootstrap"
-
-document.addEventListener("DOMContentLoaded", function () {
-  var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))
-  var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
-    return new Dropdown(dropdownToggleEl)
-  })
-})
 
 
 export default class extends Controller {
@@ -25,8 +19,6 @@ export default class extends Controller {
   }
 }
 
-// app/javascript/controllers/application.js
-import { Application } from "@hotwired/stimulus"
 
 const application = Application.start()
 

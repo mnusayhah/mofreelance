@@ -11,15 +11,10 @@
     <!-- CSS compilé localement, incluant Bootstrap (via Sass) et tes surcharges Malt -->
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
 
-    <!-- Font Awesome (CDN) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-          integrity="sha512-dNr0gI8OltIZ7L3D1o2Sw+7kp4K6mQOGoM9D+S2z1Yd+L6I0iGhxo6Ik9GqO3hrbW9w65p9ScJyBs6Qn52+q5g=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-
     <!-- JavaScript via importmaps -->
     <%= javascript_importmap_tags %>
     <!-- Ton JS compilé localement (packs ou autre) -->
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <!-- <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %> -->
     <%= turbo_include_tags %>
   </head>
 

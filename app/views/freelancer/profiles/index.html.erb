@@ -105,49 +105,30 @@
                 onchange="this.form.submit()"
               >
             </div>
+            <i class="fa-solid fa-house"></i>
 
-            <!-- Filtre : Tarifs (un seul curseur) -->
-            <div class="mb-3">
-              <label class="form-label">Tarif / jour</label>
-              <div class="d-flex align-items-center">
-                <!-- Prix minimum fixe (ex: 0 ou 30) -->
-                <span id="price-min" class="me-2 fw-bold">0 €</span>
-                <input
-                  type="range"
-                  min="0"
-                  max="1000"
-                  step="5"
-                  id="max_range"
-                  value="<%= params[:max_rate] || 80 %>"
-                  style="flex: 1;"
-                >
-                <span id="price-max" class="ms-2 fw-bold"></span>
+            <!-- Ajoutez ce bloc dans votre formulaire de recherche -->
+            <div class="form-group mt-4 mb-5" data-controller="price-range-slider">
+              <h5 class="mb-3">Tarif / jour</h5>
+
+              <!-- Container pour le slider -->
+              <div class="range-slider-container">
+                <div class="price-range-slider" id="priceRangeSlider" data-price-range-slider-target="slider"></div>
+
+                <!-- Affichage des valeurs -->
+                <div class="d-flex justify-content-between mt-2">
+                  <div class="min-price">
+                    <span data-price-range-slider-target="minDisplay">125</span> € et -
+                  </div>
+                  <div class="max-price">
+                    <span data-price-range-slider-target="maxDisplay">560</span> € et +
+                  </div>
+                </div>
+
+                <!-- Champs cachés pour le formulaire -->
+                <input type="hidden" name="min_price" data-price-range-slider-target="minInput" value="125">
+                <input type="hidden" name="max_price" data-price-range-slider-target="maxInput" value="560">
               </div>
-
-              <!-- Champs caché pour stocker la valeur max_rate -->
-              <%= hidden_field_tag :max_rate, params[:max_rate], id: "max_rate_input" %>
-
-              <!-- Script JS inline pour un seul curseur -->
-              <script>
-                document.addEventListener("turbo:load", () => {
-                  const maxRange = document.getElementById("max_range");
-                  const maxInput = document.getElementById("max_rate_input");
-                  const priceMax = document.getElementById("price-max");
-
-                  function update() {
-                    let maxVal = parseFloat(maxRange.value);
-                    // Afficher la valeur
-                    priceMax.textContent = maxVal + " €";
-                    // Mettre à jour le champ caché
-                    maxInput.value = maxVal;
-                  }
-
-                  maxRange.addEventListener("input", update);
-
-                  // initial
-                  update();
-                });
-              </script>
             </div>
           <% end %>
         </div>

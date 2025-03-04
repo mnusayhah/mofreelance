@@ -36,7 +36,7 @@
                   <h6 class="text-white-50 mb-2">Tarif indicatif</h6>
                   <p class="mb-0 fw-bold fs-4">
                     <% if @profile.hourly_rate.present? %>
-                      <%= @profile.hourly_rate %> €<span class="fw-normal fs-6">/jour</span>
+                      Rs <%= @profile.hourly_rate %><span class="fw-normal fs-6">/jour</span>
                     <% else %>
                       N/A
                     <% end %>
@@ -76,7 +76,8 @@
              </div>
           </div>
         </div>
-
+      </div>
+    </div>
 
     <!-- Photo de profil positionnée par-dessus les deux sections -->
     <div class="position-absolute" style="top: 80px; left: 40px;">

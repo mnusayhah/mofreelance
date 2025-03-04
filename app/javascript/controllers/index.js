@@ -2,8 +2,10 @@
 import { application } from "controllers/application"
 import { eagerLoadControllersFrom } from "@hotwired/stimulus-loading"
 eagerLoadControllersFrom("controllers", application)
-// app/javascript/controllers/index.js
-import { application } from "controllers/application"
-import DropdownController from "./dropdown_controller"
 
-application.register("dropdown", DropdownController)
+// Enregistrement manuel des contrôleurs
+// import DropdownController from "./dropdown_controller"
+// import PriceRangeSliderController from "./price_range_slider_controller"
+
+// application.register("dropdown", DropdownController)
+// application.register("price-range-slider", PriceRangeSliderController)

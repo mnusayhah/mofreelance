@@ -1,0 +1,49 @@
+// Styles pour le slider de tarif
+.range-slider-container {
+  padding: 10px 0;
+  width: 100%;
+}
+
+.price-range-slider {
+  height: 20px;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+// Style pour les points de marqueur personnalisés
+.noUi-handle {
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  border: 2px solid #155e75;
+  width: 28px !important;
+  height: 28px !important;
+  top: -5px !important;
+  right: -14px !important;
+  cursor: pointer;
+}
+
+// Enlever la ligne à l'intérieur des poignées
+.noUi-handle::before,
+.noUi-handle::after {
+  display: none;
+}
+
+// La piste du slider
+.noUi-target {
+  background-color: #e6e6e6;
+  border: none;
+  border-radius: 15px;
+  height: 8px;
+}
+
+// La zone sélectionnée
+.noUi-connect {
+  background-color: #155e75;
+}
+
+// Style pour les labels de prix
+.min-price, .max-price {
+  color: #694a38;
+  font-weight: 600;
+}
