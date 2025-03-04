@@ -1,63 +1,117 @@
+<%# <!-- app/views/freelancer/dashboards/_projects_list.html.erb --> %>
 <turbo-frame id="projects_frame">
-<h1>My Projects</h1>
-    <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>Enterprise</th>
-        <th>Project Title</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Status</th>
+<div class="card border-0 shadow-sm mb-4" style="border-radius: 0.75rem; overflow: hidden;">
+  <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center p-4"
+       style="border-radius: 0.75rem 0.75rem 0 0;">
+    <h2 class="fw-bold fs-5 mb-0">All projects</h2>
+    <div class="d-flex align-items-center gap-2">
+      <button class="btn btn-outline-secondary btn-sm">
+        <i class="fas fa-filter me-1"></i> Filter
+      </button>
+      <button class="btn btn-primary btn-sm">
+        <i class="fas fa-plus me-1"></i> New Project
+      </button>
+    </div>
+  </div>
 
-      </tr>
-    </thead>
-    <tbody>
-        <% if @shared_projects.present? %>
-          <% @shared_projects.each do |shared_project| %>
-            <tr>
-              <!-- Display Project Info -->
-              <td><%= shared_project.project.user.company %></td>
-              <td><%= shared_project.project.title %></td>
-              <td><%= shared_project.project.start_date %></td>
-              <td><%= shared_project.project.end_date %></td>
-              <td>
-                <div class="dropdown"> <%= turbo_stream_from "status_badge_#{shared_project.id}" %>
-                  <button class="btn-pill-custom-accepted dropdown-toggle <%= status_class(shared_project.status) %>" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <%= shared_project.status.capitalize %>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <% if shared_project.pending? %>
-                      <li>
-                        <%= button_to "Accept", accept_freelancer_shared_project_path(shared_project), method: :post, class: "dropdown-item text-success", data: { turbo_stream: "status_badge_#{shared_project}", confirm: "Accept this project?" } %>
-                      </li>
-                      <li>
-                        <%= button_to 'Decline', decline_freelancer_shared_project_path(shared_project), method: :post, class: 'dropdown-item text-danger', data: { turbo_stream: "status_badge_#{shared_project}" } %>
-                      </li>
-                    <% elsif shared_project.paid? %>
-                      <!-- Option to mark payment as received -->
-                      <li>
-                        <%= button_to 'Mark Payment Received', mark_payment_received_freelancer_shared_project_path(shared_project), method: :post, class: 'dropdown-item text-success', data: { turbo_stream: "status_badge_#{shared_project}", confirm: 'Mark payment as received and complete the project?' } %>
-                      </li>
-                    <% else %>
-                      <li>
-                        <span class="dropdown-item disabled"><%= shared_project.status.capitalize %></span>
-                      </li>
-                    <% end %>
-                  </ul>
-                </div>
-              </td>
-
-              <!-- Actions -->
-              <td>
-                <%= link_to 'View', freelancer_shared_project_path(shared_project.id), class: 'btn btn-info' %>
-              </td>
+  <div class="card-body p-4" style="background-color: #fff">
+    <% if @shared_projects.present? %>
+      <div class="table-responsive">
+        <!-- On retire les traits de séparation -->
+        <table class="table align-middle"
+               style="border-collapse: collapse; border-spacing: 0; background-color: #fff !important; margin: 0;">
+          <thead>
+            <tr class="text-muted" style="font-size: 0.85rem; line-height: 1.5;">
+              <th style="padding: 1rem;"></th>
+              <th style="padding: 1rem;">PROJECT</th>
+              <th style="padding: 1rem;">STATUS</th>
+              <th style="padding: 1rem;">START DATE</th>
+              <th style="padding: 1rem;">END DATE</th>
+              <th style="padding: 1rem;">BUDGET</th>
+              <th class="text-end" style="padding: 1rem;">ACTIONS</th>
             </tr>
-          <% end %>
-        <% else %>
-          <tr>
-            <td colspan="3" class="text-center"><em>No projects found.</em></td>
-          </tr>
-        <% end %>
-      </tbody>
-  </table>
-  </turbo-frame>
+          </thead>
+          <tbody>
+            <% @shared_projects.each_with_index do |sp, i| %>
+              <!-- Alternance si besoin ; ici on laisse fond blanc pour toutes -->
+              <tr style="background-color: #fff; line-height: 1.5;">
+
+                <!-- COLONNE LOGO (carré aux bords arrondis) -->
+                <td class="text-center">
+                  <% if sp.project.logo.attached? %>
+                    <%= image_tag(
+                          sp.project.logo.variant(resize_to_fill: [35, 35]),
+                          alt: "Company Logo",
+                          class: "rounded",
+                          style: "width: 35px; height: 35px; object-fit: cover; border-radius: 0.25rem;"
+                        ) %>
+                  <% else %>
+                    <%= image_tag(
+                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmh9vkk6_jsS7TrTY4mcX8B_GzdExoumLtdg&s",
+                          alt: "No Logo",
+                          class: "rounded",
+                          style: "width: 35px; height: 35px; object-fit: cover; border-radius: 0.25rem;"
+                        ) %>
+                  <% end %>
+                </td>
+
+                <!-- COLONNE PROJECT TITLE -->
+                <td>
+                  <p class="mb-0"><%= sp.project.title %></p>
+                </td>
+
+                <!-- COLONNE STATUS -->
+                <td>
+                  <% case sp.status
+                     when "accepted"
+                       status_text = "Ongoing"
+                       status_class = "bg-info text-dark"
+                     when "pending"
+                       status_text = "Pending"
+                       status_class = "bg-warning text-dark"
+                     when "completed"
+                       status_text = "Completed"
+                       status_class = "bg-success"
+                     when "declined"
+                       status_text = "Declined"
+                       status_class = "bg-danger"
+                     else
+                       status_text = sp.status.capitalize
+                       status_class = "bg-secondary"
+                     end %>
+                  <span class="badge <%= status_class %>"><%= status_text %></span>
+                </td>
+
+                <!-- COLONNE START DATE -->
+                <td>
+                  <%= sp.project.start_date? ? sp.project.start_date.strftime("%d %b %Y") : "N/A" %>
+                </td>
+
+                <!-- COLONNE END DATE -->
+                <td>
+                  <%= sp.project.end_date? ? sp.project.end_date.strftime("%d %b %Y") : "N/A" %>
+                </td>
+
+                <!-- COLONNE BUDGET -->
+                <td>
+                  Rs <%= sp.project.budget %>
+                </td>
+
+                <!-- COLONNE ACTIONS -->
+                <td class="text-end">
+                  <%= link_to "View",
+                      freelancer_shared_project_path(sp),
+                      class: "btn btn-sm btn-outline-primary",
+                      data: { turbo_frame: "projects_frame" } %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% else %>
+      <p class="text-muted mb-0">No projects found.</p>
+    <% end %>
+  </div>
+</div>
+</turbo-frame>

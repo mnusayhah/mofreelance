@@ -1,4 +1,6 @@
 <turbo-frame id="projects_frame">
+</turbo-frame>
+
 <%= simple_form_for [:freelancer, @profile], html: { multipart: true, class: "container mt-5" } do |f| %>
   <div class="card shadow-sm">
     <!-- En-tête -->
@@ -44,15 +46,14 @@
       <div class="mb-3">
         <%= f.input :availability_status, collection: ["available", "busy", "unavailable"],
                       label: "Availability", input_html: { class: "form-control" } %>
-
-      <!-- Champ "Profile Photo" -->
+      </div>
       <div class="mb-3">
-        <%= f.input :photo, as: :file, label: "Profile Photo", input_html: { class: "form-control" } %>
+        <%= f.input :avatar, as: :file, label: "Profile Photo", input_html: { class: "form-control" } %>
       </div>
 
       <hr class="my-4">
 
-    <!-- Technical Skills -->
+      <!-- Technical Skills -->
       <h4 class="mb-3">Technical Skills</h4>
       <div class="mb-3">
         <%= f.input :tech_skills, label: "Tech Skills (comma-separated)", input_html: { class: "form-control" } %>
