@@ -65,7 +65,13 @@
         </button>
         <ul id="profileDropdown" class="collapse <%= @view == 'profile' ? 'show' : '' %> mt-2 list-unstyled ps-3">
           <% if current_user.profile.present? %>
-            <!-- Si un profil existe déjà, on propose d'éditer -->
+            <!-- Si un profil existe déjà -->
+            <li>
+              <%= link_to "View Profile",
+                          freelancer_dashboard_path(view: 'profile'),
+                          class: "sidebar-dropdown-link",
+                          data: { turbo_frame: "projects_frame" } %>
+            </li>
             <li>
               <%= link_to "Edit Profile",
                           edit_freelancer_profile_path(current_user.profile),
