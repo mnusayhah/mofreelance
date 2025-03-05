@@ -1,3 +1,4 @@
+<!-- app/views/freelancer/dashboards/show.html.erb -->
 <div class="dashboard-container d-flex" style="min-height: 100vh;">
   <!-- Sidebar -->
   <aside class="sidebar shadow-sm p-3" style="width: 240px;">
@@ -9,13 +10,13 @@
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#projectsDropdown"
-          aria-expanded="false"
+          aria-expanded="<%= @view == 'projects' ? 'true' : 'false' %>"
           aria-controls="projectsDropdown"
         >
           <span><i class="fa-solid fa-folder-open me-2"></i> Projects</span>
           <i class="fas fa-chevron-down"></i>
         </button>
-        <ul id="projectsDropdown" class="collapse mt-2 list-unstyled ps-3">
+        <ul id="projectsDropdown" class="collapse <%= @view == 'projects' ? 'show' : '' %> mt-2 list-unstyled ps-3">
           <li>
             <%= link_to "Ongoing", freelancer_shared_projects_path(status: 'accepted'),
                         class: "sidebar-dropdown-link",
@@ -27,8 +28,10 @@
                         data: { turbo_frame: "projects_frame" } %>
           </li>
           <li>
-            <%= link_to "Paid / Completed", freelancer_shared_projects_path(status: ['paid', 'completed']), class: "sidebar-dropdown-link",
-                  data: { turbo_frame: "projects_frame" } %>
+            <%= link_to "Paid / Completed",
+                        freelancer_shared_projects_path(status: ['paid', 'completed']),
+                        class: "sidebar-dropdown-link",
+                        data: { turbo_frame: "projects_frame" } %>
           </li>
           <li>
             <%= link_to "Declined", freelancer_shared_projects_path(status: 'declined'),
@@ -54,14 +57,15 @@
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#profileDropdown"
-          aria-expanded="false"
+          aria-expanded="<%= @view == 'profile' ? 'true' : 'false' %>"
           aria-controls="profileDropdown"
         >
           <span><i class="fas fa-user me-2"></i> Profile</span>
           <i class="fas fa-chevron-down"></i>
         </button>
-        <ul id="profileDropdown" class="collapse mt-2 list-unstyled ps-3">
+        <ul id="profileDropdown" class="collapse <%= @view == 'profile' ? 'show' : '' %> mt-2 list-unstyled ps-3">
           <% if current_user.profile.present? %>
+            <!-- Si un profil existe déjà, on propose d'éditer -->
             <li>
               <%= link_to "Edit Profile",
                           edit_freelancer_profile_path(current_user.profile),
@@ -69,11 +73,10 @@
                           data: { turbo_frame: "projects_frame" } %>
             </li>
           <% else %>
+            <!-- Sinon, on indique qu'il n'y a pas de profil et on propose d'en créer un -->
             <li>
               <span class="sidebar-dropdown-link text-muted">No Profile</span>
             </li>
-          <% end %>
-          <% if current_user.profile.blank? %>
             <li>
               <%= link_to "Create Profile",
                           new_freelancer_profile_path,
@@ -88,15 +91,32 @@
 
   <!-- Main Content -->
   <main class="flex-grow-1 p-4" style="background-color: #f9fafb;">
+    <!-- Flash messages -->
+    <% if flash.any? %>
+      <div class="flash-messages mb-4">
+        <% flash.each do |type, message| %>
+          <div class="alert alert-<%= type == 'notice' ? 'info' : (type == 'success' ? 'success' : 'danger') %> alert-dismissible fade show" role="alert">
+            <%= message %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
     <turbo-frame id="projects_frame">
-      <%= render partial: "projects_list", locals: { shared_projects: @shared_projects } %>
+      <% if @view == 'profile' && current_user.profile.present? %>
+        <%= render partial: "freelancer/profiles/profile", locals: { profile: current_user.profile } %>
+      <% else %>
+        <!-- On affiche la partial pour la liste des projets, en passant @shared_projects -->
+        <%= render partial: "projects_list", locals: { shared_projects: @shared_projects } %>
+      <% end %>
     </turbo-frame>
   </main>
 </div>
 
-  <!-- Footer -->
-  <footer class="notion-footer py-5 bg-light">
-    <div class="border-top mt-4 pt-4">
-      <p class="text-muted text-center mb-0">&copy; 2025 MoFreelance. All rights reserved.</p>
-    </div>
-  </footer>
+<!-- Footer -->
+<footer class="notion-footer py-5 bg-light">
+  <div class="border-top mt-4 pt-4">
+    <p class="text-muted text-center mb-0">&copy; 2025 MoFreelance. All rights reserved.</p>
+  </div>
+</footer>

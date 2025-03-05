@@ -10,7 +10,7 @@
               background-position: center;
               background-repeat: no-repeat;">
 
-    <!-- Overlay sombre si tu veux assombrir l’image -->
+    <!-- Overlay sombre si tu veux assombrir l'image -->
     <div class="hero-overlay"></div>
 
     <div class="container py-5">
@@ -18,19 +18,19 @@
         <h1 class="display-4 fw-bold mb-4 text-white">Connect with Top Freelance Talent</h1>
         <p class="lead mb-5 text-white">Your workspace to find and collaborate with skilled freelancers worldwide.</p>
 
-        <!-- Search Container -->
+        <!-- Search Container - FORMULAIRE MIS À JOUR -->
         <div class="row justify-content-center">
           <div class="col-md-8">
             <div class="bg-white shadow-sm rounded p-3 d-flex align-items-center search-bar">
-              <form class="d-flex flex-grow-1 align-items-center">
+              <%= form_with url: freelancer_profiles_path, method: :get, class: "d-flex flex-grow-1 align-items-center" do %>
                 <div class="input-group">
                   <span class="input-group-text bg-white border-0">
                     <i class="fas fa-search text-muted"></i>
                   </span>
-                  <input type="text" class="form-control border-0" placeholder="Search skills, expertise...">
+                  <%= text_field_tag :query, params[:query], class: "form-control border-0", placeholder: "Search skills, expertise..." %>
                 </div>
-                <button class="btn-pill-custom-blue ms-3">Find a Freelancer</button>
-              </form>
+                <%= button_tag "Find a Freelancer", type: "submit", class: "btn-pill-custom-blue ms-3" %>
+              <% end %>
             </div>
           </div>
         </div>
