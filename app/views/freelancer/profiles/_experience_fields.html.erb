@@ -1,7 +1,4 @@
 <div class="nested-fields experience-entry">
-  <%= f.hidden_field :id %>
-  <%= f.hidden_field :_destroy, class: "destroy-field" %>
-
   <div class="mb-3">
     <%= f.input :job_title, label: "Job Title", input_html: { required: true } %>
   </div>
@@ -10,15 +7,13 @@
   </div>
 
   <div class="mb-3">
-    <%= f.label :start_date, "Start Date" %>
-    <%= f.date_select :start_date, start_year: 2000, end_year: Time.now.year %>
+    <%= f.input :start_date, as: :date, label: "Start date" %>
   </div>
 
   <div class="mb-3">
-    <%= f.label :end_date, "End Date" %>
-    <%= f.date_select :end_date, start_year: 2000, end_year: Time.now.year %>
+    <%= f.input :end_date, as: :date, label: "End date" %>
   </div>
-  
+
   <div class="mb-3">
     <%= f.input :description, label: "Description", input_html: { required: true } %>
   </div>

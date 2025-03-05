@@ -21,6 +21,8 @@ export default class extends Controller {
       input.value = "";
     });
 
+  
+
     // Append the new education entry
     this.element.querySelector("#education_list").appendChild(template);
   }

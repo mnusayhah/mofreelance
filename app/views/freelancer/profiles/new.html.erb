@@ -61,13 +61,12 @@
 
       <!-- Experiences -->
       <h4 class="mb-3">Experience</h4>
-      <div data-controller="experience">
+      <div id = "experiences" class="mb-3" data-controller="experience">
         <turbo-frame id="experience_list">
           <%= f.fields_for :skills do |skill_form| %>
             <%= render 'freelancer/profiles/experience_fields', f: skill_form %>
           <% end %>
         </turbo-frame>
-
         <button type="button" class="btn btn-secondary add-experience" data-action="click->experience#add">Add Experience</button>
       </div>
 
