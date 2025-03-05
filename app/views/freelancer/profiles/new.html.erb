@@ -1,6 +1,4 @@
-<turbo-frame id="projects_frame">
-</turbo-frame>
-
+'<turbo-frame id="projects_frame">
 <%= simple_form_for [:freelancer, @profile], html: { multipart: true, class: "container mt-5" } do |f| %>
   <div class="card shadow-sm">
     <!-- En-tête -->
@@ -77,14 +75,15 @@
 
       <!-- Education -->
       <h4 class="mb-3">Education</h4>
-      <div id="educations" class="mb-3">
-        <%= f.simple_fields_for :educations do |education_form| %>
-          <%= render 'freelancer/profiles/education_fields', f: education_form %>
-        <% end %>
+      <div id="educations" class="mb-3" data-controller="education">
+        <turbo-frame id="education_list">
+          <%= f.fields_for :educations do |education_form| %>
+            <%= render 'freelancer/profiles/education_fields', f: education_form %>
+          <% end %>
+        </turbo-frame>
+        <button type="button" class="btn btn-secondary add-education" data-action="click->education#add">Add Education</button>
       </div>
-      <div class="mb-3">
-        <%= link_to_add_association "Add Education", f, :educations, partial: 'freelancer/profiles/education_fields', class: "btn btn-secondary" %>
-      </div>
+
     </div>
 
     <!-- Pied de page -->
@@ -93,3 +92,4 @@
     </div>
   </div>
 <% end %>
+</turbo-frame>

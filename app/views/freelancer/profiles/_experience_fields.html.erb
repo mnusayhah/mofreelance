@@ -8,12 +8,17 @@
   <div class="mb-3">
     <%= f.input :company, label: "Company", input_html: { required: true } %>
   </div>
+
   <div class="mb-3">
-    <%= f.input :start_date, as: :date, label: "Start date", input_html: { required: true } %>
+    <%= f.label :start_date, "Start Date" %>
+    <%= f.date_select :start_date, start_year: 2000, end_year: Time.now.year %>
   </div>
+
   <div class="mb-3">
-    <%= f.input :end_date, as: :date, label: "End date", input_html: { required: true } %>
+    <%= f.label :end_date, "End Date" %>
+    <%= f.date_select :end_date, start_year: 2000, end_year: Time.now.year %>
   </div>
+  
   <div class="mb-3">
     <%= f.input :description, label: "Description", input_html: { required: true } %>
   </div>

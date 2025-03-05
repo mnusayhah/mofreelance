@@ -1,4 +1,4 @@
-<div class="nested-fields">
+<div class="nested-fields education-entry">
   <div class="mb-3">
     <%= f.input :school, label: "School / Education" %>
   </div>
@@ -15,6 +15,6 @@
     <%= f.input :localisation, label: "Location" %>
   </div>
   <div class="mb-3">
-    <%= link_to_remove_association "Delete this education", f, class: "btn btn-danger" %>
+    <button type="button" class="btn btn-danger remove-education" data-action="click->education#remove">Remove Education</button>
   </div>
 </div>
