@@ -108,40 +108,6 @@ puts "👤 Création des utilisateurs freelances..."
   puts "Created 10 shared projects!"
 end
 
-# Seed discussions and messages
-
-freelancers = User.where(role: 'freelancer')
-enterprises = User.where(role: 'enterprise')
-projects = Project.all
-
-if freelancers.present? && enterprises.present? && projects.present?
-  5.times do
-    freelancer = freelancers.sample
-    enterprise = enterprises.sample
-    project = projects.sample
-
-    discussion = Discussion.create!(
-      project: project,
-      freelancer: freelancer,
-      enterprise: enterprise
-    )
-
-    # Create messages for the discussion
-    3.times do
-      sender, receiver = [freelancer, enterprise].shuffle
-      Message.create!(
-        discussion: discussion,
-        sender: sender,
-        receiver: receiver,
-        content: Faker::Lorem.sentence,
-        read: [true, false].sample
-      )
-    end
-  end
-else
-  puts "No freelancers, enterprises, or projects available. Seed them first!"
-end
-
 
 puts "✅ Seed terminée ! 5 freelances ont été créés avec leurs profils, compétences, formations et technologies."
 
