@@ -59,25 +59,40 @@
           </div>
         </div>
 
-        <!-- CTA "Proposer une mission" -->
-                <div class="col-md-4 d-flex flex-column align-items-md-end justify-content-md-start mt-4 mt-md-0">
-          <div class="dropdown">
-          <button class="btn-pill-custom-red dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Propose a Project
-          </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <% if @projects.exists?(status: 'open') %>
-                <% @projects.each do |project| %>
-                  <%= button_to "Share: #{project.title}", share_enterprise_project_path(project_id: project, profile_id: @profile.id), method: :post, class: "dropdown-item" %>
+        <!-- CTA "Proposer une mission" - Toujours visible mais avec comportement différent -->
+        <div class="col-md-4 d-flex flex-column align-items-md-end justify-content-md-start mt-4 mt-md-0">
+          <% if !user_signed_in? %>
+            <!-- Utilisateur non connecté: redirection vers la page de connexion -->
+            <%= link_to "Propose a Project", new_user_session_path, class: "btn-pill-custom-red" %>
+          <% elsif current_user.freelancer? %>
+            <!-- Utilisateur freelance: bouton présent mais sans action pour le moment -->
+            <button class="btn-pill-custom-red" type="button" disabled title="Cette fonctionnalité sera bientôt disponible pour les freelances">
+              Propose a Project
+            </button>
+          <% elsif current_user.enterprise? %>
+            <!-- Entreprise: dropdown avec options -->
+            <div class="dropdown">
+              <button class="btn-pill-custom-red dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Propose a Project
+              </button>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                <!-- Option pour créer un nouveau projet -->
+                <%= link_to "Create New Project", new_enterprise_project_path, class: "dropdown-item fw-bold" %>
+
+                <!-- Séparateur seulement si des projets existent -->
+                <% if @projects.exists?(status: 'open') %>
+                  <div class="dropdown-divider"></div>
+                  <h6 class="dropdown-header">Share existing project:</h6>
+
+                  <!-- Liste des projets existants -->
+                  <% @projects.where(status: 'open').each do |project| %>
+                    <%= button_to "#{project.title}", share_enterprise_project_path(project_id: project, profile_id: @profile.id), method: :post, class: "dropdown-item" %>
+                  <% end %>
                 <% end %>
-               <% else %>
-                <span class="dropdown-item text-muted">No available projects</span>
-               <% end %>
-             </div>
-          </div>
+              </div>
+            </div>
+          <% end %>
         </div>
-
-
 
 
     <!-- Photo de profil positionnée par-dessus les deux sections -->
@@ -98,11 +113,12 @@
     </div>
   </div>
 
+  <!-- Le reste du code reste inchangé -->
+
   <!-- Contenu principal : 2 colonnes (1/3 - 2/3) -->
   <div class="row g-5">
-    <!-- Colonne gauche (1/3) : Bio, Localisation, Compétences -->
+    <!-- Colonne gauche (1/3) : Localisation, Compétences -->
     <div class="col-lg-4">
-
       <!-- Localisation -->
       <div class="card shadow-sm border-0 rounded-4 bg-white mb-4">
         <div class="card-header bg-white border-0 rounded-4 pt-4 px-4">
@@ -136,7 +152,7 @@
       </div>
     </div>
 
-    <!-- Colonne droite (2/3) : Expériences, Formations, Avis -->
+    <!-- Colonne droite (2/3) : Bio, Expériences, Formations, Avis -->
     <div class="col-lg-8">
       <!-- Bio -->
       <div class="card shadow-sm border-0 rounded-4 bg-white mb-4">

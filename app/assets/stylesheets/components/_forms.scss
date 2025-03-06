@@ -1,0 +1,8 @@
+.placeholder-glow .placeholder {
+  animation: placeholder-glow 2s ease-in-out infinite;
+}
+
+.form-control::placeholder {
+  opacity: 0.5;
+  color: var(--bs-secondary-color) !important;
+}

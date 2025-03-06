@@ -1,7 +1,7 @@
 <!-- app/views/freelancer/dashboards/show.html.erb -->
-<div class="dashboard-container d-flex" style="min-height: 100vh;">
-  <!-- Sidebar -->
-  <aside class="sidebar shadow-sm p-3" style="width: 240px;">
+<div class="dashboard-container d-flex" style="min-height: 100vh; overflow: hidden;">
+  <!-- Sidebar - Modifié pour être fixe -->
+  <aside class="sidebar shadow-sm p-3 position-fixed" style="width: 240px; height: 100vh; overflow-y: auto; z-index: 1000;">
     <ul class="nav flex-column gap-3">
       <!-- Projects Dropdown -->
       <li class="mt-5 nav-item">
@@ -95,8 +95,8 @@
     </ul>
   </aside>
 
-  <!-- Main Content -->
-  <main class="flex-grow-1 p-4" style="background-color: #f9fafb;">
+  <!-- Main Content - Ajout d'une marge à gauche -->
+  <main class="flex-grow-1 p-4" style="margin-left: 240px; background-color: #f9fafb; min-height: 100vh; overflow-y: auto;">
     <!-- Flash messages -->
     <% if flash.any? %>
       <div class="flash-messages mb-4">
@@ -120,8 +120,8 @@
   </main>
 </div>
 
-<!-- Footer -->
-<footer class="notion-footer py-5 bg-light">
+<!-- Footer - Ajout d'une marge à gauche -->
+<footer class="notion-footer py-5 bg-light" style="margin-left: 240px;">
   <div class="border-top mt-4 pt-4">
     <p class="text-muted text-center mb-0">&copy; 2025 MoFreelance. All rights reserved.</p>
   </div>

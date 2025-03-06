@@ -1,60 +1,129 @@
 <%= turbo_frame_tag "projects_frame" do %>
-  <%= simple_form_for [:enterprise, @project], data: { turbo_frame: "projects_frame" } do |f| %>
-    <% if @project.errors.any? %>
-      <div class="alert alert-danger">
-        <h4>Form contains errors:</h4>
-        <ul>
-          <% @project.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+  <div class="card shadow-sm border-0 rounded-4 bg-white mb-4">
+    <div class="card-body p-4 p-md-5">
+      <h2 class="fw-bold text-center mb-4">Create New Project</h2>
 
-    <div class="form-group">
-      <%= f.input :title, label: "Project Title", input_html: { class: 'form-control' } %>
+      <%= simple_form_for [:enterprise, @project], data: { turbo_frame: "projects_frame" } do |f| %>
+        <% if @project.errors.any? %>
+          <div class="alert alert-danger rounded-3 mb-4">
+            <div class="d-flex align-items-center mb-2">
+              <i class="fas fa-exclamation-circle me-2"></i>
+              <h5 class="mb-0">Please correct the following errors:</h5>
+            </div>
+            <ul class="mb-0 ps-4">
+              <% @project.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <!-- Section 1: Basic Information -->
+        <div class="card border bg-light rounded-4 mb-4">
+          <div class="card-header bg-light border-0 pt-3 ps-4">
+            <h4 class="text-primary mb-0">
+              <i class="fas fa-info-circle me-2"></i>Basic Information
+            </h4>
+          </div>
+          <div class="card-body p-4">
+            <div class="mb-4">
+              <%= f.input :title,
+                         label: "Project Title",
+                         placeholder: "Enter a concise title for your project",
+                         input_html: { class: 'form-control rounded-3' } %>
+            </div>
+
+            <div class="mb-4">
+              <%= f.input :description,
+                         label: "Project Description",
+                         placeholder: "Describe the project, goals, and what you're looking for in a freelancer",
+                         as: :text,
+                         input_html: { class: 'form-control rounded-3', rows: 5 } %>
+            </div>
+
+            <div>
+              <%= f.input :logo,
+                         as: :file,
+                         label: "Company Logo",
+                         hint: "Upload your company logo (optional)" %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Project Details -->
+        <div class="card border bg-light rounded-4 mb-4">
+          <div class="card-header bg-light border-0 pt-3 ps-4">
+            <h4 class="text-primary mb-0">
+              <i class="fas fa-clipboard-list me-2"></i>Project Details
+            </h4>
+          </div>
+          <div class="card-body p-4">
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <%= f.input :budget,
+                           label: "Project Budget (Rs)",
+                           placeholder: "e.g. 50000",
+                           as: :decimal,
+                           input_html: { class: 'form-control rounded-3' } %>
+              </div>
+              <div class="col-md-6">
+                <%= f.input :visibility,
+                           label: "Project Visibility",
+                           collection: [
+                             ['Public - Visible to all freelancers', 'Public'],
+                             ['Private - By invitation only', 'Private']
+                           ],
+                           include_blank: false,
+                           input_html: { class: 'form-select rounded-3' } %>
+              </div>
+            </div>
+
+            <div>
+              <%= f.input :required_skills,
+                         label: "Required Skills",
+                         placeholder: "e.g. JavaScript, React, UI/UX, Digital Marketing",
+                         hint: "Comma-separated list of skills needed for this project",
+                         as: :string,
+                         input_html: { class: 'form-control rounded-3' } %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Timeline -->
+        <div class="card border bg-light rounded-4 mb-4">
+          <div class="card-header bg-light border-0 pt-3 ps-4">
+            <h4 class="text-primary mb-0">
+              <i class="fas fa-calendar-alt me-2"></i>Project Timeline
+            </h4>
+          </div>
+          <div class="card-body p-4">
+            <div class="row">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <%= f.input :start_date,
+                           label: "Start Date",
+                           as: :date,
+                           html5: true,
+                           input_html: { class: 'form-control rounded-3' } %>
+              </div>
+              <div class="col-md-6">
+                <%= f.input :end_date,
+                           label: "End Date",
+                           as: :date,
+                           html5: true,
+                           input_html: { class: 'form-control rounded-3' } %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <%= f.hidden_field :user_id, value: current_user.id %>
+
+        <div class="d-flex justify-content-between mt-4">
+          <%= link_to "Cancel", enterprise_projects_path, class: "btn btn-outline-secondary px-4 rounded-pill" %>
+          <%= f.button :submit, "Create Project", class: "btn-pill-custom-red px-5" %>
+        </div>
+      <% end %>
     </div>
-
-    <div class="form-group">
-      <%= f.input :description, label: "Project Description", as: :text, input_html: { class: 'form-control' } %>
-    </div>
-
-  <div class="form-group">
-    <%= f.input :logo, as: :file, label: "Company Logo" %>
   </div>
-
-
-  //<div class="form-group">
-    //<%= f.input :budget, label: "Project Budget", as: :decimal %>
-  //</div>
-
-    <div class="form-group">
-      <%= f.input :budget, label: "Project Budget", as: :decimal, input_html: { class: 'form-control' } %>
-    </div>
-
-    <div class="form-group">
-      <%= f.input :required_skills, label: "Required Skills", as: :string, input_html: { class: 'form-control' } %>
-    </div>
-
-    <div class="form-group">
-      <%= f.input :visibility, label: "Visibility", collection: ['Public', 'Private'], include_blank: false, input_html: { class: 'form-control' } %>
-    </div>
-
-    <div class="form-group">
-      <%= f.input :start_date, label: "Start Date", as: :date, input_html: { class: 'form-control' } %>
-    </div>
-
-    <div class="form-group">
-      <%= f.input :end_date, label: "End Date", as: :date, input_html: { class: 'form-control' } %>
-    </div>
-
-    <div class="form-group">
-      <%= f.hidden_field :user_id, value: current_user.id %>
-    </div>
-
-    <div class="form-group text-center">
-      <%= f.submit "Create Project", class: "btn btn-primary" %>
-    </div>
-  <% end %>
 <% end %>
 </turbo_frame_tag>
