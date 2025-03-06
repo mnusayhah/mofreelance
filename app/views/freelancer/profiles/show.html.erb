@@ -80,12 +80,12 @@
                 <%= link_to "Create New Project", new_enterprise_project_path, class: "dropdown-item fw-bold" %>
 
                 <!-- Séparateur seulement si des projets existent -->
-                <% if @projects.present? && @projects.any? { |project| project.status == 'open' } %>
+                <% if @projects.exists?(status: 'open') %>
                   <div class="dropdown-divider"></div>
                   <h6 class="dropdown-header">Share existing project:</h6>
 
                   <!-- Liste des projets existants -->
-                  <% @projects.select { |project| project.status == 'open' }.each do |project| %>
+                  <% @projects.where(status: 'open').each do |project| %>
                     <%= button_to "#{project.title}", share_enterprise_project_path(project_id: project, profile_id: @profile.id), method: :post, class: "dropdown-item" %>
                   <% end %>
                 <% end %>
@@ -93,8 +93,7 @@
             </div>
           <% end %>
         </div>
-      </div>
-    </div>
+
 
     <!-- Photo de profil positionnée par-dessus les deux sections -->
     <div class="position-absolute" style="top: 80px; left: 40px;">

@@ -14,6 +14,7 @@
         <hr class="my-4">
       </div>
 
+
       <!-- Corps du formulaire -->
       <div class="card-body">
         <!-- Informations Générales -->
@@ -60,31 +61,32 @@
 
         <hr class="my-4">
 
-        <!-- Experiences -->
-        <h4 class="mb-3">Experience</h4>
-        <div data-controller="experience">
-          <turbo-frame id="experience_list">
-            <%= f.fields_for :skills do |skill_form| %>
-              <%= render 'freelancer/profiles/experience_fields', f: skill_form %>
-            <% end %>
-          </turbo-frame>
-
-          <button type="button" class="btn btn-secondary add-experience" data-action="click->experience#add">Add Experience</button>
-        </div>
+      <!-- Experiences -->
+      <h4 class="mb-3">Experience</h4>
+      <div id = "experiences" class="mb-3" data-controller="experience">
+        <turbo-frame id="experience_list">
+          <%= f.fields_for :skills do |skill_form| %>
+            <%= render 'freelancer/profiles/experience_fields', f: skill_form %>
+          <% end %>
+        </turbo-frame>
+        <button type="button" class="btn btn-secondary add-experience" data-action="click->experience#add">Add Experience</button>
+      </div>
 
         <hr class="my-4">
 
-        <!-- Education -->
-        <h4 class="mb-3">Education</h4>
-        <div id="educations" class="mb-3">
-          <%= f.simple_fields_for :educations do |education_form| %>
+
+      <!-- Education -->
+      <h4 class="mb-3">Education</h4>
+      <div id="educations" class="mb-3" data-controller="education">
+        <turbo-frame id="education_list">
+          <%= f.fields_for :educations do |education_form| %>
             <%= render 'freelancer/profiles/education_fields', f: education_form %>
           <% end %>
-        </div>
-        <div class="mb-3">
-          <%= link_to_add_association "Add Education", f, :educations, partial: 'freelancer/profiles/education_fields', class: "btn btn-secondary" %>
-        </div>
+        </turbo-frame>
+        <button type="button" class="btn btn-secondary add-education" data-action="click->education#add">Add Education</button>
       </div>
+
+    </div>
 
       <!-- Pied de page -->
       <div class="card-footer text-end">

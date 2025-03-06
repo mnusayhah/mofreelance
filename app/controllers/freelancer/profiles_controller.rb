@@ -106,6 +106,8 @@ module Freelancer
           format.html
           format.turbo_stream
         end
+        @projects = current_user.projects.where(status: :open)
+        render :show
       else
         redirect_to freelancer_profiles_path, alert: "Ce profil n'est pas disponible."
       end
