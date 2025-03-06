@@ -29,16 +29,21 @@
 
           <!-- Formulaire de recherche et filtres -->
           <%= form_with url: freelancer_profiles_path, method: :get, local: true do %>
-            <!-- Champ de recherche -->
-            <div class="mb-3">
+            <!-- Barre de recherche redesignée -->
+            <div class="mb-4">
               <label for="query" class="form-label">Search</label>
               <div class="input-group">
                 <span class="input-group-text bg-white border-end-0">
                   <i class="fas fa-search text-muted"></i>
                 </span>
-                <%= text_field_tag :query, params[:query], class: "form-control border-start-0", placeholder: "Rechercher (nom, compétence...)", onchange: "this.form.submit()" %>
+                <%= text_field_tag :query, params[:query], class: "form-control border-start-0", placeholder: "Skills, expertise..." %>
+              </div>
+              <div class="d-grid mt-2">
+                <%= button_tag "Find Freelancers", type: "submit", class: "btn btn-primary" %>
               </div>
             </div>
+
+            <hr class="my-4">
 
             <!-- Filtre : Disponibilité -->
             <div class="mb-3">

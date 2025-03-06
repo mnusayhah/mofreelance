@@ -1,0 +1,11 @@
+<%# app/views/freelancer/dashboards/show.turbo_stream.erb %>
+
+<% if @view == 'profile' && current_user.profile.present? %>
+  <%= turbo_stream.update "projects_frame" do %>
+    <%= render partial: "freelancer/profiles/profile", locals: { profile: current_user.profile } %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.update "projects_frame" do %>
+    <%= render partial: "projects_list", locals: { shared_projects: @shared_projects } %>
+  <% end %>
+<% end %>

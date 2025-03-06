@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   # Routes pour les Freelancers
   # ----------------------------
   namespace :freelancer do
+    resources :profiles, only: [:index, :new, :create, :edit, :update, :show, :destroy]
     get 'messages/create'
     get 'discussions/index'
     get 'discussions/show'
