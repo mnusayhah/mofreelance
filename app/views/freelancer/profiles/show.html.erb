@@ -60,13 +60,13 @@
         </div>
 
         <!-- CTA "Proposer une mission" -->
-        <div class="col-md-4 d-flex flex-column align-items-md-end justify-content-md-start mt-4 mt-md-0">
+                <div class="col-md-4 d-flex flex-column align-items-md-end justify-content-md-start mt-4 mt-md-0">
           <div class="dropdown">
           <button class="btn-pill-custom-red dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Propose a Project
           </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <% if @projects.present? && @projects.any? { |project| project.status == 'open' } %>
+              <% if @projects.exists?(status: 'open') %>
                 <% @projects.each do |project| %>
                   <%= button_to "Share: #{project.title}", share_enterprise_project_path(project_id: project, profile_id: @profile.id), method: :post, class: "dropdown-item" %>
                 <% end %>
@@ -76,6 +76,8 @@
              </div>
           </div>
         </div>
+
+
 
 
     <!-- Photo de profil positionnée par-dessus les deux sections -->

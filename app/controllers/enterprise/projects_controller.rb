@@ -5,12 +5,15 @@ module Enterprise
     before_action :set_project, only: [:show, :edit, :update, :destroy]
 
     def index
-      if params[:status].present?
-        # Assuming status is an array (e.g., ['open', 'pending']) or a single status
-        @projects = Project.where(status: params[:status])
-      else
-        @projects = Project.all
-      end
+      @projects = Project.where(user_id: current_user.id)
+
+
+      # if params[:status].present?
+      #   # Assuming status is an array (e.g., ['open', 'pending']) or a single status
+      #   @projects = Project.where(status: params[:status])
+      # else
+      #   @projects = Project.all
+      # end
     end
 
     def new

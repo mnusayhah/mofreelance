@@ -63,6 +63,7 @@ module Freelancer
     # 2) Afficher un profil en détail
     def show
       if @profile.user.freelancer?
+        @projects = current_user.projects.where(status: :open)
         render :show
       else
         redirect_to profiles_path, alert: "Ce profil n'est pas disponible."

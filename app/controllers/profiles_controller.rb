@@ -24,8 +24,6 @@ class ProfilesController < ApplicationController
   def show
     @profile = Profile.find(params[:id])
       if @profile.user.freelancer?
-        @projects = Project.where(user_id: current_user.id, status: 'open')
-        Rails.logger.debug "Open projects for freelancer #{current_user.id}: #{@projects.inspect}"
         render :show
       else
         redirect_to freelancer_profiles_path, alert: "Ce profil n'est pas disponible."
@@ -90,7 +88,7 @@ class ProfilesController < ApplicationController
     else
       render :new
     end
-  end
+
 
     # Recherche globale (pg_search, ou un simple LIKE)
     if params[:query].present?
@@ -143,7 +141,7 @@ class ProfilesController < ApplicationController
     if params[:max_rate].present?
       @profiles = @profiles.where("hourly_rate <= ?", params[:max_rate])
     end
-
+  end
   private
 
   def set_profile
