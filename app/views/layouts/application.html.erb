@@ -19,4 +19,28 @@
     <%= render "shared/flashes" %>
     <%= yield %>
   </body>
+
+  <script>
+  document.addEventListener('turbo:load', function() {
+    // Réinitialiser tous les composants dropdown/collapse
+    document.querySelectorAll('[data-bs-toggle]').forEach(element => {
+      element.addEventListener('click', function() {
+        // Assurer que les clics fonctionnent même après navigation Turbo
+        if (this.getAttribute('data-bs-toggle') === 'collapse') {
+          const targetId = this.getAttribute('data-bs-target');
+          const target = document.querySelector(targetId);
+
+          // Toggle manuellement si nécessaire
+          if (!target.classList.contains('collapsing')) {
+            if (target.classList.contains('show')) {
+              new bootstrap.Collapse(target).hide();
+            } else {
+              new bootstrap.Collapse(target).show();
+            }
+          }
+        }
+      }, { capture: true });
+    });
+  });
+</script>
 </html>
