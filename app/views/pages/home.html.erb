@@ -1,170 +1,175 @@
-<!-- Fichier: app/views/pages/home.html.erb (exemple) -->
+<!-- Hero Section avec barre de recherche -->
+<div class="hero-section position-relative">
+  <!-- L'image de fond est gérée par CSS -->
+  <div class="hero-overlay"></div>
 
-<!-- Enveloppe principale -->
-<div class="notion-style">
+  <div class="container py-5">
+    <div class="hero-content text-center py-5">
+      <h1 class="display-4 fw-bold mb-4 text-white">Connect with Top Freelance Talent</h1>
+      <p class="lead mb-5 text-white">Your workspace to find and collaborate with skilled freelancers worldwide.</p>
 
-  <!-- Hero Section, avec image de fond sur cette div SEULEMENT -->
-  <div class="hero-section position-relative"
-       style="background-image: url('https://images.unsplash.com/photo-1572021335469-31706a17aaef?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3');
-              background-size: cover;
-              background-position: center;
-              background-repeat: no-repeat;">
+      <!-- Barre de recherche -->
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="search-bar">
+            <%= form_with url: freelancer_profiles_path, method: :get, class: "d-flex w-100 align-items-center" do %>
+              <div class="search-input-container">
+                <i class="fas fa-search search-icon"></i>
+                <%= text_field_tag :query, params[:query], class: "form-control", placeholder: "Search skills, expertise..." %>
+              </div>
+              <%= button_tag "Find a Freelancer", type: "submit", class: "btn-primary-custom" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <!-- Overlay sombre si tu veux assombrir l'image -->
-    <div class="hero-overlay"></div>
-
-    <div class="container py-5">
-      <div class="hero-content text-center py-5">
-        <h1 class="display-4 fw-bold mb-4 text-white">Connect with Top Freelance Talent</h1>
-        <p class="lead mb-5 text-white">Your workspace to find and collaborate with skilled freelancers worldwide.</p>
-
-        <!-- Search Container - FORMULAIRE MIS À JOUR -->
-        <div class="row justify-content-center">
-          <div class="col-md-8">
-            <div class="bg-white shadow-sm rounded p-3 d-flex align-items-center search-bar">
-              <%= form_with url: freelancer_profiles_path, method: :get, class: "d-flex flex-grow-1 align-items-center" do %>
-                <div class="input-group">
-                  <span class="input-group-text bg-white border-0">
-                    <i class="fas fa-search text-muted"></i>
-                  </span>
-                  <%= text_field_tag :query, params[:query], class: "form-control border-0", placeholder: "Search skills, expertise..." %>
-                </div>
-                <%= button_tag "Find a Freelancer", type: "submit", class: "btn-pill-custom-blue ms-3" %>
-              <% end %>
+<!-- Section partenaires -->
+<div class="bg-light py-5">
+  <div class="container">
+    <div class="text-center">
+      <p class="display-6 mb-5">70,000 companies boost their business with MoFreelance</p>
+      <!-- Logos des entreprises - Structure améliorée -->
+      <div class="partner-logos">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-6 col-sm-4 col-md-2 mb-4">
+            <div class="partner-logo-container">
+              <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/2560px-Google_2015_logo.svg.png",
+                  alt: "Google",
+                  class: "partner-logo" %>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4 col-md-2 mb-4">
+            <div class="partner-logo-container">
+              <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png",
+                  alt: "Netflix",
+                  class: "partner-logo" %>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4 col-md-2 mb-4">
+            <div class="partner-logo-container">
+              <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/1667px-Apple_logo_black.svg.png",
+                  alt: "Apple",
+                  class: "partner-logo" %>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4 col-md-2 mb-4">
+            <div class="partner-logo-container">
+              <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png",
+                  alt: "Amazon",
+                  class: "partner-logo" %>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4 col-md-2 mb-4">
+            <div class="partner-logo-container">
+              <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/LinkedIn_Logo.svg/2560px-LinkedIn_Logo.svg.png",
+                  alt: "LinkedIn",
+                  class: "partner-logo" %>
+            </div>
+          </div>
+          <div class="col-6 col-sm-4 col-md-2 mb-4">
+            <div class="partner-logo-container">
+              <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Slack_Technologies_Logo.svg/2560px-Slack_Technologies_Logo.svg.png",
+                  alt: "Slack",
+                  class: "partner-logo" %>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Social Proof Section -->
-  <div class="container col-xxl-8 px-4 py-5">
-    <div class="text-center">
-      <p class="display-6 mb-5">70,000 companies boost their business with MoFreelance</p>
-      <!-- Company Logos -->
-      <div class="company-logos">
-        <div class="row align-items-center justify-content-center">
-          <div class="col-auto">
-            <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/2560px-Google_2015_logo.svg.png",
-                alt: "Google",
-                class: "company-logo" %>
-          </div>
-          <div class="col-auto">
-            <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png",
-                alt: "Netflix",
-                class: "company-logo" %>
-          </div>
-          <div class="col-auto">
-            <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/1667px-Apple_logo_black.svg.png",
-                alt: "Apple",
-                class: "company-logo" %>
-          </div>
-          <div class="col-auto">
-            <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/2560px-Amazon_logo.svg.png",
-                alt: "Amazon",
-                class: "company-logo" %>
-          </div>
-          <div class="col-auto">
-            <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/LinkedIn_Logo.svg/2560px-LinkedIn_Logo.svg.png",
-                alt: "LinkedIn",
-                class: "company-logo" %>
-          </div>
-          <div class="col-auto">
-            <%= image_tag "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Slack_Technologies_Logo.svg/2560px-Slack_Technologies_Logo.svg.png",
-                alt: "Slack",
-                class: "company-logo" %>
-          </div>
+<!-- Section fonctionnalités -->
+<div class="container py-5">
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="feature-card shadow-sm">
+        <div class="feature-icon">
+          <i class="fas fa-users text-primary"></i>
         </div>
+        <h3>Find Talent</h3>
+        <p>Browse through our curated network of top freelance professionals</p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="feature-card shadow-sm">
+        <div class="feature-icon">
+          <i class="fas fa-star text-warning"></i>
+        </div>
+        <h3>Quality Work</h3>
+        <p>Work with pre-vetted freelancers with proven track records</p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="feature-card shadow-sm">
+        <div class="feature-icon">
+          <i class="fas fa-chart-line text-success"></i>
+        </div>
+        <h3>Track Progress</h3>
+        <p>Monitor projects and collaborate in real-time</p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="feature-card shadow-sm">
+        <div class="feature-icon">
+          <i class="fas fa-pen-nib text-info"></i>
+        </div>
+        <h3>Custom Solutions</h3>
+        <p>Get tailored solutions for your specific project needs</p>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Features Grid -->
-  <div class="container py-5">
-    <div class="row g-4">
-      <div class="col-md-6">
-        <div class="notion-card">
-          <div class="notion-card-icon">
-            <i class="fas fa-users text-primary"></i>
-          </div>
-          <h3>Find Talent</h3>
-          <p>Browse through our curated network of top freelance professionals</p>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="notion-card">
-          <div class="notion-card-icon">
-            <i class="fas fa-star text-warning"></i>
-          </div>
-          <h3>Quality Work</h3>
-          <p>Work with pre-vetted freelancers with proven track records</p>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="notion-card">
-          <div class="notion-card-icon">
-            <i class="fas fa-chart-line text-success"></i>
-          </div>
-          <h3>Track Progress</h3>
-          <p>Monitor projects and collaborate in real-time</p>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="notion-card">
-          <div class="notion-card-icon">
-            <i class="fas fa-pen-nib text-info"></i>
-          </div>
-          <h3>Custom Solutions</h3>
-          <p>Get tailored solutions for your specific project needs</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Section Freelancers -->
-  <div class="container py-5 border-top">
+<!-- Section freelancers -->
+<div class="bg-light py-5">
+  <div class="container">
     <div class="row align-items-center g-5">
       <div class="col-lg-6">
         <h2 class="h2 mb-4">Boost Your Freelance Career</h2>
         <p class="text-muted mb-4">Transform your freelancing journey with our platform. Access a wide range of projects, connect directly with potential clients, and build your professional portfolio. Our tools help you focus on what matters most - delivering exceptional work while we handle the administrative tasks.</p>
-        <%= link_to "Join the Community", "#", class: "btn-pill-custom-red" %>
+        <%= link_to "Join the Community", "#", class: "btn-primary-custom" %>
       </div>
       <div class="col-lg-6">
-        <div class="notion-image-container">
+        <div class="image-container shadow">
           <%= image_tag "https://images.prismic.io/malt-cms-marketing/1bd45af1-d7de-430c-a4a8-9c530e8b0dc6_2022_REBRAND_WEBSITE_HOME_CONTENT-1.png",
-              class: "img-fluid notion-image",
+              class: "img-fluid rounded",
               alt: "Freelancer working" %>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Section Businesses -->
-  <div class="container py-5 border-top">
-    <div class="row align-items-center g-5">
-      <div class="col-lg-6 order-lg-2">
-        <h2 class="h2 mb-4">Find the Perfect Talent for Your Business</h2>
-        <p class="text-muted mb-4">Discover qualified professionals who can bring your projects to life. Our platform connects you with skilled freelancers across various domains. Post your project, review profiles, and collaborate seamlessly - all in one place. Find the expertise you need, when you need it.</p>
-        <%= link_to "Post a Project", "#", class: "btn btn-pill-custom-red" %>
-      </div>
-      <div class="col-lg-6 order-lg-1">
-        <div class="notion-image-container">
-          <%= image_tag "https://images.prismic.io/malt-cms-marketing/5dfe75b2-3104-4ad2-a14f-757be59cf1e4_2022_REBRAND_WEBSITE_HOME_CONTENT-2.png",
-              class: "img-fluid notion-image",
-              alt: "Business team meeting" %>
-        </div>
+<!-- Section entreprises -->
+<div class="container py-5">
+  <div class="row align-items-center g-5">
+    <div class="col-lg-6 order-lg-2">
+      <h2 class="h2 mb-4">Find the Perfect Talent for Your Business</h2>
+      <p class="text-muted mb-4">Discover qualified professionals who can bring your projects to life. Our platform connects you with skilled freelancers across various domains. Post your project, review profiles, and collaborate seamlessly - all in one place. Find the expertise you need, when you need it.</p>
+      <%= link_to "Post a Project", "#", class: "btn-primary-custom" %>
+    </div>
+    <div class="col-lg-6 order-lg-1">
+      <div class="image-container shadow">
+        <%= image_tag "https://images.prismic.io/malt-cms-marketing/5dfe75b2-3104-4ad2-a14f-757be59cf1e4_2022_REBRAND_WEBSITE_HOME_CONTENT-2.png",
+            class: "img-fluid rounded",
+            alt: "Business team meeting" %>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Categories Section -->
-  <div class="container py-5 border-top">
-    <h2 class="mb-4">Popular Categories</h2>
+<!-- Section catégories -->
+<div class="bg-light py-5">
+  <div class="container">
+    <h2 class="mb-4 text-center">Popular Categories</h2>
     <div class="row g-4">
       <div class="col-md-4">
-        <div class="notion-category-card">
-          <i class="fas fa-code"></i>
+        <div class="category-card shadow-sm">
+          <i class="fas fa-code text-primary"></i>
           <div>
             <h4>Development</h4>
             <span>2,345 experts</span>
@@ -172,8 +177,8 @@
         </div>
       </div>
       <div class="col-md-4">
-        <div class="notion-category-card">
-          <i class="fas fa-paint-brush"></i>
+        <div class="category-card shadow-sm">
+          <i class="fas fa-paint-brush text-primary"></i>
           <div>
             <h4>Design</h4>
             <span>1,892 experts</span>
@@ -181,8 +186,8 @@
         </div>
       </div>
       <div class="col-md-4">
-        <div class="notion-category-card">
-          <i class="fas fa-chart-bar"></i>
+        <div class="category-card shadow-sm">
+          <i class="fas fa-chart-bar text-primary"></i>
           <div>
             <h4>Marketing</h4>
             <span>1,556 experts</span>
@@ -191,67 +196,67 @@
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Stats Section -->
-  <div class="container py-5 border-top">
-    <div class="row text-center g-4">
-      <div class="col-md-4">
-        <div class="notion-stat">
-          <h2>800K+</h2>
-          <p>Freelancers</p>
-        </div>
+<!-- Section statistiques -->
+<div class="container py-5">
+  <div class="row text-center g-4">
+    <div class="col-md-4">
+      <div class="stat-card">
+        <h2 class="display-5 fw-bold">800K+</h2>
+        <p class="fs-5">Freelancers</p>
       </div>
-      <div class="col-md-4">
-        <div class="notion-stat">
-          <h2>70K+</h2>
-          <p>Clients</p>
-        </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card">
+        <h2 class="display-5 fw-bold">70K+</h2>
+        <p class="fs-5">Clients</p>
       </div>
-      <div class="col-md-4">
-        <div class="notion-stat">
-          <h2>95%</h2>
-          <p>Satisfaction Rate</p>
-        </div>
+    </div>
+    <div class="col-md-4">
+      <div class="stat-card">
+        <h2 class="display-5 fw-bold">95%</h2>
+        <p class="fs-5">Satisfaction Rate</p>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Footer -->
-  <footer class="notion-footer py-5 bg-light">
-    <div class="container">
-      <div class="row g-4">
-        <div class="col-md-3">
-          <h5>MoFreelance</h5>
-          <p class="text-muted">Connecting talent with opportunity.</p>
-        </div>
-        <div class="col-md-3">
-          <h5>For Clients</h5>
-          <ul class="list-unstyled">
-            <li><a href="#">Find Talent</a></li>
-            <li><a href="#">Post a Project</a></li>
-            <li><a href="#">Project Management</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h5>For Freelancers</h5>
-          <ul class="list-unstyled">
-            <li><a href="#">Find Work</a></li>
-            <li><a href="#">Create Profile</a></li>
-            <li><a href="#">Community</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h5>Resources</h5>
-          <ul class="list-unstyled">
-            <li><a href="#">Help Center</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Terms of Service</a></li>
-          </ul>
-        </div>
+<!-- Footer -->
+<footer class="bg-dark text-white py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-3">
+        <h5>MoFreelance</h5>
+        <p class="text-light">Connecting talent with opportunity.</p>
       </div>
-      <div class="border-top mt-4 pt-4">
-        <p class="text-muted text-center mb-0">&copy; 2025 MoFreelance. All rights reserved.</p>
+      <div class="col-md-3">
+        <h5>For Clients</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-light text-decoration-none">Find Talent</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Post a Project</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Project Management</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h5>For Freelancers</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-light text-decoration-none">Find Work</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Create Profile</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Community</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h5>Resources</h5>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-light text-decoration-none">Help Center</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Blog</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Terms of Service</a></li>
+        </ul>
       </div>
     </div>
-  </footer>
-</div>
+    <div class="border-top border-white mt-4 pt-4">
+      <p class="text-center text-light mb-0">&copy; 2025 MoFreelance. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
