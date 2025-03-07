@@ -29,7 +29,23 @@
         <%= f.input :bio, as: :text, label: "Bio", input_html: { class: "form-control", rows: 4 } %>
       </div>
 
-      <!-- etc. (years_of_experience, hourly_rate, language, etc.) -->
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <%= f.input :years_of_experience, collection: ['0-2 years', '3-7 years', '8-15 years', '16+ years'],
+                        label: "Experience", prompt: "Select experience", input_html: { class: "form-control" } %>
+        </div>
+        <div class="col-md-4 mb-3">
+          <%= f.input :hourly_rate, label: "Hourly Rate (Rs)", input_html: { class: "form-control" } %>
+        </div>
+        <div class="col-md-4 mb-3">
+          <%= f.input :language, collection: ['french', 'english', 'spanish', 'italian', 'german'],
+                        label: "Language", prompt: "Select language", input_html: { class: "form-control" } %>
+        </div>
+      </div>
+      <div class="mb-3">
+        <%= f.input :availability_status, collection: ["available", "busy", "unavailable"],
+                      label: "Availability", input_html: { class: "form-control" } %>
+      </div>
 
       <!-- Champ "Profile Photo" -->
       <div class="mb-3">
@@ -46,28 +62,28 @@
 
       <hr class="my-4">
 
-      <!-- Experiences -->
-      <h4 class="mb-3">Experiences</h4>
-      <div id="skills" class="mb-3">
-        <%= f.simple_fields_for :skills do |skill_form| %>
-          <%= render 'freelancer/profiles/skill_fields', f: skill_form %>
-        <% end %>
-      </div>
-      <div class="mb-3">
-        <%= link_to_add_association "Add Experience", f, :skills, partial: 'freelancer/profiles/skill_fields', class: "btn btn-secondary" %>
+      <!-- Experiences - Corrigé pour utiliser le bon partial et la même approche que new.html.erb -->
+      <h4 class="mb-3">Experience</h4>
+      <div id="experiences" class="mb-3" data-controller="experience">
+        <turbo-frame id="experience_list">
+          <%= f.fields_for :skills do |skill_form| %>
+            <%= render 'freelancer/profiles/experience_fields', f: skill_form %>
+          <% end %>
+        </turbo-frame>
+        <button type="button" class="btn btn-secondary add-experience" data-action="click->experience#add">Add Experience</button>
       </div>
 
       <hr class="my-4">
 
-      <!-- Education -->
+      <!-- Education - Corrigé pour utiliser la même approche que new.html.erb -->
       <h4 class="mb-3">Education</h4>
-      <div id="educations" class="mb-3">
-        <%= f.simple_fields_for :educations do |education_form| %>
-          <%= render 'freelancer/profiles/education_fields', f: education_form %>
-        <% end %>
-      </div>
-      <div class="mb-3">
-        <%= link_to_add_association "Add Education", f, :educations, partial: 'freelancer/profiles/education_fields', class: "btn btn-secondary" %>
+      <div id="educations" class="mb-3" data-controller="education">
+        <turbo-frame id="education_list">
+          <%= f.fields_for :educations do |education_form| %>
+            <%= render 'freelancer/profiles/education_fields', f: education_form %>
+          <% end %>
+        </turbo-frame>
+        <button type="button" class="btn btn-secondary add-education" data-action="click->education#add">Add Education</button>
       </div>
     </div>
 
