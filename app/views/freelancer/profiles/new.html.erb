@@ -1,5 +1,5 @@
 <turbo-frame id="projects_frame">
-  <%= simple_form_for [:freelancer, @profile], html: { multipart: true, class: "container mt-5" } do |f| %>
+  <%= simple_form_for [:freelancer, @profile], html: { multipart: true, data: { turbo: false }, class: "container mt-5" } do |f| %>
     <div class="card shadow-sm">
       <!-- En-tête -->
       <div class="card-header bg-primary text-white">
