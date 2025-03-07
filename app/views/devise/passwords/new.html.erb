@@ -9,7 +9,7 @@
             <p class="text-muted">We'll send you an email to reset your password</p>
           </div>
 
-          <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+          <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, data: { turbo: false } }) do |f| %>
             <%= f.error_notification %>
 
             <div class="mb-4">
