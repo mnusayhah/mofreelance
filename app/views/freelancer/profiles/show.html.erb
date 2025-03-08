@@ -1,20 +1,9 @@
 <!-- Fichier: app/views/freelancer/profiles/show.html.erb -->
-
 <div class="container mt-5 mb-5" style="max-width: 1200px;">
   <!-- Section combinée (couverture + informations) -->
   <div class="position-relative mb-5">
     <!-- Image de couverture -->
-    <div
-      style="
-        height: 100px;
-        background-image: url('https://firefox-settings-attachments.cdn.mozilla.net/main-workspace/newtab-wallpapers-v2/a205885e-194a-41f9-ae47-e7da66a74041.avif');
-        background-size: cover;
-        background-position: center;
-        border-radius: 0.75rem 0.75rem 0 0;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      "
-    ></div>
-
+    <div class="profile-cover-image"></div>
     <!-- Carte blanche d'informations -->
     <div class="card shadow-sm border-0 rounded-0 rounded-bottom-4 bg-white p-4 pt-5">
       <div class="row">
@@ -22,17 +11,15 @@
         <div class="col-md-8">
           <div class="d-flex">
             <!-- Espace réservé pour l'avatar (invisible) -->
-            <div style="width: 300px; margin-right: 2rem;"></div>
-
+            <div class="profile-avatar-space"></div>
             <!-- Nom et titre -->
             <div>
               <h2 class="fw-bold mb-2"><%= @profile.user.first_name %> <%= @profile.user.last_name %></h2>
-              <p class="text-muted" style="font-size: 1.1rem;"><%= @profile.title %></p>
-
+              <p class="text-muted fs-5"><%= @profile.title %></p>
               <!-- Statistiques du profil -->
               <div class="d-flex flex-wrap gap-4 mt-4">
                 <!-- Tarif indicatif -->
-                <div class="bg-primary text-white p-3" style="border-radius: 0.75rem; min-width: 170px;">
+                <div class="bg-primary text-white p-3 rounded-4 min-width-170">
                   <h6 class="text-white-50 mb-2">Tarif indicatif</h6>
                   <p class="mb-0 fw-bold fs-4">
                     <% if @profile.hourly_rate.present? %>
@@ -42,9 +29,8 @@
                     <% end %>
                   </p>
                 </div>
-
                 <!-- Expérience -->
-                <div class="bg-light p-3" style="border-radius: 0.75rem; min-width: 170px;">
+                <div class="bg-light p-3 rounded-4 min-width-170">
                   <h6 class="text-primary mb-2">Expérience</h6>
                   <p class="mb-0 fw-bold fs-4">
                     <% if @profile.years_of_experience.present? %>
@@ -58,7 +44,6 @@
             </div>
           </div>
         </div>
-
         <!-- CTA "Proposer une mission" - Toujours visible mais avec comportement différent -->
         <div class="col-md-4 d-flex flex-column align-items-md-end justify-content-md-start mt-4 mt-md-0">
           <% if !user_signed_in? %>
@@ -78,12 +63,10 @@
               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                 <!-- Option pour créer un nouveau projet -->
                 <%= link_to "Create New Project", new_enterprise_project_path, class: "dropdown-item fw-bold" %>
-
                 <!-- Séparateur seulement si des projets existent -->
                 <% if @projects.exists?(status: 'open') %>
                   <div class="dropdown-divider"></div>
                   <h6 class="dropdown-header">Share existing project:</h6>
-
                   <!-- Liste des projets existants -->
                   <% @projects.where(status: 'open').each do |project| %>
                     <%= button_to "#{project.title}", share_enterprise_project_path(project_id: project, profile_id: @profile.id), method: :post, class: "dropdown-item" %>
@@ -93,28 +76,27 @@
             </div>
           <% end %>
         </div>
-
-
+      </div>
+    </div>
     <!-- Photo de profil positionnée par-dessus les deux sections -->
-    <div class="position-absolute" style="top: 80px; left: 40px;">
+    <div class="profile-avatar-container">
       <% if @profile.photo.attached? %>
         <!-- Photo réelle via Active Storage -->
         <%= image_tag @profile.photo,
                       alt: "Avatar",
-                      style: "width: 250px; height: 250px; object-fit: cover; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" %>
+                      class: "profile-avatar" %>
       <% else %>
         <!-- Fallback si aucune photo n'est attachée -->
         <%= image_tag(
           "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
           alt: "Avatar",
-          style: "width: 250px; height: 250px; object-fit: cover; border-radius: 50%; border: 4px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1);"
+          class: "profile-avatar"
         ) %>
       <% end %>
     </div>
   </div>
-
-  <!-- Le reste du code reste inchangé -->
-
+  <!-- Espacement supplémentaire pour éviter le chevauchement -->
+  <div class="spacer-for-avatar mb-5 d-lg-none"></div>
   <!-- Contenu principal : 2 colonnes (1/3 - 2/3) -->
   <div class="row g-5">
     <!-- Colonne gauche (1/3) : Localisation, Compétences -->
@@ -132,7 +114,6 @@
           </p>
         </div>
       </div>
-
       <!-- Compétences -->
       <div class="card shadow-sm border-0 rounded-4 bg-white">
         <div class="card-header bg-white border-0 rounded-4 pt-4 px-4">
@@ -143,7 +124,7 @@
         <div class="card-body px-4 pb-4">
           <% if @profile.tech_skills.present? %>
             <% @profile.tech_skills.split(',').each do |skill| %>
-              <span class="badge bg-info text-primary me-2 mb-2 py-2 px-3" style="font-size: 0.9rem; border-radius: 50rem;"><%= skill.strip %></span>
+              <span class="badge bg-info text-primary me-2 mb-2 py-2 px-3 rounded-pill fs-6"><%= skill.strip %></span>
             <% end %>
           <% else %>
             <p class="text-muted mb-0">Aucune compétence renseignée.</p>
@@ -151,7 +132,6 @@
         </div>
       </div>
     </div>
-
     <!-- Colonne droite (2/3) : Bio, Expériences, Formations, Avis -->
     <div class="col-lg-8">
       <!-- Bio -->
@@ -169,7 +149,6 @@
           <% end %>
         </div>
       </div>
-
       <!-- Expériences -->
       <div class="card shadow-sm border-0 rounded-4 bg-white mb-4">
         <div class="card-header bg-white border-0 rounded-4 pt-4 px-4">
@@ -205,7 +184,6 @@
           <% end %>
         </div>
       </div>
-
       <!-- Formations -->
       <div class="card shadow-sm border-0 rounded-4 bg-white mb-4">
         <div class="card-header bg-white border-0 rounded-4 pt-4 px-4">
@@ -234,7 +212,6 @@
           <% end %>
         </div>
       </div>
-
       <!-- Avis (Reviews) -->
       <div class="card shadow-sm border-0 rounded-4 bg-white">
         <div class="card-header bg-white border-0 rounded-4 pt-4 px-4">
