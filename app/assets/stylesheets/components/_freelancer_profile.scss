@@ -1,0 +1,66 @@
+.profile-cover-image {
+  height: 200px;
+  background-image: url('https://firefox-settings-attachments.cdn.mozilla.net/main-workspace/newtab-wallpapers-v2/a205885e-194a-41f9-ae47-e7da66a74041.avif');
+  background-size: cover;
+  background-position: center;
+  border-radius: 0.75rem 0.75rem 0 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+/* Espace réservé pour l'avatar */
+.profile-avatar-space {
+  width: 300px;
+  margin-right: 2rem;
+}
+/* Styles pour l'avatar */
+.profile-avatar-container {
+  position: absolute;
+  top: 120px;
+  left: 40px;
+  z-index: 10;
+}
+.profile-avatar {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+/* Espacement supplémentaire pour éviter le chevauchement sur mobile */
+.spacer-for-avatar {
+  height: 150px;
+}
+/* Utilitaires */
+.min-width-170 {
+  min-width: 170px;
+}
+/* Media queries pour l'adaptabilité */
+@media (max-width: 991.98px) {
+  .profile-avatar-container {
+    top: 100px;
+  }
+}
+@media (max-width: 767.98px) {
+  .profile-avatar-container {
+    position: relative;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: -80px;
+  }
+  .profile-avatar-space {
+    display: none;
+  }
+  .spacer-for-avatar {
+    height: 80px;
+  }
+}
+@media (max-width: 575.98px) {
+  .profile-cover-image {
+    height: 150px;
+  }
+  .profile-avatar {
+    width: 200px;
+    height: 200px;
+  }
+}
