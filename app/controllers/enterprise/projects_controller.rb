@@ -28,7 +28,7 @@ module Enterprise
 
         respond_to do |format|
           format.html { redirect_to enterprise_projects_path, notice: "Project created successfully." }
-          format.turbo_stream { render turbo_stream: turbo_stream.replace("projects_frame", partial: "projects_list") }
+          format.turbo_stream { render turbo_stream: turbo_stream.replace("projects_frame", partial: "enterprise/dashboards/projects_list") }
         end
       else
         render :new
@@ -58,7 +58,7 @@ module Enterprise
 
     def my_projects
       @my_projects = current_user.projects
-      render partial: "projects_table"
+      render partial: "enterprise/dashboards/projects_list"
     end
 
     #def ongoing
