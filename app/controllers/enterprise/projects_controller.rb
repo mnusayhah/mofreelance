@@ -22,13 +22,14 @@ module Enterprise
 
     def create
       @project = current_user.projects.build(project_params)
-      #@project.status = 0
       if @project.save
+        # Récupérer tous les projets pour la vue
+        @projects = Project.where(user_id: current_user.id)
+
         respond_to do |format|
           format.html { redirect_to enterprise_projects_path, notice: "Project created successfully." }
-          format.turbo_stream { render turbo_stream: turbo_stream.replace("projects_frame", partial: "projects_list", locals: { shared_projects: @projects }) }
+          format.turbo_stream { render turbo_stream: turbo_stream.replace("projects_frame", partial: "projects_list") }
         end
-        # redirect_to enterprise_projects_path(current_user), notice: 'Project was successfully created.'
       else
         render :new
       end

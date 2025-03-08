@@ -1,0 +1,87 @@
+/* Styles pour les filtres en pilules */
+.btn-pill-filter {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  border-radius: 50px;
+  background-color: #f1f3f5;
+  color: #495057;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-pill-filter:hover {
+  background-color: #e9ecef;
+  color: #212529;
+  text-decoration: none;
+}
+
+.btn-pill-filter.active {
+  background-color: #0E6378;
+  color: white;
+}
+
+/* Style pour les cartes de projet */
+.project-card {
+  transition: all 0.2s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+}
+
+.project-card .status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  color: white;
+  font-weight: 500;
+  font-size: 0.75rem;
+}
+
+/* Surcharger les styles de status-badge du dashboard.scss si nécessaire */
+.status-badge.status-open {
+  background-color: #0E6378;
+}
+
+.status-badge.status-pending {
+  background-color: #FDC849;
+  color: #212529;
+}
+
+.status-badge.status-ongoing {
+  background-color: #FC5757;
+}
+
+.status-badge.status-paid {
+  background-color: #28a745;
+}
+
+.status-badge.status-completed {
+  background-color: #E8D7E4;
+  color: #212529;
+}
+
+/* Styles pour l'état vide */
+.empty-state {
+  padding: 4rem 2rem;
+  border-radius: 1rem;
+}
+
+.empty-state i {
+  opacity: 0.5;
+}
+
+/* Media queries pour le responsive */
+@media (max-width: 768px) {
+  .project-card .row {
+    flex-direction: column;
+  }
+
+  .project-card .col-md-4 {
+    border-top: 1px solid #f1f3f5;
+    border-left: none !important;
+  }
+}

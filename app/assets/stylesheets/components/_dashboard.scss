@@ -54,11 +54,18 @@
   width: 100%;
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
 }
+
 .sidebar-button:hover {
   background-color: #f2f2f2; /* léger gris clair au survol */
+  color: #212529;
   text-decoration: none;
+}
+
+.sidebar-button.active {
+  color: #0d6efd;
+  background-color: #e6f2ff;
 }
 
 /* Liens du dropdown dans la sidebar */
@@ -111,4 +118,131 @@
 /* Optionnel: si tu as .dropdown-item */
 .dropdown-item:hover {
   color: #000;
+}
+
+/* ----- Project Cards ----- */
+.card {
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.card-header {
+  background-color: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  padding: 1.25rem 1.5rem;
+}
+
+/* ----- Status Badges ----- */
+.status-badge {
+  color: #fff;
+  font-weight: 500;
+  font-size: 0.85rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 50px;
+  border: none;
+  min-width: 100px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.status-badge:hover {
+  opacity: 0.9;
+  color: #fff;
+}
+
+.status-badge:focus {
+  outline: none;
+  box-shadow: none;
+  color: #fff;
+}
+
+.status-badge.status-open {
+  background-color: #0d6efd;
+}
+
+.status-badge.status-pending {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.status-badge.status-ongoing {
+  background-color: #fd7e14;
+}
+
+.status-badge.status-paid {
+  background-color: #198754;
+}
+
+.status-badge.status-completed {
+  background-color: #6f42c1;
+}
+
+/* ----- Tables ----- */
+.table-hover tbody tr {
+  transition: background-color 0.15s ease-in-out;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* ----- Action Buttons ----- */
+.btn-group .btn {
+  border-radius: 0.25rem;
+  margin-left: 0.2rem;
+}
+
+/* ----- Empty State ----- */
+.empty-state {
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  color: #adb5bd;
+  margin-bottom: 1rem;
+}
+
+/* ----- Footer ----- */
+.notion-footer {
+  background-color: #f9fafb;
+  padding: 1.5rem 0;
+  margin-top: auto;
+}
+
+/* ----- Responsive Adjustments ----- */
+@media (max-width: 992px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  main {
+    margin-left: 200px;
+  }
+
+  footer {
+    margin-left: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    position: relative !important;
+    height: auto !important;
+  }
+
+  main {
+    margin-left: 0;
+  }
+
+  footer {
+    margin-left: 0;
+  }
 }

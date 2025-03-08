@@ -1,93 +1,149 @@
 <turbo-frame id="projects_frame">
-  <div class="card border-0 shadow-sm mb-4" style="border-radius: 0.75rem; overflow: hidden;">
-    <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center p-4"
-         style="border-radius: 0.75rem 0.75rem 0 0;">
-      <h2 class="fw-bold fs-5 mb-0">My Projects</h2>
-      <div class="d-flex align-items-center gap-2">
-        <!-- Filter button with correct styling -->
-        <button class="btn btn-outline-secondary btn-sm">
-          <i class="fas fa-filter me-1"></i> Filter
-        </button>
-        <!-- New Project button with correct styling -->
-        <button class="btn btn-primary btn-sm">
-          <i class="fas fa-plus me-1"></i> New Project
-        </button>
+  <div class="dashboard-projects-container">
+    <!-- En-tête avec titre et actions -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="fw-bold">My Projects</h2>
+
+      <%= link_to new_enterprise_project_path, class: "btn-primary-custom", data: { turbo_frame: "projects_frame" } do %>
+        <i class="fas fa-plus me-2"></i> Create New Project
+      <% end %>
+    </div>
+
+    <!-- Filtres et recherche -->
+    <div class="card border-0 shadow-sm mb-4 p-3" style="border-radius: 1rem;">
+      <div class="d-flex flex-wrap gap-3 align-items-center">
+        <div class="me-auto">
+          <span class="text-muted small">Filter by status:</span>
+        </div>
+
+        <%= link_to enterprise_projects_path, class: "btn-pill-filter #{'active' unless params[:status].present?}" do %>
+          All
+        <% end %>
+
+        <%= link_to enterprise_projects_path(status: 'open'), class: "btn-pill-filter #{'active' if params[:status] == 'open'}" do %>
+          Open
+        <% end %>
+
+        <%= link_to enterprise_projects_path(status: 'ongoing'), class: "btn-pill-filter #{'active' if params[:status] == 'ongoing'}" do %>
+          Ongoing
+        <% end %>
+
+        <%= link_to enterprise_projects_path(status: 'paid'), class: "btn-pill-filter #{'active' if params[:status] == 'paid'}" do %>
+          Paid
+        <% end %>
+
+        <%= link_to enterprise_projects_path(status: 'completed'), class: "btn-pill-filter #{'active' if params[:status] == 'completed'}" do %>
+          Completed
+        <% end %>
       </div>
     </div>
 
-    <div class="card-body p-4" style="background-color: #fff">
-      <% if @projects.present? %>
-        <div class="table-responsive">
-          <table class="table align-middle"
-                 style="border-collapse: collapse; border-spacing: 0; background-color: #fff !important; margin: 0;">
-            <thead>
-              <tr class="text-muted" style="font-size: 0.85rem; line-height: 1.5;">
-                <th style="padding: 1rem;"></th>
-                <th style="padding: 1rem;">PROJECT</th>
-                <th style="padding: 1rem;">STATUS</th>
-                <th style="padding: 1rem;">START DATE</th>
-                <th style="padding: 1rem;">END DATE</th>
-                <th style="padding: 1rem;">BUDGET</th>
-                <th class="text-end" style="padding: 1rem;">ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @projects.each do |project| %>
-                <tr style="background-color: #fff; line-height: 1.5;">
-                  <!-- COLONNE PROJECT TITLE -->
-                  <td>
-                    <p class="mb-0"><%= link_to project.title, enterprise_project_path(project.id) %></p>
-                  </td>
+    <!-- Liste des projets -->
+    <% if @projects.present? %>
+      <div class="projects-list">
+        <% @projects.each do |project| %>
+          <div id="project_<%= project.id %>" class="project-card card shadow-sm mb-3 border-0" style="border-radius: 1rem; overflow: hidden;">
+            <div class="card-body p-0">
+              <div class="row g-0">
+                <!-- Informations principales -->
+                <div class="col-md-8 p-4">
+                  <div class="d-flex align-items-center mb-3">
+                    <h3 class="h5 fw-bold mb-0">
+                      <%= link_to project.title, enterprise_project_path(project.id), class: "text-decoration-none text-dark stretched-link" %>
+                    </h3>
 
-                  <!-- COLONNE STATUS -->
-                  <td>
-                    <div class="dropdown">
+                    <!-- Badge de statut -->
+                    <div class="ms-3">
                       <%= turbo_stream_from "status_badge_#{project.id}" %>
-                      <button class="btn-pill-custom-accepted dropdown-toggle <%= status_class(project.status) %>" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      <span class="status-badge <%= status_class(project.status) %>">
                         <%= project.status.capitalize %>
-                      </button>
-                      <ul class="dropdown-menu">
-                        <% if project.ongoing? %>
-                          <li>
-                            <%= button_to "payment sent", mark_as_paid_enterprise_project_path(project), method: :post, class: "btn-pill-custom-yellow", data: { turbo_stream: "status_badge_#{project}", confirm: "Are you sure you want to mark as paid?" } %>
-                          </li>
-                        <% else %>
-                          <li>
-                            <span class="dropdown-item disabled"><%= project.status.capitalize %></span>
-                          </li>
-                        <% end %>
-                      </ul>
+                      </span>
                     </div>
-                  </td>
+                  </div>
 
-                  <!-- COLONNE START DATE -->
-                  <td>
-                    <%= project.start_date? ? project.start_date.strftime("%d %b %Y") : "N/A" %>
-                  </td>
+                  <!-- Dates et budget -->
+                  <div class="row g-3">
+                    <div class="col-auto">
+                      <div class="small text-muted mb-1">Start Date</div>
+                      <div class="fw-medium"><%= project.start_date? ? project.start_date.strftime("%d %b %Y") : "N/A" %></div>
+                    </div>
 
-                  <!-- COLONNE END DATE -->
-                  <td>
-                    <%= project.end_date? ? project.end_date.strftime("%d %b %Y") : "N/A" %>
-                  </td>
+                    <div class="col-auto">
+                      <div class="small text-muted mb-1">End Date</div>
+                      <div class="fw-medium"><%= project.end_date? ? project.end_date.strftime("%d %b %Y") : "N/A" %></div>
+                    </div>
 
-                  <!-- COLONNE BUDGET -->
-                  <td>
-                    Rs <%= project.budget %>
-                  </td>
+                    <div class="col-auto">
+                      <div class="small text-muted mb-1">Budget</div>
+                      <div class="fw-medium">Rs <%= number_with_delimiter(project.budget) %></div>
+                    </div>
+                  </div>
+                </div>
 
-                  <!-- COLONNE ACTIONS -->
-                  <td class="text-end">
-                    <!-- Button for editing, using the same button style as the "View" button in the second layout -->
-                    <%= link_to "Edit", edit_enterprise_project_path(project.id), class: "btn btn-sm btn-outline-primary", data: { turbo_frame: "projects_frame" } %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
+                <!-- Actions -->
+                <div class="col-md-4 bg-light d-flex align-items-center justify-content-center p-4">
+                  <div class="d-flex gap-2 flex-column w-100">
+                    <% if project.ongoing? %>
+                      <%= button_to mark_as_paid_enterprise_project_path(project),
+                                 method: :post,
+                                 class: "btn-yellow-custom w-100",
+                                 data: {
+                                   turbo_stream: "status_badge_#{project.id}",
+                                   confirm: "Are you sure you want to mark as paid?"
+                                 } do %>
+                        <i class="fas fa-check me-2"></i> Mark as Paid
+                      <% end %>
+                    <% elsif project.paid? %>
+                      <%= button_to mark_as_completed_enterprise_project_path(project),
+                                 method: :post,
+                                 class: "btn-accepted-custom w-100",
+                                 data: {
+                                   turbo_stream: "status_badge_#{project.id}",
+                                   confirm: "Are you sure you want to mark as completed?"
+                                 } do %>
+                        <i class="fas fa-check-double me-2"></i> Mark as Completed
+                      <% end %>
+                    <% end %>
+
+                    <div class="d-flex gap-2 mt-2">
+                      <%= link_to enterprise_project_path(project.id), class: "btn-primary-outline-custom flex-grow-1 text-center" do %>
+                        <i class="fas fa-eye me-2"></i> View
+                      <% end %>
+
+                      <%= link_to edit_enterprise_project_path(project.id),
+                                class: "btn-primary-outline-custom flex-grow-1 text-center",
+                                data: { turbo_frame: "projects_frame" } do %>
+                        <i class="fas fa-edit me-2"></i> Edit
+                      <% end %>
+                    </div>
+
+                    <%= link_to enterprise_project_path(project.id),
+                                class: "btn-secondary-outline-custom w-100 text-center mt-2",
+                                data: {
+                                  turbo_method: :delete,
+                                  turbo_confirm: "Are you sure you want to delete this project?"
+                                } do %>
+                      <i class="fas fa-trash me-2"></i> Delete
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <!-- État vide -->
+      <div class="empty-state card border-0 shadow-sm p-5 text-center" style="border-radius: 1rem;">
+        <div class="mb-4">
+          <i class="fas fa-folder-open fa-4x text-muted"></i>
         </div>
-      <% else %>
-        <p class="text-muted mb-0">No projects found.</p>
-      <% end %>
-    </div>
+        <h3 class="h4 mb-3">No projects yet</h3>
+        <p class="text-muted mb-4">Create your first project to start finding freelancers.</p>
+        <%= link_to new_enterprise_project_path, class: "btn-primary-custom mx-auto", style: "max-width: 300px;", data: { turbo_frame: "projects_frame" } do %>
+          <i class="fas fa-plus me-2"></i> Create First Project
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </turbo-frame>

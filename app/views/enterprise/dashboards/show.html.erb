@@ -4,33 +4,14 @@
   <!-- Sidebar - Modifié pour être fixe -->
   <aside class="sidebar shadow-sm p-3 position-fixed" style="width: 240px; height: 100vh; overflow-y: auto; z-index: 1000;">
     <ul class="nav flex-column gap-3">
-      <!-- Projects Dropdown -->
+      <!-- Projects - Simplifié sans dropdown -->
       <li class="mt-5 nav-item">
-        <button
-          class="sidebar-button d-flex justify-content-between align-items-center"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#projectsDropdown"
-          aria-expanded="false"
-          aria-controls="projectsDropdown"
-        >
-          <span><i class="fa-solid fa-folder-open me-2"></i> Projects</span>
-          <i class="fas fa-chevron-down"></i>
-        </button>
-        <ul id="projectsDropdown" class="collapse mt-2 list-unstyled ps-3">
-          <li>
-            <%= link_to 'Create New Project', new_enterprise_project_path, class: "dropdown-item", data: { turbo_frame: "projects_frame" } %>
-          </li>
-          <li>
-            <%= link_to "Open / Pending", enterprise_projects_path(status: ['open', 'pending']), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %>
-          </li>
-          <li>
-            <%= link_to "Ongoing", enterprise_projects_path(status: 'ongoing'), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %>
-          </li>
-          <li>
-            <%= link_to "Paid / Completed", enterprise_projects_path(status: ['paid', 'completed']), class: "dropdown-item", data: { turbo_frame: "projects_frame" } %>
-          </li>
-        </ul>
+        <%= link_to enterprise_projects_path,
+          class: "sidebar-button text-decoration-none d-flex align-items-center justify-content-start",
+          data: { turbo_frame: "projects_frame" } do %>
+          <i class="fa-solid fa-folder-open me-2"></i>
+          <span>Projects</span>
+        <% end %>
       </li>
 
       <!-- Messages -->
@@ -46,7 +27,7 @@
       <li class="nav-item">
         <%= link_to freelancer_profiles_path,
           class: "sidebar-button text-decoration-none d-flex align-items-center justify-content-start" do %>
-          <i class="fas fa-comment me-2"></i>
+          <i class="fas fa-user-tie me-2"></i>
           <span>Browse Freelancers</span>
         <% end %>
       </li>
@@ -56,7 +37,7 @@
   <!-- Main Content - Ajout d'une marge à gauche pour compenser la barre latérale -->
   <main class="flex-grow-1 p-4" style="margin-left: 240px; background-color: #f9fafb; min-height: 100vh; overflow-y: auto;">
     <turbo-frame id="projects_frame">
-      <%= render partial: "projects_list", locals: { projects: @projects } %>
+      <%= render partial: "projects_list" %>
     </turbo-frame>
   </main>
 </div>
