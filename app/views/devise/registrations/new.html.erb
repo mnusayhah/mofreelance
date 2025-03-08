@@ -21,7 +21,8 @@
                           label: "What type of account would you like to create?",
                           input_html: {
                             class: "form-select rounded-3",
-                            data: { action: "change->role#toggle" }
+                            data: { action: "change->role#toggle" },
+                            placeholder: " "
                           },
                           label_html: { class: "form-label fw-semibold mb-3" } %>
               </div>
@@ -30,7 +31,10 @@
               <div class="mb-3" data-role-target="companyField" style="display: none;">
                 <%= f.input :company,
                           hint: "Required if you are a company",
-                          input_html: { class: "form-control rounded-3" },
+                          input_html: {
+                            class: "form-control rounded-3",
+                            placeholder: " "
+                          },
                           label_html: { class: "form-label" },
                           hint_html: { class: "form-text small text-muted" } %>
               </div>
@@ -42,13 +46,19 @@
                 <%= f.input :first_name,
                           required: true,
                           autofocus: true,
-                          input_html: { class: "form-control rounded-3" },
+                          input_html: {
+                            class: "form-control rounded-3",
+                            placeholder: " "
+                          },
                           label_html: { class: "form-label" } %>
               </div>
               <div class="col-md-6">
                 <%= f.input :last_name,
                           required: true,
-                          input_html: { class: "form-control rounded-3" },
+                          input_html: {
+                            class: "form-control rounded-3",
+                            placeholder: " "
+                          },
                           label_html: { class: "form-label" } %>
               </div>
             </div>
@@ -57,7 +67,11 @@
             <div class="mb-3">
               <%= f.input :email,
                         required: true,
-                        input_html: { autocomplete: "email", class: "form-control rounded-3" },
+                        input_html: {
+                          autocomplete: "email",
+                          class: "form-control rounded-3",
+                          placeholder: " "
+                        },
                         label_html: { class: "form-label" } %>
             </div>
 
@@ -66,20 +80,28 @@
                 <%= f.input :password,
                           required: true,
                           hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                          input_html: { autocomplete: "new-password", class: "form-control rounded-3" },
+                          input_html: {
+                            autocomplete: "new-password",
+                            class: "form-control rounded-3",
+                            placeholder: " "
+                          },
                           label_html: { class: "form-label" },
                           hint_html: { class: "form-text small text-muted" } %>
               </div>
               <div class="col-md-6">
                 <%= f.input :password_confirmation,
                           required: true,
-                          input_html: { autocomplete: "new-password", class: "form-control rounded-3" },
+                          input_html: {
+                            autocomplete: "new-password",
+                            class: "form-control rounded-3",
+                            placeholder: " "
+                          },
                           label_html: { class: "form-label" } %>
               </div>
             </div>
 
             <div class="d-grid gap-2">
-              <%= f.button :submit, "Sign Up", class: "btn-pill-custom-red py-3" %>
+              <%= f.button :submit, "Sign Up", class: "btn-primary-custom py-3" %>
             </div>
           <% end %>
 

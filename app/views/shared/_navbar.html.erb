@@ -44,9 +44,21 @@
       <% if user_signed_in? %>
         <!-- Menu déroulant avec avatar -->
         <div class="nav-item dropdown ms-3">
-          <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
-          </a>
+        <a href="#" class="avatar" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <% if current_user.present? %>
+            <% initials = "" %>
+            <% if current_user.respond_to?(:first_name) && current_user.respond_to?(:last_name) %>
+              <% initials = "#{current_user.first_name.first if current_user.first_name.present?}#{current_user.last_name.first if current_user.last_name.present?}" %>
+            <% elsif current_user.respond_to?(:email) %>
+              <% initials = current_user.email.first(2) %>
+            <% else %>
+              <% initials = "U" %>
+            <% end %>
+            <%= image_tag "https://ui-avatars.com/api/?name=#{initials}&background=0E6378&color=ffffff&bold=true", class: "avatar", alt: "dropdown menu" %>
+          <% else %>
+            <%= image_tag "https://ui-avatars.com/api/?name=U&background=0E6378&color=ffffff&bold=true", class: "avatar", alt: "dropdown menu" %>
+          <% end %>
+        </a>
           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
             <%= link_to "Account Settings", edit_user_registration_path, class: "dropdown-item" %>
             <div class="dropdown-divider"></div>
